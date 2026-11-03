@@ -237,3 +237,28 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     });
   }
 })();
+
+/* Sample call player: plays the demo, highlights each line of the transcript as it is spoken. */
+(function () {
+  document.querySelectorAll("[data-player]").forEach(function (p) {
+    var audio = p.querySelector("audio"), btn = p.querySelector("[data-play]");
+    var bar = p.querySelector("[data-progress]"), time = p.querySelector("[data-time]");
+    var lines = [].slice.call((p.parentNode || document).querySelectorAll("[data-transcript] li"));
+    if (!audio || !btn) return;
+    var fmt = function (t) { t = Math.max(0, Math.round(t)); return Math.floor(t / 60) + ":" + ("0" + (t % 60)).slice(-2); };
+    btn.addEventListener("click", function () {
+      if (audio.paused) { var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {}); } else audio.pause();
+    });
+    audio.addEventListener("play", function () { p.classList.add("is-playing"); btn.setAttribute("aria-label", "Pause the sample call"); });
+    audio.addEventListener("pause", function () { p.classList.remove("is-playing"); btn.setAttribute("aria-label", "Play the sample call"); });
+    audio.addEventListener("ended", function () { lines.forEach(function (l) { l.classList.remove("now"); }); });
+    audio.addEventListener("timeupdate", function () {
+      var d = audio.duration || 30, c = audio.currentTime;
+      if (bar) bar.style.width = (c / d * 100) + "%";
+      if (time) time.textContent = fmt(d - c);
+      var cur = null;
+      lines.forEach(function (l) { if (c >= parseFloat(l.dataset.t)) cur = l; });
+      lines.forEach(function (l) { l.classList.toggle("now", l === cur); });
+    });
+  });
+})();
