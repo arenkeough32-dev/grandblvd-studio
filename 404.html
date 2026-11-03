@@ -18,10 +18,16 @@
   .lost .eyebrow::before{display:none}
   .lost .lede{margin:0 auto 30px}
   .lost .cta-row{justify-content:center}
+  .lost{position:relative;isolation:isolate;color:var(--cream);background:#141a20 url("/media/end-1280.webp") center/cover no-repeat}
+  .lost::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,18,24,.55),rgba(14,18,24,.8))}
+  .lost h1 em{color:var(--brass)}
+  .lost .lede{color:rgba(244,238,228,.88)}
+  .lost .btn-primary{background:var(--cream);color:var(--ink)}
+  .lost .btn-ghost{border-color:rgba(244,238,228,.5);color:var(--cream)}
 </style>
 </head>
 <body>
-<main class="lost">
+<main class="lost on-dark">
   <div>
     <p class="eyebrow">Error 404</p>
     <h1>This street <em>doesn't exist.</em></h1>

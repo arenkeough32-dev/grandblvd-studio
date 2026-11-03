@@ -354,3 +354,90 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 .on-dark h2 em{color:var(--brass)}
 .pattaya h2{margin-bottom:22px}
 .ba .eyebrow{color:var(--clay)}
+
+/* ================= cinema: decorative film loops ================= */
+.film{position:relative;overflow:hidden;background:#111a22;isolation:isolate}
+.film picture,.film img,.film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.film video{opacity:0;transition:opacity 1.6s var(--ease)}
+.film.is-live video{opacity:1}
+.film::after{content:"";position:absolute;inset:-60px;z-index:3;pointer-events:none;opacity:.08;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.frame{border-radius:var(--radius);box-shadow:0 1px 0 rgba(28,26,22,.04),0 30px 60px -32px rgba(20,16,10,.55)}
+.ratio-16x9{aspect-ratio:16/9}
+.ratio-band{aspect-ratio:4/3}
+@media (min-width:700px){.ratio-band{aspect-ratio:21/9}}
+@media (prefers-reduced-motion:no-preference){
+  .film.is-live img,.film.is-live video{animation:drift 30s ease-in-out infinite alternate}
+  .film.paused img,.film.paused video{animation-play-state:paused}
+  .film.is-live::after{animation:grain .9s steps(5) infinite}
+  .film.paused::after{animation-play-state:paused}
+  @keyframes drift{from{transform:scale(1.001)}to{transform:scale(1.05) translate3d(-.8%,-.5%,0)}}
+  @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-22px,14px)}40%{transform:translate(18px,-26px)}60%{transform:translate(-10px,30px)}80%{transform:translate(26px,8px)}100%{transform:translate(0,0)}}
+}
+
+/* motion toggle (WCAG 2.2.2) */
+.motion-toggle{position:absolute;z-index:5;right:16px;bottom:16px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(244,238,228,.38);background:rgba(16,20,24,.42);color:var(--cream);cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background-color .4s var(--ease),border-color .4s}
+.motion-toggle:hover{background:rgba(16,20,24,.66);border-color:rgba(244,238,228,.7)}
+.motion-toggle svg{width:16px;height:16px}
+.motion-toggle .i-play,.motion-toggle.is-off .i-pause{display:none}
+.motion-toggle.is-off .i-play{display:block}
+.motion-toggle[hidden]{display:none}
+
+/* hero, film version: the boulevard behind the headline */
+.hero--film{padding:0;background:var(--paper)}
+.hero--film::before{display:none}
+.hero-stage{position:relative;isolation:isolate;color:var(--cream);padding-top:clamp(40px,7vw,96px);padding-bottom:clamp(56px,7vw,104px)}
+.hero-stage>.film{position:absolute;z-index:-1;left:0;right:0;top:0;bottom:0}
+.hero-stage>.film::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(14,18,24,.30) 0%,rgba(14,18,24,.55) 38%,rgba(14,18,24,.86) 100%)}
+.hero--film h1 em{color:var(--brass)}
+.hero--film .eyebrow{color:var(--brass)}
+.hero--film .lede{color:rgba(244,238,228,.9)}
+.hero--film .cta-note{color:rgba(244,238,228,.82)}
+.hero--film .cta-note svg{color:var(--brass)}
+.hero--film .btn-primary{background:var(--cream);color:var(--ink)}
+.hero--film .btn-primary:hover{background:#fff;color:var(--ink)}
+.hero--film .btn-ghost{border-color:rgba(244,238,228,.5);color:var(--cream)}
+.hero--film .btn-ghost:hover{border-color:var(--cream);background:rgba(244,238,228,.08)}
+.hero--film .live-tag{background:rgba(251,248,242,.96)}
+.hero--film .proof{margin-top:clamp(36px,5vw,56px)}
+@media (max-width:959px){
+  .hero-stage>.film::before{background:linear-gradient(180deg,rgba(14,18,24,.18) 0%,rgba(14,18,24,.42) 30%,rgba(14,18,24,.82) 72%,rgba(14,18,24,.9) 100%)}
+  .hero--film .hero-stage{padding-bottom:0}
+  .hero--film .showcase{margin-top:8px}
+  .hero--film .motion-toggle{top:12px;bottom:auto;right:12px}
+}
+@media (min-width:960px){
+  .hero-stage>.film::before{background:linear-gradient(90deg,rgba(14,18,24,.82) 0%,rgba(14,18,24,.62) 34%,rgba(14,18,24,.18) 64%,rgba(14,18,24,.10) 100%),linear-gradient(180deg,rgba(14,18,24,0) 70%,rgba(14,18,24,.4) 100%)}
+}
+
+/* hero, window version: the boulevard as a framed panel behind the client site */
+.hero--window .showcase{padding:8% 0 12% 0}
+.hero--window .showcase>.film{position:absolute;z-index:0;top:0;right:-3%;bottom:16%;left:12%;border-radius:22px}
+.hero--window .browser{position:relative;z-index:1;width:88%}
+.hero--window .showcase .phone{z-index:2}
+.hero--window .live-tag{z-index:3}
+.hero--window .motion-toggle{right:12px;bottom:auto;top:12px}
+
+/* section films */
+.services-top{display:grid;gap:clamp(28px,4vw,56px);align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.services-top .section-head{margin-bottom:0}
+@media (min-width:960px){.services-top{grid-template-columns:minmax(0,1fr) minmax(0,.95fr)}}
+.film-band{margin-bottom:clamp(40px,5vw,72px)}
+.coasts{display:grid;gap:14px;margin:0 0 clamp(48px,6vw,80px)}
+.coasts figure{margin:0}
+.coasts figcaption{margin-top:12px;font-size:.86rem;letter-spacing:.06em;text-transform:uppercase;color:rgba(244,238,228,.78);display:flex;align-items:center;gap:10px}
+.coasts figcaption::before{content:"";width:22px;height:1.5px;background:var(--brass)}
+@media (min-width:700px){.coasts{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}
+.contact>.film{position:absolute;inset:0;z-index:0}
+.contact>.film::before{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(28,26,22,.80),rgba(28,26,22,.88) 60%,rgba(28,26,22,.94))}
+.contact .contact-grid{z-index:1}
+.contact::before{z-index:1}
+
+/* scroll reveals (only with JS, only when motion is welcome) */
+@media (prefers-reduced-motion:no-preference){
+  .js .reveal{opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .js .reveal.in{opacity:1;transform:none}
+  .js .reveal.d1{transition-delay:.08s}.js .reveal.d2{transition-delay:.16s}.js .reveal.d3{transition-delay:.24s}.js .reveal.d4{transition-delay:.32s}
+  .js .film.reveal{opacity:1;transform:none}
+  .js .film.reveal img{transform:scale(1.04);transition:transform 1.6s var(--ease)}
+  .js .film.reveal.in img{transform:none}
+}
