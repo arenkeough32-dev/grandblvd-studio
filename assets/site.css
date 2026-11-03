@@ -478,3 +478,29 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 @media (max-width:699px){.line-qr{display:none}}
 .no-qr{display:none}
 @media (max-width:699px){.qr-only{display:none}.no-qr{display:inline}}
+
+/* ================= motion layer: scroll choreography (JS adds html.mx; off for reduced motion or the pause button) ================= */
+.scroll-line{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--brass),#E4C98F);transform-origin:left;transform:scaleX(var(--sp,0));pointer-events:none}
+.mx .split .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .1em 0;margin:0 -.06em -.1em 0}
+.mx .split .w>span{display:inline-block;transform:translateY(108%) rotate(4deg);transform-origin:0 100%;opacity:0;transition:transform 1.05s var(--ease) calc(var(--i,0)*55ms),opacity .9s var(--ease) calc(var(--i,0)*55ms)}
+.mx .split.on .w>span{transform:none;opacity:1}
+.motion-off .split .w>span{transform:none!important;opacity:1!important;transition:none!important}
+html.mx:not(.motion-off) .px-hero>.film{transform:scale(calc(1 + var(--x,0)*.16)) translateY(calc(var(--x,0)*6%));transform-origin:50% 30%}
+html.mx:not(.motion-off) .px-hero .hero-copy{transform:translateY(calc(var(--x,0)*-70px));opacity:calc(1 - var(--x,0)*1.5)}
+html.mx:not(.motion-off) .px-hero .showcase{transform:translateY(calc(var(--x,0)*-130px))}
+html.mx:not(.motion-off) .px-band{clip-path:inset(calc((1 - clamp(0,calc(var(--p,1)*2.4),1))*10%) round 22px);transform:scale(calc(.93 + clamp(0,calc(var(--p,1)*2.4),1)*.07))}
+html.mx:not(.motion-off) .px-phone{transform:translateY(calc((var(--p,.5) - .5)*-70px))}
+html.mx:not(.motion-off) .px-phone+.px-phone{transform:translateY(calc((var(--p,.5) - .5)*50px))}
+html.mx:not(.motion-off) .px-contact>.film{transform:scale(calc(1.18 - var(--p,1)*.18))}
+.mx .steps{position:relative}
+.mx .step{z-index:1}
+.mx .steps::before{content:"";position:absolute;z-index:0;left:25px;top:0;bottom:0;width:2px;background:var(--brass);transform-origin:top;transform:scaleY(var(--d,0))}
+@media (min-width:900px){.mx .steps::before{left:0;right:0;top:26px;bottom:auto;width:auto;height:2px;transform-origin:left;transform:scaleX(var(--d,0))}}
+.mx .step::before{transition:background-color .6s var(--ease),color .6s var(--ease),box-shadow .6s var(--ease)}
+.mx .step.lit::before{background:var(--ink);color:var(--paper);box-shadow:0 0 0 6px rgba(201,164,106,.22)}
+@media (hover:hover) and (pointer:fine){
+  html.mx:not(.motion-off) .tilt{transform:perspective(1000px) rotateX(calc((.5 - var(--my,.5))*5deg)) rotateY(calc((var(--mx,.5) - .5)*6deg)) translateY(-4px);transition:transform .18s ease-out,box-shadow .6s var(--ease)}
+  html.mx .card,html.mx .price{background-image:radial-gradient(460px circle at calc(var(--mx,.5)*100%) calc(var(--my,.5)*100%),rgba(201,164,106,var(--glow,0)),transparent 62%)}
+  html.mx .tilt{--glow:.2}
+}
+.motion-off .scroll-line{transform:scaleX(var(--sp,0))}

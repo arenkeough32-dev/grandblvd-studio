@@ -121,3 +121,119 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     });
   }
 })();
+
+/* Motion layer: word-by-word headlines, scroll-linked depth, drawing step line, count-ups, card tilt.
+   Skipped entirely for prefers-reduced-motion; the hero pause button (html.motion-off) freezes it. */
+(function () {
+  var root = document.documentElement;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  root.classList.add("mx");
+  var off = function () { return root.classList.contains("motion-off"); };
+
+  // 1. Word-by-word headlines
+  var split = function (el) {
+    var i = 0;
+    var walk = function (node) {
+      [].slice.call(node.childNodes).forEach(function (c) {
+        if (c.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          c.textContent.split(/(\s+)/).forEach(function (t) {
+            if (!t) return;
+            if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+            var w = document.createElement("span"); w.className = "w";
+            var s = document.createElement("span"); s.textContent = t; s.style.setProperty("--i", i++);
+            w.appendChild(s); frag.appendChild(w);
+          });
+          c.parentNode.replaceChild(frag, c);
+        } else if (c.nodeType === 1 && c.tagName !== "BR") walk(c);
+      });
+    };
+    walk(el); el.classList.add("split");
+  };
+  var hero = document.querySelector(".hero h1");
+  if (hero) { split(hero); requestAnimationFrame(function () { setTimeout(function () { hero.classList.add("on"); }, 120); }); }
+  var heads = [].slice.call(document.querySelectorAll(".h2, .case-title, .contact h2, .pledge blockquote p"));
+  heads.forEach(split);
+  if ("IntersectionObserver" in window) {
+    var hio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("on"); hio.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -12% 0px" });
+    heads.forEach(function (h) { hio.observe(h); });
+  } else heads.forEach(function (h) { h.classList.add("on"); });
+
+  // 2. Scroll-linked depth
+  var items = [];
+  var reg = function (sel, cls) { document.querySelectorAll(sel).forEach(function (el) { el.classList.add(cls); items.push(el); }); };
+  reg(".hero-stage", "px-hero"); reg(".film-band", "px-band"); reg(".phones figure", "px-phone");
+  reg(".ba-pair figure", "px-phone"); reg(".steps", "px-steps"); reg(".contact", "px-contact");
+  var header = document.querySelector(".site-header");
+  if (header) { var line = document.createElement("div"); line.className = "scroll-line"; line.setAttribute("aria-hidden", "true"); header.appendChild(line); }
+  var steps = [].slice.call(document.querySelectorAll(".step"));
+  var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+  var ticking = false;
+  var tick = function () {
+    ticking = false;
+    var vh = window.innerHeight;
+    items.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      var p = clamp((vh - r.top) / (vh + r.height));
+      el.style.setProperty("--p", p.toFixed(4));
+      if (el.classList.contains("px-hero")) el.style.setProperty("--x", clamp(-r.top / r.height).toFixed(4));
+      if (el.classList.contains("px-steps")) {
+        var d = clamp((vh * 0.78 - r.top) / (r.height * 0.9 + vh * 0.15));
+        el.style.setProperty("--d", d.toFixed(4));
+        steps.forEach(function (s, k) { s.classList.toggle("lit", d >= k / steps.length + 0.02); });
+      }
+    });
+    var max = document.documentElement.scrollHeight - vh;
+    root.style.setProperty("--sp", (max > 0 ? window.scrollY / max : 0).toFixed(4));
+  };
+  var req = function () { if (!ticking) { ticking = true; requestAnimationFrame(tick); } };
+  window.addEventListener("scroll", req, { passive: true });
+  window.addEventListener("resize", req);
+  tick();
+
+  // 3. Count-ups on prices and scores
+  var nums = [].slice.call(document.querySelectorAll(".amount span, .proof strong, .thb strong"));
+  var count = function (el) {
+    var txt = el.textContent, m = txt.match(/^([\d,]+)(.*)$/);
+    if (!m || off()) return;
+    var end = parseInt(m[1].replace(/,/g, ""), 10), rest = m[2], t0 = null, dur = 1300;
+    var fmt = function (n) { return m[1].indexOf(",") > -1 ? n.toLocaleString("en-US") : String(n); };
+    var step = function (ts) {
+      if (!t0) t0 = ts;
+      var k = clamp((ts - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = fmt(Math.round(end * e)) + rest;
+      if (k < 1) requestAnimationFrame(step); else el.textContent = txt;
+    };
+    requestAnimationFrame(step);
+  };
+  if ("IntersectionObserver" in window) {
+    var cio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { count(e.target); cio.unobserve(e.target); } });
+    }, { threshold: 0.6 });
+    nums.forEach(function (n) { cio.observe(n); });
+  }
+
+  // 4. Cards lean toward the pointer; primary buttons pull gently (mouse only)
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    document.querySelectorAll(".card, .price").forEach(function (c) {
+      c.addEventListener("pointermove", function (e) {
+        var r = c.getBoundingClientRect();
+        c.style.setProperty("--mx", ((e.clientX - r.left) / r.width).toFixed(3));
+        c.style.setProperty("--my", ((e.clientY - r.top) / r.height).toFixed(3));
+        c.classList.add("tilt");
+      });
+      c.addEventListener("pointerleave", function () { c.classList.remove("tilt"); });
+    });
+    document.querySelectorAll(".btn-primary, .btn-light").forEach(function (b) {
+      b.addEventListener("pointermove", function (e) {
+        if (off()) return;
+        var r = b.getBoundingClientRect();
+        b.style.transform = "translate(" + ((e.clientX - r.left - r.width / 2) * 0.12).toFixed(1) + "px," + ((e.clientY - r.top - r.height / 2) * 0.2).toFixed(1) + "px)";
+      });
+      b.addEventListener("pointerleave", function () { b.style.transform = ""; });
+    });
+  }
+})();
