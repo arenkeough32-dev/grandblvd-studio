@@ -29,12 +29,17 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
 })();
 
 /* Cinema: decorative film loops. Posters only for reduced motion or data saver.
-   One film plays at a time, only while on screen, never in a hidden tab. */
+   One film plays at a time, only while on screen, never in a hidden tab.
+   The hero button pauses ALL motion on the page (WCAG 2.2.2). */
 (function () {
+  var root = document.documentElement;
   var films = [].slice.call(document.querySelectorAll("[data-film]"));
   var toggle = document.querySelector("[data-motion-toggle]");
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var saveData = !!(navigator.connection && navigator.connection.saveData);
+  var userOff = false;
+  try { userOff = localStorage.getItem("gbs-motion") === "off"; } catch (e) {}
+  root.classList.toggle("motion-off", userOff);
 
   // Scroll reveals
   if (!reduce && "IntersectionObserver" in window) {
@@ -46,63 +51,61 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
   }
 
-  if (!films.length || reduce || saveData || !("IntersectionObserver" in window)) return;
+  var filmsOn = films.length && !reduce && !saveData && "IntersectionObserver" in window;
+  var pick = function () {};
 
-  var userOff = false;
-  try { userOff = localStorage.getItem("gbs-motion") === "off"; } catch (e) {}
-  var tall = window.matchMedia("(max-width: 699px)");
-  var ratios = new Map();
-
-  function srcFor(f) { return f.dataset.tall && tall.matches ? f.dataset.tall : f.dataset.src; }
-  function start(f) {
-    var v = f.querySelector("video");
-    if (!v) return;
-    if (!v.getAttribute("src")) {
-      v.addEventListener("playing", function () { f.classList.add("is-live"); }, { once: true });
-      v.src = srcFor(f);
-    }
-    f.classList.remove("paused");
-    var p = v.play();
-    if (p && p.catch) p.catch(function () {});
+  if (filmsOn) {
+    var tall = window.matchMedia("(max-width: 699px)");
+    var ratios = new Map();
+    var srcFor = function (f) { return f.dataset.tall && tall.matches ? f.dataset.tall : f.dataset.src; };
+    var start = function (f) {
+      var v = f.querySelector("video");
+      if (!v) return;
+      if (!v.getAttribute("src")) {
+        v.addEventListener("playing", function () { f.classList.add("is-live"); }, { once: true });
+        v.src = srcFor(f);
+      }
+      f.classList.remove("paused");
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+    var stop = function (f) {
+      var v = f.querySelector("video");
+      if (v && !v.paused) v.pause();
+      f.classList.add("paused");
+    };
+    pick = function () {
+      var best = null, bestR = 0.35;
+      if (!userOff && !document.hidden) {
+        ratios.forEach(function (r, f) { if (r >= bestR) { best = f; bestR = r; } });
+      }
+      films.forEach(function (f) { if (f !== best) stop(f); });
+      if (best) start(best);
+    };
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { ratios.set(e.target, e.intersectionRatio); });
+      pick();
+    }, { threshold: [0, 0.2, 0.35, 0.5, 0.65, 0.8, 1] });
+    // Start films well after the page is usable: load, then idle, then a beat.
+    var boot = function () { films.forEach(function (f) { io.observe(f); }); };
+    var later = function () {
+      (window.requestIdleCallback || function (cb) { setTimeout(cb, 300); })(function () { setTimeout(boot, 1200); }, { timeout: 2500 });
+    };
+    if (document.readyState === "complete") later(); else window.addEventListener("load", later);
+    document.addEventListener("visibilitychange", function () { pick(); });
   }
-  function stop(f) {
-    var v = f.querySelector("video");
-    if (v && !v.paused) v.pause();
-    f.classList.add("paused");
-  }
-  function pick() {
-    var best = null, bestR = 0.35;
-    if (!userOff && !document.hidden) {
-      ratios.forEach(function (r, f) { if (r >= bestR) { best = f; bestR = r; } });
-    }
-    var group = best && best.dataset.group;
-    var on = function (f) { return f === best || (group && f.dataset.group === group); };
-    films.forEach(function (f) { if (!on(f)) stop(f); });
-    films.forEach(function (f) { if (on(f)) start(f); });
-  }
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { ratios.set(e.target, e.intersectionRatio); });
-    pick();
-  }, { threshold: [0, 0.2, 0.35, 0.5, 0.65, 0.8, 1] });
 
-  function idle(fn) { (window.requestIdleCallback || function (cb) { setTimeout(cb, 300); })(fn, { timeout: 2000 }); }
-  function boot() { films.forEach(function (f) { io.observe(f); }); }
-  if (document.readyState === "complete") idle(boot);
-  else window.addEventListener("load", function () { idle(boot); });
-  document.addEventListener("visibilitychange", pick);
-
-  if (toggle) {
-    var label = toggle.querySelector(".sr-only");
+  // One button pauses everything that moves (films, marquee, floating mockups, scrolling screenshot).
+  if (toggle && !reduce) {
     var sync = function () {
       toggle.setAttribute("aria-pressed", String(userOff));
       toggle.classList.toggle("is-off", userOff);
-      label.textContent = userOff ? "Play background video" : "Pause background video";
-      toggle.title = label.textContent;
     };
     toggle.hidden = false;
     sync();
     toggle.addEventListener("click", function () {
       userOff = !userOff;
+      root.classList.toggle("motion-off", userOff);
       try { localStorage.setItem("gbs-motion", userOff ? "off" : "on"); } catch (e) {}
       sync();
       pick();
