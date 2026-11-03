@@ -470,3 +470,11 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 @media (max-width:899px){.header-cta{display:none}}
 .js .action-bar{transition:transform .5s var(--ease)}
 .js .action-bar.is-hidden{transform:translateY(110%)}
+/* LINE for Pattaya */
+.line-row{display:flex;gap:18px;align-items:center}
+.line-qr{width:116px;height:116px;flex:none;border-radius:12px;padding:6px;background:#F4EEE4}
+.line-note{margin:12px 0 0;font-size:.92rem;color:rgba(244,238,228,.8);max-width:22em}
+.line-note a{color:var(--cream)}
+@media (max-width:699px){.line-qr{display:none}}
+.no-qr{display:none}
+@media (max-width:699px){.qr-only{display:none}.no-qr{display:inline}}
