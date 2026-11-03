@@ -464,3 +464,9 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 .hero--film .btn-ghost{background:rgba(14,18,24,.32)}
 .thai-card .cta-row{margin-top:6px}
 .btn svg[viewBox]{width:18px;height:18px}
+/* plain, readable plan blurbs */
+.price .pitch{font-family:var(--sans);font-style:normal;font-size:1rem;line-height:1.5}
+/* one primary button per phone screen: header button hides where the action bar lives; the bar waits until the hero buttons scroll away */
+@media (max-width:899px){.header-cta{display:none}}
+.js .action-bar{transition:transform .5s var(--ease)}
+.js .action-bar.is-hidden{transform:translateY(110%)}

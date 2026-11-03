@@ -51,6 +51,15 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     document.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("in"); });
   }
 
+  // Sticky contact bar waits until the hero buttons have scrolled away
+  var bar = document.querySelector(".action-bar"), heroCta = document.querySelector(".hero .cta-row");
+  if (bar && heroCta && "IntersectionObserver" in window) {
+    bar.classList.add("is-hidden");
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { bar.classList.toggle("is-hidden", e.isIntersecting || e.boundingClientRect.top > 0); });
+    }).observe(heroCta);
+  }
+
   var filmsOn = films.length && !reduce && !saveData && "IntersectionObserver" in window;
   var pick = function () {};
 
