@@ -446,3 +446,5 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 .big-phone{padding-top:4px}
 .site-header .brand{padding-block:3px}
 @media (max-width:340px){.action-bar{gap:8px;padding-inline:8px}.action-bar .btn{padding:0 12px;font-size:.9rem}.action-bar .btn-call{padding:0 14px}}
+/* skip style/layout for sections until they are near the screen */
+.section{content-visibility:auto;contain-intrinsic-size:auto 1100px}
