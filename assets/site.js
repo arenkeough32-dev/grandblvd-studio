@@ -195,7 +195,7 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
   tick();
 
   // 3. Count-ups on prices and scores
-  var nums = [].slice.call(document.querySelectorAll(".amount span, .proof strong, .thb strong"));
+  var nums = [].slice.call(document.querySelectorAll(".amount span, .proof strong"));
   var count = function (el) {
     var txt = el.textContent, m = txt.match(/^([\d,]+)(.*)$/);
     if (!m || off()) return;
