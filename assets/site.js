@@ -15,9 +15,11 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
 
   // Header gets a hairline once the page scrolls
   var header = document.querySelector(".site-header");
-  var onScroll = function () { header.classList.toggle("scrolled", window.scrollY > 8); };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  if (header) {
+    var onScroll = function () { header.classList.toggle("scrolled", window.scrollY > 8); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
 
   // Pause slow animations while they are off screen (saves battery)
   if ("IntersectionObserver" in window) {

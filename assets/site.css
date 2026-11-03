@@ -66,7 +66,7 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 .text-link:hover{color:var(--clay-deep)}
 
 /* ---------- header ---------- */
-.site-header{position:sticky;top:0;z-index:40;background:rgba(244,238,228,.86);-webkit-backdrop-filter:saturate(1.2) blur(14px);backdrop-filter:saturate(1.2) blur(14px);border-bottom:1px solid transparent;transition:border-color .4s}
+.site-header{position:sticky;top:0;z-index:40;background:rgba(244,238,228,.94);-webkit-backdrop-filter:saturate(1.2) blur(14px);backdrop-filter:saturate(1.2) blur(14px);border-bottom:1px solid transparent;transition:border-color .4s}
 .site-header.scrolled{border-bottom-color:var(--line)}
 .header-row{display:flex;align-items:center;justify-content:space-between;gap:20px;height:68px}
 .brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
@@ -450,8 +450,8 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 .price .pitch{font-family:var(--sans);font-style:normal;font-size:1rem;line-height:1.5}
 /* one primary button per phone screen: header button hides where the action bar lives; the bar waits until the hero buttons scroll away */
 @media (max-width:899px){.header-cta{display:none}}
-.js .action-bar{transition:transform .5s var(--ease)}
-.js .action-bar.is-hidden{transform:translateY(110%)}
+.js .action-bar{transition:transform .5s var(--ease),visibility 0s}
+.js .action-bar.is-hidden{transform:translateY(110%);visibility:hidden;transition:transform .5s var(--ease),visibility 0s .5s}
 
 /* ================= motion layer: scroll choreography (JS adds html.mx; off for reduced motion or the pause button) ================= */
 .scroll-line{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--brass),#E4C98F);transform-origin:left;transform:scaleX(var(--sp,0));pointer-events:none}
