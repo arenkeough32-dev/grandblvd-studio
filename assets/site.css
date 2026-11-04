@@ -725,3 +725,14 @@ html.mx:not(.motion-off) .px-hero .live{transform:translateY(calc(var(--x,0)*-90
 .hero--film .eyebrow{color:#E9B97A}
 .hero--film h1 em{color:#E9B97A}
 .hero--film .hero-stage{overflow:clip}
+/* v2 polish: fuller thread, calmer caption, quieter fine print */
+.live-cap{border-radius:14px;white-space:nowrap}
+.thread{gap:12px;padding:18px 13px}
+.b{font-size:.92rem;line-height:1.38;padding:10px 13px}
+.b-out .who{font-size:.68rem}
+.pill{font-size:.84rem;padding:9px 10px;margin-top:10px}
+.b-card{padding:13px 14px;gap:12px}.b-card strong{font-size:.98rem}.b-card small{font-size:.82rem}
+.ck{width:34px;height:34px}
+.msg-head{padding:10px 16px 14px}
+.hero--film .cta-note{font-size:.9rem;margin-top:22px;opacity:.92}
+.hero--film .desk-alt{font-size:.86rem;margin-top:8px}
