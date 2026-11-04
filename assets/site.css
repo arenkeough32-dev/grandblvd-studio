@@ -766,5 +766,5 @@ html.mx:not(.motion-off) .px-hero .live{transform:translateY(calc(var(--x,0)*-90
   .hero--film h1{font-size:2.3rem;margin-bottom:10px}
   .hero--film .lede{font-size:1rem;margin-bottom:14px}
   .hero--film .handset{--w:292px;zoom:.64;aspect-ratio:9/14.4}
-  .hero--film .live-cap{display:none}
+  .hero--film .live-cap{font-size:.72rem;margin-top:6px;padding:4px 10px}
 }
