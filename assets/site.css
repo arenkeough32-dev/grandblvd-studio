@@ -549,3 +549,12 @@ html.mx:not(.motion-off) .px-contact>.film{transform:scale(calc(1.18 - var(--p,1
 .on-dark .text-link,.demo .text-link{color:var(--brass)}
 .on-dark .text-link:hover{color:var(--cream)}
 .contact .cta-note{color:rgba(244,238,228,.8)}
+
+/* ---------- tune-up 2026-11-04 ---------- */
+/* footer contact links: 44px hit area without changing the layout */
+.serving a{display:inline-block;padding:13px 4px;margin:-13px -4px}
+/* desktop-only fallback line (text links do nothing on most computers) */
+.desk-alt{display:none;margin:10px 0 0;font-size:.92rem;color:var(--muted);max-width:34em}
+.on-dark .desk-alt,.hero--film .desk-alt{color:rgba(244,238,228,.78)}
+.hero--film .desk-alt .text-link{color:var(--cream)}
+@media (hover:hover) and (pointer:fine){.desk-alt{display:block}}

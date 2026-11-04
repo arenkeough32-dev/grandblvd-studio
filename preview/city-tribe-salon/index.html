@@ -58,6 +58,16 @@
   footer{text-align:center;color:var(--muted);font-size:.85rem;padding:2.4rem 1rem 3rem;
     border-top:1px solid var(--line);margin-top:1rem}
   footer .studio{font-weight:600;color:var(--ink)}
+
+  .gbs-cta{max-width:40rem;margin:0 auto 1.5rem;padding:0 1.25rem}
+  .gbs-cta .box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem 1.4rem 1.5rem;text-align:left}
+  .gbs-cta h2{font-size:1.35rem;margin:0 0 .4rem}
+  .gbs-cta p{margin:0 0 1rem;color:var(--muted)}
+  .gbs-cta .row{display:flex;flex-wrap:wrap;gap:.75rem}
+  .gbs-cta a.gbs-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 1.5rem;border-radius:999px;font-weight:700;font-size:1rem;text-decoration:none;background:var(--accent);color:#fff;border:2px solid var(--accent)}
+  .gbs-cta a.gbs-btn.ghost{background:transparent;color:var(--accent)}
+  .gbs-cta a.gbs-btn:focus-visible,footer a:focus-visible{outline:3px solid var(--dark);outline-offset:3px}
+  footer a{display:inline-block;padding:12px 4px;margin:-12px -4px}
 </style>
 </head>
 <body>
@@ -142,6 +152,17 @@
       </div>
     </section>
   </main>
+
+  <section class="gbs-cta" aria-labelledby="gbs-cta-h">
+    <div class="box">
+      <h2 id="gbs-cta-h">Like what you see?</h2>
+      <p>Text us and we'll talk about making this real for City Tribe Salon.</p>
+      <div class="row">
+        <a class="gbs-btn" href="sms:+17273127758?&amp;body=Hi%20Grand%20Blvd%20Studio!%20I%20saw%20the%20homepage%20preview%20you%20made%20for%20City%20Tribe%20Salon.%20I%27d%20like%20to%20talk%20about%20it.">Text Grand Blvd Studio</a>
+        <a class="gbs-btn ghost" href="tel:+17276063663">Call (727)&nbsp;606&#8209;3663</a>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <span class="studio">Preview by Grand Blvd Studio</span><br>
