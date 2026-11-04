@@ -95,19 +95,30 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     if (endCta) new IntersectionObserver(function (es) { es.forEach(function (e) { endVisible = e.isIntersecting; syncBar(); }); }).observe(endCta);
   }
 
-  var filmsOn = films.length && !reduce && !saveData && "IntersectionObserver" in window;
+  var slow = !!(navigator.connection && /(^|-)2g$/.test(navigator.connection.effectiveType || ""));
+  var filmsOn = films.length && !reduce && !saveData && !slow && "IntersectionObserver" in window;
   var pick = function () {};
 
   if (filmsOn) {
     var tall = window.matchMedia("(max-width: 699px)");
     var ratios = new Map();
     var srcFor = function (f) { return f.dataset.tall && tall.matches ? f.dataset.tall : f.dataset.src; };
+    // Films with data-base ship an MP4 (hardware decoded, tried first) and a WebM fallback; the small phone cut is used on narrow screens.
+    var load = function (f, v) {
+      var base = f.dataset.base && (tall.matches && f.dataset.tallBase ? f.dataset.tallBase : f.dataset.base);
+      if (!base) { v.src = srcFor(f); return; }
+      var types = [["mp4", "video/mp4"], ["webm", "video/webm"]];
+      types.forEach(function (t) {
+        var s = document.createElement("source"); s.src = base + "." + t[0]; s.type = t[1]; v.appendChild(s);
+      });
+      v.load();
+    };
     var start = function (f) {
       var v = f.querySelector("video");
       if (!v) return;
-      if (!v.getAttribute("src")) {
+      if (!v.getAttribute("src") && !v.querySelector("source")) {
         v.addEventListener("playing", function () { f.classList.add("is-live"); }, { once: true });
-        v.src = srcFor(f);
+        load(f, v);
       }
       f.classList.remove("paused");
       var p = v.play();
@@ -133,7 +144,7 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     // Start films well after the page is usable: load, then idle, then a beat.
     var boot = function () { films.forEach(function (f) { io.observe(f); }); };
     var later = function () {
-      (window.requestIdleCallback || function (cb) { setTimeout(cb, 300); })(function () { setTimeout(boot, 1200); }, { timeout: 2500 });
+      (window.requestIdleCallback || function (cb) { setTimeout(cb, 300); })(function () { setTimeout(boot, 500); }, { timeout: 2500 });
     };
     if (document.readyState === "complete") later(); else window.addEventListener("load", later);
     document.addEventListener("visibilitychange", function () { pick(); });
@@ -262,7 +273,7 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
       });
       c.addEventListener("pointerleave", function () { c.classList.remove("tilt"); });
     });
-    document.querySelectorAll(".btn-primary, .btn-light").forEach(function (b) {
+    document.querySelectorAll(".btn-primary, .btn-light, .hero .btn-ghost").forEach(function (b) {
       b.addEventListener("pointermove", function (e) {
         if (off()) return;
         var r = b.getBoundingClientRect();
@@ -296,4 +307,42 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
       lines.forEach(function (l) { l.classList.toggle("now", l === cur); });
     });
   });
+})();
+
+/* Live text-back moment in the hero: a short loop in a phone made of HTML and CSS.
+   Plays only while on screen, stops with the pause button, and shows the finished
+   conversation (no motion) for reduced-motion visitors. */
+(function () {
+  var el = document.querySelector("[data-live]");
+  if (!el) return;
+  var root = document.documentElement;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  var timers = [], running = false, visible = false;
+  var clear = function () { timers.forEach(clearTimeout); timers = []; };
+  var at = function (ms, fn) { timers.push(setTimeout(fn, ms)); };
+  var cls = function (c) { el.classList.add(c); };
+  var play = function () {
+    clear();
+    ["st-miss", "st-msg", "st-b1", "st-typing", "st-b2", "st-b3"].forEach(function (c) { el.classList.remove(c); });
+    el.classList.add("st-reset"); el.classList.add("run");
+    void el.offsetWidth;
+    el.classList.remove("st-reset");
+    at(2300, function () { cls("st-miss"); });
+    at(3300, function () { cls("st-msg"); });
+    at(4100, function () { cls("st-b1"); });
+    at(6300, function () { cls("st-typing"); });
+    at(7500, function () { cls("st-b2"); });
+    at(8700, function () { cls("st-b3"); });
+    at(13200, function () { el.classList.add("st-reset"); ["st-miss", "st-msg", "st-b1", "st-typing", "st-b2", "st-b3"].forEach(function (c) { el.classList.remove(c); }); });
+    at(13500, function () { el.classList.remove("st-reset"); play(); });
+  };
+  var stopToFinal = function () { clear(); running = false; el.classList.remove("run", "st-reset"); };
+  var sync = function () {
+    var want = visible && !document.hidden && !root.classList.contains("motion-off");
+    if (want && !running) { running = true; play(); }
+    else if (!want && running) stopToFinal();
+  };
+  new IntersectionObserver(function (es) { visible = es[0].isIntersecting && es[0].intersectionRatio > 0.3; sync(); }, { threshold: [0, 0.3, 0.6] }).observe(el);
+  document.addEventListener("visibilitychange", sync);
+  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["class"] });
 })();

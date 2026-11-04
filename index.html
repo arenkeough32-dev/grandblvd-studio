@@ -483,7 +483,7 @@
   <!-- HERO -->
   <section class="hero hero--film" aria-labelledby="hero-title">
     <div class="hero-stage">
-      <div class="film" data-film data-src="media/boulevard.mp4" data-tall="media/boulevard-tall.mp4" aria-hidden="true"><picture><source media="(max-width: 699px)" srcset="media/boulevard-tall-480.webp 480w, media/boulevard-tall-720.webp 720w" sizes="100vw"><img src="media/boulevard-900.webp" srcset="media/boulevard-480.webp 480w, media/boulevard-900.webp 900w, media/boulevard-1600.webp 1600w" sizes="100vw" width="1600" height="900" alt="" fetchpriority="high"></picture><video muted playsinline loop preload="none" tabindex="-1"></video></div>
+      <div class="film" data-film data-base="media/hero-street" data-tall-base="media/hero-street-m" aria-hidden="true"><picture><source media="(max-width: 699px)" srcset="media/hero-street-tall-540.webp" sizes="100vw"><img src="media/hero-street-900.webp" srcset="media/hero-street-900.webp 900w, media/hero-street-1600.webp 1600w" sizes="100vw" width="1600" height="682" alt="" fetchpriority="high"></picture><video muted playsinline loop preload="none" tabindex="-1"></video></div>
       <button class="motion-toggle" type="button" data-motion-toggle hidden aria-pressed="false" title="Pause or play motion"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg><span class="sr-only">Pause motion</span></button>
     <div class="wrap">
       <div class="hero-grid">
@@ -492,27 +492,45 @@
           <h1 id="hero-title">Never miss<br> <em>another customer.</em></h1>
           <p class="lede rise rise-2">Missed calls texted back in seconds. A phone assistant that answers when your hands are busy. More 5-star reviews, and a website that books. Built for salons, barbers, spas and local shops.</p>
           <div class="cta-row rise rise-3">
-            <a class="btn btn-primary" href="sms:+17273127758?&amp;body=Hi%20Grand%20Blvd%20Studio!%20I%27d%20like%20a%20free%20Missed-Call%20Test.%20My%20business%20is%3A%20">
+            <a class="btn btn-primary mag" href="sms:+17273127758?&amp;body=Hi%20Grand%20Blvd%20Studio!%20I%27d%20like%20a%20free%20Missed-Call%20Test.%20My%20business%20is%3A%20">
               <svg aria-hidden="true"><use href="#i-chat"/></svg>Get a free Missed-Call Test
             </a>
-            <a class="btn btn-ghost" href="tel:+17276063663"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call the live demo</a>
+            <a class="btn btn-ghost mag" href="/free-preview/">Free homepage preview</a>
           </div>
-          <p class="hero-alt rise rise-3">Need a website? <a class="text-link" href="/free-preview/">Get a free homepage preview</a></p>
+          <p class="hero-alt rise rise-3">Rather talk now? <a class="text-link" href="tel:+17276063663">Call the live demo</a></p>
           <p class="cta-note rise rise-4"><svg aria-hidden="true"><use href="#i-gift"/></svg><span>The test is free and there is nothing to buy. Month-to-month if you continue, and you own every account. Websites from <strong>$249</strong>.</span></p>
           <p class="desk-alt">On a computer? <a class="text-link" data-email href="mailto:hello@grandblvdstudio.com?subject=Free%20Missed-Call%20Test&amp;body=Hi%20Grand%20Blvd%20Studio!%20I%27d%20like%20a%20free%20Missed-Call%20Test.%20My%20business%20is%3A%20">Email us your shop's name</a> or call (727)&nbsp;606&#8209;3663.</p>
         </div>
 
-        <figure class="showcase">
-          <div class="browser float">
-            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>classicstylesdayspas.com</span></div>
-            <img src="img/cs-desktop-1200.webp" srcset="img/cs-desktop-720.webp 720w, img/cs-desktop-1200.webp 1200w" sizes="(min-width: 1240px) 560px, (min-width: 960px) 45vw, 90vw" width="1200" height="750" alt="The Classic Styles Salon and Day Spa homepage on a laptop: a bridal braid photo beside the headline Lived-in blonde, color correction and bridal hair in New Port Richey.">
-          </div>
-          <div class="phone float-slow">
-            <div class="screen">
-              <img src="img/cs-phone-en-320.webp" srcset="img/cs-phone-en-320.webp 320w, img/cs-phone-en-600.webp 600w" sizes="(min-width: 960px) 180px, 30vw" width="600" height="1298" alt="The same salon site on a phone, with Call and Text to book buttons along the bottom.">
+        <figure class="live" data-live>
+          <div class="handset" role="img" aria-label="Example text conversation. A customer calls and nobody picks up. A text from Your Shop goes out right away: Sorry we missed you! We're with a client. Want to book? The customer replies Yes! Saturday at 10? and the booking is confirmed for Saturday at 10 AM.">
+            <span class="hw-btn hw-a" aria-hidden="true"></span><span class="hw-btn hw-b" aria-hidden="true"></span><span class="hw-btn hw-c" aria-hidden="true"></span>
+            <div class="hw-screen" aria-hidden="true">
+              <i class="hw-island"></i>
+              <div class="hw-status"><b>9:41</b><span><i class="sig"></i><i class="bat"></i></span></div>
+
+              <div class="scr scr-call">
+                <div class="call-top"><span class="call-state"><span class="s-in">Incoming call</span><span class="s-miss">Missed call</span></span></div>
+                <div class="call-who">
+                  <div class="rings"><i></i><i></i><i></i><span class="av">N</span></div>
+                  <strong>New customer</strong>
+                  <small>(727) 555&#8209;0142</small>
+                </div>
+                <div class="call-btns"><span class="cb cb-no"><svg viewBox="0 0 24 24"><path d="M5 15.5c4.2-3.6 10.8-3.6 14 0l-1.7 2.2-3-1.2v-2.3a8.5 8.5 0 0 0-4.6 0v2.3l-3 1.2z" fill="currentColor"/></svg></span><span class="cb cb-yes"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z" fill="currentColor"/></svg></span></div>
+              </div>
+
+              <div class="scr scr-msg">
+                <div class="msg-head"><span class="av sm">N</span><div><strong>New customer</strong><small>(727) 555&#8209;0142</small></div></div>
+                <div class="thread">
+                  <div class="b b-out" data-b="1"><span class="who">Your Shop, sent automatically</span>Sorry we missed you! We're with a client. Want to book? Reply here or tap to book.<span class="pill">Tap to book</span></div>
+                  <div class="b b-in" data-b="2"><span class="dots"><i></i><i></i><i></i></span><span class="tx">Yes! Saturday at 10?</span></div>
+                  <div class="b b-card" data-b="3"><span class="ck"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><strong>Booked</strong><small>Saturday, 10:00 AM</small></div></div>
+                </div>
+                <div class="msg-bar"><span>Text message</span></div>
+              </div>
             </div>
           </div>
-          <figcaption class="live-tag"><span class="pulse" aria-hidden="true"></span><span><b>Live client site</b><span class="long"> · Classic Styles, New Port Richey</span></span></figcaption>
+          <figcaption class="live-cap">An example conversation. Your shop's name and hours go here.</figcaption>
         </figure>
       </div>
     </div>
@@ -525,6 +543,22 @@
         <div><strong>100</strong><span>Built right</span><small>Best practices</small></div>
         <div><strong>100</strong><span>Ready for Google</span><small>SEO</small></div>
       </div>
+    </div>
+  </section>
+
+  <!-- MISSED CALL -->
+  <section class="missed" aria-labelledby="missed-title">
+    <div class="wrap missed-grid">
+      <div class="missed-copy reveal">
+        <h2 class="h2" id="missed-title">You can't answer every call. <em>Your shop still can.</em></h2>
+        <p class="lede">Mid-color, mid-cut, mid-lunch rush: the phone rings and nobody has a free hand. Plenty of callers won't leave a voicemail. They try the next shop.</p>
+        <p class="lede">So the moment a call goes unanswered, we text them back in your shop's name and send them straight to your calendar. You get back to your client. They get a booking.</p>
+        <div class="cta-row"><a class="btn btn-primary mag" href="sms:+17273127758?&amp;body=Hi%20Grand%20Blvd%20Studio!%20I%27d%20like%20a%20free%20Missed-Call%20Test.%20My%20business%20is%3A%20"><svg aria-hidden="true"><use href="#i-chat"/></svg>Get a free Missed-Call Test</a></div>
+      </div>
+      <figure class="deskframe reveal d1">
+        <div class="dfwrap"><div class="film" data-film data-base="media/desk-phone" aria-hidden="true"><picture><img src="media/desk-phone-900.webp" srcset="media/desk-phone-480.webp 480w, media/desk-phone-900.webp 900w" sizes="(min-width: 960px) 500px, 88vw" width="900" height="900" alt="" loading="lazy" decoding="async"></picture><video muted playsinline loop preload="none" tabindex="-1"></video></div></div>
+        <figcaption>A phone on a salon desk, lighting up.</figcaption>
+      </figure>
     </div>
   </section>
 
