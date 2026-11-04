@@ -768,3 +768,15 @@ html.mx:not(.motion-off) .px-hero .live{transform:translateY(calc(var(--x,0)*-90
   .hero--film .handset{--w:292px;zoom:.64;aspect-ratio:9/14.4}
   .hero--film .live-cap{font-size:.72rem;margin-top:6px;padding:4px 10px}
 }
+
+/* ================= flowing hero-to-section transition (no visible seam) ================= */
+.hero--film .hero-stage{--fade:clamp(180px,22vw,340px)}
+.hero-stage>.film{-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 52%,rgba(0,0,0,.92) 60%,rgba(0,0,0,.76) 68%,rgba(0,0,0,.56) 76%,rgba(0,0,0,.36) 83%,rgba(0,0,0,.18) 90%,rgba(0,0,0,.06) 96%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 52%,rgba(0,0,0,.92) 60%,rgba(0,0,0,.76) 68%,rgba(0,0,0,.56) 76%,rgba(0,0,0,.36) 83%,rgba(0,0,0,.18) 90%,rgba(0,0,0,.06) 96%,transparent 100%)}
+.hero-stage::after{height:var(--fade);background:linear-gradient(180deg,rgba(251,248,242,0) 0%,rgba(251,248,242,.04) 18%,rgba(251,248,242,.14) 34%,rgba(251,248,242,.32) 50%,rgba(251,248,242,.56) 66%,rgba(251,248,242,.80) 82%,rgba(251,248,242,.95) 93%,var(--paper-2) 100%)}
+.hero--film{background:var(--paper-2)}
+@media (prefers-reduced-motion:no-preference){
+  .hero-stage>.film{transition:opacity .2s linear}
+}
+@media (prefers-reduced-motion:no-preference) and (min-width:960px){
+  .hero-stage.px-hero>.film{opacity:calc(1 - var(--x,0) * .6)}
+}
