@@ -4,9 +4,33 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
 (function () {
   // Email: every link marked data-email uses STUDIO_EMAIL
   document.querySelectorAll("[data-email]").forEach(function (a) {
-    a.setAttribute("href", "mailto:" + STUDIO_EMAIL);
+    var q = (a.getAttribute("href") || "").match(/\?.*$/); // keep a prefilled subject or body
+    a.setAttribute("href", "mailto:" + STUDIO_EMAIL + (q ? q[0] : ""));
     if (a.hasAttribute("data-email-text")) a.textContent = STUDIO_EMAIL;
   });
+
+  // Channel tag: /free-preview/?src=deck (or fb, flyer, gbp, card) is remembered for this visit
+  // and added to every text link as " (via deck)", so we know which channel a text came from.
+  // Only a-z, 0-9 and "-" (20 characters at most). No cookies, no tracking, nothing leaves the page.
+  var src = "";
+  try {
+    var m = /[?&]src=([^&#]*)/.exec(location.search);
+    var v = m ? decodeURIComponent(m[1]).toLowerCase() : "";
+    if (/^[a-z0-9-]{1,20}$/.test(v)) { src = v; try { sessionStorage.setItem("gbs-src", v); } catch (e) {} }
+    else { try { var kept = sessionStorage.getItem("gbs-src"); if (kept && /^[a-z0-9-]{1,20}$/.test(kept)) src = kept; } catch (e) {} }
+  } catch (e) {}
+  if (src) {
+    var tag = " (via " + src + ")";
+    document.querySelectorAll('a[href^="sms:"]').forEach(function (a) {
+      var h = a.getAttribute("href"), b = /([?&]body=)([^&]*)/.exec(h);
+      if (b) {
+        var cur; try { cur = decodeURIComponent(b[2]); } catch (e) { return; }
+        a.setAttribute("href", h.replace(b[0], b[1] + encodeURIComponent(cur.replace(/\s+$/, "") + tag + " ")));
+      } else {
+        a.setAttribute("href", h + (h.indexOf("?") < 0 ? "?" : "") + "&body=" + encodeURIComponent("(via " + src + ") "));
+      }
+    });
+  }
 
   // Footer year
   document.querySelectorAll("[data-year]").forEach(function (el) {

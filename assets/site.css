@@ -558,3 +558,41 @@ html.mx:not(.motion-off) .px-contact>.film{transform:scale(calc(1.18 - var(--p,1
 .on-dark .desk-alt,.hero--film .desk-alt{color:rgba(244,238,228,.78)}
 .hero--film .desk-alt .text-link{color:var(--cream)}
 @media (hover:hover) and (pointer:fine){.desk-alt{display:block}}
+
+/* ---------- lead-gen layer 2026-11-04 ---------- */
+/* quiet secondary link under the hero buttons */
+.hero-alt{margin:14px 0 0;font-size:1rem;color:var(--ink-2)}
+.hero--film .hero-alt{color:rgba(244,238,228,.88)}
+.hero-alt .text-link{display:inline-flex;align-items:center;min-height:44px;color:var(--clay)}
+.hero--film .hero-alt .text-link{color:var(--cream)}
+.hero--film .hero-alt .text-link:hover{color:var(--brass)}
+/* second line inside a pricing card */
+.price-alt{margin:12px 0 0;font-size:.95rem;color:var(--muted)}
+.price-alt .text-link{display:inline-flex;align-items:center;min-height:44px}
+.price-addon .price-alt{margin-top:0}
+/* referral line */
+.refer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;padding:20px 24px;border:1px solid var(--line);border-radius:18px;background:var(--sand)}
+.refer p{margin:0;font-family:var(--serif);font-size:1.18rem;line-height:1.3;color:var(--ink);max-width:28em}
+.refer .btn{--h:48px;flex:none}
+.refer-wrap{padding-block:0 clamp(40px,5vw,72px)}
+.prose .refer{margin-top:40px}
+.prose .refer p{font-size:1.18rem;line-height:1.3;color:var(--ink)}
+/* article checklist and index list */
+.prose .checks{list-style:none;padding:0;margin:20px 0}
+.prose .checks li{padding:14px 0 14px 34px;border-top:1px solid var(--line);position:relative}
+.prose .checks li:last-child{border-bottom:1px solid var(--line)}
+.prose .checks li::before{content:"";position:absolute;left:4px;top:20px;width:16px;height:16px;border:1.5px solid var(--clay);border-radius:4px}
+.prose .say{margin:14px 0;padding:14px 18px;background:var(--sand);border-radius:14px;border-left:3px solid var(--brass)}
+.prose .say p{margin:0;color:var(--ink)}
+.note-list{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px}
+.note-list a{display:block;padding:20px 22px;border:1px solid var(--line);border-radius:18px;text-decoration:none;color:var(--ink);background:var(--cream)}
+.note-list a:hover{background:var(--sand)}
+.note-list b{display:block;font-family:var(--serif);font-weight:400;font-size:1.3rem;line-height:1.2;margin-bottom:6px}
+.note-list span{color:var(--ink-2);font-size:1rem}
+/* buttons inside article-style pages keep their own colors */
+.prose .btn-primary{color:var(--paper)}
+.prose .btn-ghost{color:var(--ink)}
+.prose .cta-row{margin:28px 0 0}
+.nav a{white-space:nowrap}
+.nav ul{gap:clamp(16px,1.9vw,30px)}
+.refer-wrap{padding-top:clamp(24px,3vw,40px)}
