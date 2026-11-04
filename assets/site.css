@@ -736,3 +736,35 @@ html.mx:not(.motion-off) .px-hero .live{transform:translateY(calc(var(--x,0)*-90
 .msg-head{padding:10px 16px 14px}
 .hero--film .cta-note{font-size:.9rem;margin-top:22px;opacity:.92}
 .hero--film .desk-alt{font-size:.86rem;margin-top:8px}
+
+/* ================= hero polish: lean copy, phone-first on mobile, hero dissolves into the next section ================= */
+.hero--film{background:var(--paper-2)}
+.hero-stage::after{background:linear-gradient(180deg,rgba(251,248,242,0),var(--paper-2))}
+.hero--film .lede{max-width:25em;margin-bottom:26px;font-size:clamp(1.1rem,1rem + .45vw,1.35rem)}
+.hero .fine{margin:16px 0 0;font-size:.9rem;line-height:1.5;color:rgba(244,238,228,.82);max-width:34em}
+.alt-line{margin:14px 0 0;font-size:1rem;color:var(--ink-2)}
+.alt-line .text-link{display:inline-flex;align-items:center;min-height:44px;color:var(--clay)}
+.missed .desk-alt{color:var(--muted)}
+.missed .desk-alt .text-link{color:var(--clay)}
+.proofband{background:var(--paper-2);padding-block:0 clamp(40px,5vw,72px)}
+.proofband .proof{margin-top:0}
+@media (max-width:959px){
+  .hero-eyebrow-pill,.hero--film .eyebrow{align-self:flex-start;width:max-content;max-width:100%;padding:7px 14px;border-radius:999px;background:rgba(14,18,24,.88);color:#E4C98F;margin-bottom:14px}
+  .hero--film .eyebrow::before{width:16px}
+  .hero--film .hero-grid{display:flex;flex-direction:column;align-items:stretch}
+  .hero--film .hero-copy{display:contents}
+  .hero--film .hero-copy>*{order:5}
+  .hero--film .hero-copy>.eyebrow{order:1}
+  .hero--film .hero-copy>h1{order:2}
+  .hero--film .hero-copy>.lede{order:3;margin-bottom:18px}
+  .hero--film .live{order:4;gap:10px;margin-bottom:20px;margin-top:-6px}
+  .hero--film .hero-copy>.cta-row{order:5}
+  .hero--film .hero-copy>.fine{order:6}
+}
+@media (max-width:520px){
+  .hero--film .hero-stage{padding-top:18px}
+  .hero--film h1{font-size:2.3rem;margin-bottom:10px}
+  .hero--film .lede{font-size:1rem;margin-bottom:14px}
+  .hero--film .handset{--w:292px;zoom:.64;aspect-ratio:9/14.4}
+  .hero--film .live-cap{display:none}
+}
