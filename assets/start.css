@@ -68,3 +68,8 @@ input[type=text]:focus,textarea:focus{outline:3px solid rgba(163,68,28,.22);bord
 .site-footer a{text-decoration:none}.site-footer a:hover{color:var(--cream)}
 .footer-row{display:grid;gap:16px}.site-footer ul{list-style:none;display:flex;flex-wrap:wrap;gap:10px 22px;margin:0;padding:0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.start-film{margin:0;position:relative}
+.start-film .film{aspect-ratio:16/7;border-radius:22px;border:1px solid var(--line);box-shadow:0 24px 48px -32px rgba(48,32,16,.35)}
+@media (max-width:699px){.start-film .film{aspect-ratio:16/10;border-radius:16px}}
+.start-film figcaption{margin-top:8px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.start-film .film video{display:none}}
