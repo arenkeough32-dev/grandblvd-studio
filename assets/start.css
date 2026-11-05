@@ -24,6 +24,12 @@ main{display:block}.page-hero{padding-block:clamp(52px,7vw,96px)}
 .start-grid{display:grid;gap:clamp(28px,5vw,64px);align-items:start;margin-top:34px}
 @media (min-width:960px){.start-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}}
 .start-card{background:var(--paper-2);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,36px);box-shadow:0 24px 48px -32px rgba(48,32,16,.35)}
+.nojs-notice{display:none}
+html:not(.js) .start-card form{display:none}
+html:not(.js) .nojs-notice{display:block}
+.nojs-notice p{margin:0 0 12px;color:var(--ink-2)}
+.nojs-notice ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.nojs-notice .text-link{color:var(--clay);font-weight:700}
 .fine{font-size:.9rem;color:var(--muted);margin:14px 0 0}
 .error-summary{margin:0 0 18px;padding:14px 16px;border-radius:14px;background:#F9E7E0;border:1px solid #E5B7A6;color:#7A2D14;font-weight:600}
 .error-summary[hidden]{display:none}

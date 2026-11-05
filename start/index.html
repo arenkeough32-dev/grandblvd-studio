@@ -61,6 +61,14 @@
       </div>
 
       <div class="start-card">
+        <div class="nojs-notice" data-nojs-notice>
+          <p><strong>The message builder needs JavaScript.</strong> Your details stay on this page either way — nothing here sends or stores them. To reach Grand Blvd Studio directly:</p>
+          <ul>
+            <li>Text <a class="text-link" href="sms:+17273127758">(727) 312-7758</a></li>
+            <li>Call <a class="text-link" href="tel:+17276063663">(727) 606-3663</a></li>
+            <li>Email <a class="text-link" href="mailto:hello@grandblvdstudio.com">hello@grandblvdstudio.com</a></li>
+          </ul>
+        </div>
         <form data-start-form novalidate>
           <p class="error-summary" data-error-summary hidden></p>
           <p class="source-note" data-source-note hidden>Source tag detected.</p>
@@ -129,6 +137,22 @@
     <p>© <span data-year>2026</span> Grand Blvd Studio · New Port Richey, FL</p>
   </div>
 </footer>
+<script>
+/* start-form-guard: if the message module failed to load, never let the form
+   submit entered details into the page URL. */
+(function () {
+  var form = document.querySelector("[data-start-form]");
+  if (!form) return;
+  form.addEventListener("submit", function (event) {
+    if (form.dataset.startReady === "true") return;
+    event.preventDefault();
+    var status = form.querySelector("[data-status]");
+    if (status) {
+      status.textContent = "The message tool did not load, so nothing was opened and nothing was sent. Please text (727) 312-7758, call (727) 606-3663, or email hello@grandblvdstudio.com.";
+    }
+  });
+})();
+</script>
 <script src="/assets/site.js" defer></script>
 <script type="module" src="/assets/enquiry-form.js"></script>
 </body>

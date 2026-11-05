@@ -29,18 +29,24 @@ export function normalizeSource(value) {
 }
 
 export function readInitialState(search, storage) {
+  let offer = "missed-call-test";
   let source = "";
   try {
     const params = new URLSearchParams(search || "");
+    offer = normalizeOffer(params.get("offer"));
     source = normalizeSource(params.get("src"));
-    if (!source && storage) source = normalizeSource(storage.getItem("gbs-src"));
-    return {
-      offer: normalizeOffer(params.get("offer")),
-      source
-    };
   } catch (error) {
-    return { offer: "missed-call-test", source: "" };
+    offer = "missed-call-test";
+    source = "";
   }
+  if (!source && storage) {
+    try {
+      source = normalizeSource(storage.getItem("gbs-src"));
+    } catch (error) {
+      source = "";
+    }
+  }
+  return { offer, source };
 }
 
 function cleanText(value, field, label, maxLength, errors, required = false) {
@@ -122,9 +128,21 @@ function selectedOffer(root) {
   return normalizeOffer(checked && checked.value);
 }
 
+function defaultSessionStorage() {
+  try {
+    return window.sessionStorage;
+  } catch (error) {
+    return null;
+  }
+}
+
 export function initStartForm(root, options) {
   const doc = root || document;
-  const state = readInitialState((options && options.search) || window.location.search, (options && options.storage) || window.sessionStorage);
+  const hasStorageOption = options && Object.prototype.hasOwnProperty.call(options, "storage");
+  const state = readInitialState(
+    (options && Object.prototype.hasOwnProperty.call(options, "search")) ? options.search : window.location.search,
+    hasStorageOption ? options.storage : defaultSessionStorage()
+  );
   const form = doc.querySelector("[data-start-form]");
   if (!form) return;
 
@@ -198,8 +216,14 @@ export function initStartForm(root, options) {
       if (!result.ok) return;
       const message = buildMessage(result.values);
       try {
-        if (!navigator.clipboard || !window.isSecureContext) throw new Error("Clipboard unavailable");
-        await navigator.clipboard.writeText(message);
+        let clipboard = null;
+        try {
+          clipboard = navigator.clipboard;
+        } catch (error) {
+          clipboard = null;
+        }
+        if (!clipboard || !window.isSecureContext) throw new Error("Clipboard unavailable");
+        await clipboard.writeText(message);
         if (copyStatus) copyStatus.textContent = "Message copied. Paste it into a text to (727) 312-7758.";
       } catch (error) {
         const helper = doc.querySelector("[data-message-preview]");
@@ -213,6 +237,8 @@ export function initStartForm(root, options) {
       }
     });
   }
+
+  form.dataset.startReady = "true";
 }
 
 if (typeof document !== "undefined") {

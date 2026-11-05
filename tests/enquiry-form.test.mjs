@@ -1,5 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import {
   buildMailtoUri,
   buildMessage,
@@ -85,6 +88,41 @@ test("encodes SMS and mailto handoff URIs", () => {
   );
   assert.match(buildMailtoUri(values), /^mailto:hello@grandblvdstudio\.com\?subject=/);
   assert.match(buildMailtoUri(values), /A%20%26%20B%20Salon/);
+});
+
+test("blocked storage cannot break initial state or leak details", () => {
+  const blockedStorage = {
+    getItem() {
+      throw new Error("Storage is blocked");
+    }
+  };
+  assert.deepEqual(readInitialState("?offer=homepage-preview", blockedStorage), {
+    offer: "homepage-preview",
+    source: ""
+  });
+  assert.deepEqual(readInitialState("", blockedStorage), {
+    offer: "missed-call-test",
+    source: ""
+  });
+});
+
+test("session storage is used only as a fallback when no src parameter exists", () => {
+  const storage = { getItem: (key) => (key === "gbs-src" ? "Deck-9" : null) };
+  assert.deepEqual(readInitialState("", storage), { offer: "missed-call-test", source: "deck-9" });
+  assert.deepEqual(readInitialState("?src=flyer", storage), { offer: "missed-call-test", source: "flyer" });
+});
+
+test("start page markup keeps entered details out of the URL in every fallback path", () => {
+  const here = dirname(fileURLToPath(import.meta.url));
+  const html = readFileSync(join(here, "..", "start", "index.html"), "utf8");
+  const css = readFileSync(join(here, "..", "assets", "start.css"), "utf8");
+  const formTag = html.match(/<form[^>]*>/)[0];
+  assert.match(formTag, /data-start-form/);
+  assert.doesNotMatch(formTag, /\saction=/i);
+  assert.match(html, /data-nojs-notice/);
+  assert.match(css, /html:not\(\.js\)\s+\.start-card form\{display:none\}/);
+  assert.match(html, /start-form-guard/);
+  assert.match(html, /form\.dataset\.startReady === "true"/);
 });
 
 test("empty optional fields are omitted from the message", () => {
