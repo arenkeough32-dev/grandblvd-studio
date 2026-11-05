@@ -64,10 +64,12 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var saveData = !!(navigator.connection && navigator.connection.saveData);
   var userOff = false;
-  try { userOff = localStorage.getItem("gbs-motion") === "off"; } catch (e) {}
+  // The pause choice lasts for this visit only; an old saved choice must never silence motion on later visits.
+  try { localStorage.removeItem("gbs-motion"); userOff = sessionStorage.getItem("gbs-motion") === "off"; } catch (e) {}
   root.classList.toggle("motion-off", userOff);
 
   // Scroll reveals
+  document.querySelectorAll(".proof, .ba, .scores").forEach(function (el) { el.classList.add("reveal"); });
   if (!reduce && "IntersectionObserver" in window) {
     var rio = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); rio.unobserve(e.target); } });
@@ -161,7 +163,7 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     toggle.addEventListener("click", function () {
       userOff = !userOff;
       root.classList.toggle("motion-off", userOff);
-      try { localStorage.setItem("gbs-motion", userOff ? "off" : "on"); } catch (e) {}
+      try { sessionStorage.setItem("gbs-motion", userOff ? "off" : "on"); } catch (e) {}
       sync();
       pick();
     });
@@ -216,29 +218,50 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
   if (header) { var line = document.createElement("div"); line.className = "scroll-line"; line.setAttribute("aria-hidden", "true"); header.appendChild(line); }
   var steps = [].slice.call(document.querySelectorAll(".step"));
   var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
-  var ticking = false;
+  var ticking = false, force = true;
+  var put = function (el, k, v) { if (el.__v === undefined) el.__v = {}; if (el.__v[k] !== v) { el.__v[k] = v; el.style.setProperty(k, v); } };
   var tick = function () {
     ticking = false;
-    var vh = window.innerHeight;
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var all = force; force = false;
     items.forEach(function (el) {
       var r = el.getBoundingClientRect();
-      if (r.bottom < -200 || r.top > vh + 200) return;
+      // Off-screen items are skipped (cheap) but every item is refreshed on load, resize, layout change and page restore.
+      if (!all && (r.bottom < -vh * 0.6 || r.top > vh * 1.6)) return;
       var p = clamp((vh - r.top) / (vh + r.height));
-      el.style.setProperty("--p", p.toFixed(4));
-      if (el.classList.contains("px-hero")) el.style.setProperty("--x", clamp(-r.top / r.height).toFixed(4));
+      put(el, "--p", p.toFixed(4));
+      if (el.classList.contains("px-hero")) put(el, "--x", clamp(-r.top / Math.max(1, r.height)).toFixed(4));
       if (el.classList.contains("px-steps")) {
         var d = clamp((vh * 0.78 - r.top) / (r.height * 0.9 + vh * 0.15));
-        el.style.setProperty("--d", d.toFixed(4));
+        put(el, "--d", d.toFixed(4));
         steps.forEach(function (s, k) { s.classList.toggle("lit", d >= k / steps.length + 0.02); });
       }
     });
     var max = document.documentElement.scrollHeight - vh;
-    root.style.setProperty("--sp", (max > 0 ? window.scrollY / max : 0).toFixed(4));
+    root.style.setProperty("--sp", (max > 0 ? clamp(window.scrollY / max) : 0).toFixed(4));
   };
   var req = function () { if (!ticking) { ticking = true; requestAnimationFrame(tick); } };
+  var refresh = function () { force = true; req(); };
   window.addEventListener("scroll", req, { passive: true });
-  window.addEventListener("resize", req);
+  // Some mobile browsers hold back scroll events during touch momentum; these keep the scene in step.
+  window.addEventListener("touchmove", req, { passive: true });
+  window.addEventListener("wheel", req, { passive: true });
+  window.addEventListener("resize", refresh);
+  window.addEventListener("orientationchange", refresh);
+  window.addEventListener("load", refresh);
+  // Coming back with the browser's back button, or from the page cache, restores the scroll position without a scroll event.
+  window.addEventListener("pageshow", refresh);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) refresh(); });
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", refresh);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+  // Sections render lazily and images/fonts settle after load, so the page height keeps changing: re-measure whenever it does.
+  if ("ResizeObserver" in window) new ResizeObserver(refresh).observe(document.body);
+  else setInterval(req, 1000);
   tick();
+  requestAnimationFrame(refresh);
+  // If the visitor switches Reduce Motion on while the page is open, hand control back to plain CSS.
+  var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (rm.addEventListener) rm.addEventListener("change", function () { root.classList.toggle("mx", !rm.matches); refresh(); });
 
   // 3. Count-ups on prices and scores
   var nums = [].slice.call(document.querySelectorAll(".amount span, .proof strong"));
