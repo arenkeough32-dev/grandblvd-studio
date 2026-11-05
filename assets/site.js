@@ -369,3 +369,9 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
   document.addEventListener("visibilitychange", sync);
   new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["class"] });
 })();
+/* Header mark: play the short reveal once on load, then rest on the final frame. */
+(function(){var v=document.querySelector('.emblem-film');if(!v)return;
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){v.remove();return;}
+function go(){v.preload='auto';var p=v.play();if(p&&p.catch)p.catch(function(){});}
+if(document.readyState==='complete')setTimeout(go,400);else addEventListener('load',function(){setTimeout(go,400)});
+})();
