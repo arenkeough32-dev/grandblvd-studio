@@ -862,7 +862,7 @@ h3{letter-spacing:-.02em}
 /* v2: card-back reveal (hover on desktop, tap on touch) — overlays the card, never fights the pointer-tilt transform */
 .card-back{position:absolute;inset:0;margin:0;padding:clamp(24px,3vw,34px);border-radius:var(--radius);background:var(--palm);color:var(--cream);font-size:.98rem;line-height:1.45;display:flex;align-items:center;opacity:0;pointer-events:none;transition:opacity .28s var(--ease);z-index:2}
 .card-back b{color:var(--brass)}
-.card-flip-hint{position:absolute;bottom:16px;right:clamp(22px,3vw,32px);font-size:.76rem;color:var(--muted);opacity:.75}
+.card-flip-hint{display:block;margin-top:14px;font-size:.76rem;color:var(--muted);opacity:.75}
 .card.on-dark .card-flip-hint{color:rgba(244,238,228,.6)}
 @media (hover:hover) and (pointer:fine){
   .card:has(.card-back):hover .card-back,.card:has(.card-back):focus-within .card-back{opacity:1}
