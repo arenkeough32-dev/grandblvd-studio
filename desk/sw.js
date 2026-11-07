@@ -1,6 +1,6 @@
 /* Desk service worker: keeps the app shell offline. Data is always fetched fresh when online. */
-var SHELL = "desk-shell-v2";
-var FILES = ["./", "index.html", "app.js?v=2", "app.css?v=2", "manifest.webmanifest", "../apple-touch-icon.png", "../icon-192.png", "../icon-512.png"];
+var SHELL = "desk-shell-v3";
+var FILES = ["./", "index.html", "app.js?v=3", "app.css?v=3", "manifest.webmanifest", "../apple-touch-icon.png", "../icon-192.png", "../icon-512.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(SHELL).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
 });

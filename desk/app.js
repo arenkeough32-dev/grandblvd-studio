@@ -387,8 +387,13 @@
           l.phoneAlt ? h("a", { class: "btn", href: telHref(l.phoneAlt), text: "2nd: " + l.phoneAlt }) : null),
         l.bestTime ? h("p", { class: "small muted", text: l.bestTime }) : null,
         l.contact ? h("p", { class: "small", text: "Ask for " + l.contact }) : null,
+        h("div", { class: "row" }, tierBadge(l.tier, true)),
+        heatBar(l),
         h("p", { text: "Hook: " + (l.hook || "") }),
         (l.flags || []).map(function (f) { return h("p", { class: "small", style: "color:var(--warn)", text: "⚑ " + f }); }),
+        pitchBox(l),
+        scriptBox(l),
+        linkRow(l),
         h("div", { class: "opts", role: "group", "aria-label": "Result for " + l.name }, CALL_OUTCOMES.map(function (k) {
           return h("button", { type: "button", "aria-pressed": s === k ? "true" : "false", onclick: function () { setLeadStatus(l, k); }, text: SLABEL[k] });
         })),
@@ -422,8 +427,7 @@
         if (!q) return true;
         return [l.name, l.town, l.type, l.hook, l.contact].join(" ").toLowerCase().indexOf(q) >= 0;
       });
-      var tierRank = { A: 0, B: 1, C: 2 };
-      rows.sort(function (a, b) { return (tierRank[a.tier] || 3) - (tierRank[b.tier] || 3) || String(a.name).localeCompare(b.name); });
+      rows.sort(leadSort);
       setKids(listEl, rows.length ? rows.map(leadCard) : h("p", { class: "empty", text: leadFilter === "yourmove" ? "Nothing waiting on you here. Try All." : "No leads match." }));
     }
     var seg = h("div", { class: "seg", role: "group", "aria-label": "Filter" }, filters.map(function (f) {
@@ -431,23 +435,196 @@
       if (n === 0) return null;
       return h("button", { type: "button", "aria-pressed": leadFilter === f[0] ? "true" : "false", onclick: function () { leadFilter = f[0]; render(); }, text: f[1] + (n !== null ? " " + n : "") });
     }));
-    var out = h("div", {}, h("h1", { text: "Leads" }), h("p", { class: "muted small", text: leads.length + " shops. A = owner known + checked gap, B = checked shop, C = thin." }), search, h("div", { style: "margin-top:10px" }, seg), listEl);
+    var out = h("div", {}, h("h1", { text: "Leads" }), tierKey(), statusBar(leads), search, h("div", { style: "margin-top:10px" }, seg), listEl);
     drawList();
     return out;
   }
+  /* ---------- lead visuals: tier badge, heat bar, research dots, quick links ---------- */
+  var TIER_TEXT = { A: "owner + checked gap", B: "checked shop", C: "thin" };
+  function tierBadge(t, withText) {
+    t = TIER_TEXT[t] ? t : "C";
+    return h("span", { class: "tier tier-" + t, title: "Tier " + t + ": " + TIER_TEXT[t] },
+      h("span", { class: "dot", "aria-hidden": "true" }), h("b", { text: t }), withText ? h("span", { class: "tier-txt", text: TIER_TEXT[t] }) : null);
+  }
+  function tierKey() {
+    return h("div", { class: "tierkey", role: "note", "aria-label": "Tier key" }, ["A", "B", "C"].map(function (t) { return tierBadge(t, true); }));
+  }
+  function bkkToday() { return new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Bangkok" }).format(new Date()); }
+  function addDays(ymd, n) { var d = new Date(ymd + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function statusAtOf(l) { var o = local.leads[l.id]; return o ? o.at : l.statusAt; }
+  function ownerNamed(l) { var c = String(l.contact || "").trim(); return !!c && c !== "-" && !/^(owner|the owner|family-owned|unknown|not found)$/i.test(c); }
+  function phoneOk(l) { return !!l.phone && !/unverified|unconfirmed/i.test(String(l.phoneNote || "")); }
+  /* Same five dots as the HQ dashboard */
+  function checks(l) {
+    var r = l.research || {};
+    return [
+      { k: "Owner", ok: ownerNamed(l) },
+      { k: "Gap + link", ok: !!(l.hook && l.hookUrl) },
+      { k: "Trading", ok: /^yes/i.test(String(r.stillTrading || "")) },
+      { k: "Phone", ok: phoneOk(l) },
+      { k: "Deep dive", ok: !!l.pitch }
+    ];
+  }
+  /* Temperature comes from status, exactly as on HQ */
+  var TEMP_RANK = { hot: 0, warm: 1, cold: 2, paused: 3, dead: 4 };
+  function temperature(l) {
+    var s = leadStatus(l);
+    if (s === "booked" || s === "callback" || s === "wants_email") return "hot";
+    if (s === "handsoff") return "paused";
+    if (s === "not_interested") return "dead";
+    if (s === "messaged" || s === "vm_text" || s === "no_answer") {
+      var at = Date.parse(statusAtOf(l) || ""), fresh = at && (Date.now() - at) <= 10 * 86400000;
+      var dueOk = !l.due || l.due >= addDays(bkkToday(), -1);
+      if (fresh && dueOk) return "warm";
+    }
+    return "cold";
+  }
+  function dialWindowSoon() {
+    var parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "short", hour: "numeric", minute: "numeric", hour12: false }).formatToParts(new Date());
+    var get = function (t) { var x = parts.filter(function (p) { return p.type === t; })[0]; return x ? x.value : ""; };
+    var wd = get("weekday"), mins = (parseInt(get("hour"), 10) % 24) * 60 + parseInt(get("minute"), 10);
+    if (["Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(wd) < 0) return false;
+    return mins >= 9 * 60 && mins < 12 * 60; /* open 10-12, or opens within 60 min */
+  }
+  /* Same heat score as the HQ dashboard (0-100) */
+  function heat(l) {
+    var s = leadStatus(l);
+    var n = { booked: 50, callback: 48, wants_email: 45, vm_text: 30, messaged: 28, no_answer: 22, not_contacted: 15, handsoff: 0, not_interested: 0 }[s];
+    if (n === undefined) n = 15;
+    if (l.hook && l.hookUrl) n += 15; else if (l.hook && !/^no gap/i.test(l.hook)) n += 5;
+    if (ownerNamed(l)) n += 10;
+    if (l.due && l.due <= bkkToday()) n += 10;
+    if (l.callSheet && dialWindowSoon()) n += 10;
+    var at = Date.parse(statusAtOf(l) || "");
+    if (temperature(l) === "hot" && at && Date.now() - at <= 48 * 3600000) n += 5;
+    if (/unverified/i.test(String(l.phoneNote || "")) || l.tier === "C") n -= 10;
+    return Math.max(0, Math.min(100, n));
+  }
+  function leadSort(a, b) {
+    return (TEMP_RANK[temperature(a)] - TEMP_RANK[temperature(b)]) || (heat(b) - heat(a)) ||
+      ((a.callOrder || 999) - (b.callOrder || 999)) || String(a.name).localeCompare(b.name);
+  }
+  function dueChip(l) {
+    var d = l.nextTouch || l.due; if (!d) return null;
+    var s = leadStatus(l); if (s === "not_interested" || s === "handsoff" || s === "booked") return null;
+    var today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Bangkok" }).format(new Date());
+    if (d < today) return h("span", { class: "chip st-not_interested st", text: "Overdue" });
+    if (d === today) return h("span", { class: "chip st-callback st", text: "Due today" });
+    var dt = new Date(d + "T12:00:00");
+    return h("span", { class: "chip", text: "Next touch " + dt.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) });
+  }
+  function heatBar(l) {
+    var v = heat(l), t = temperature(l);
+    return h("div", { class: "heat", role: "img", "aria-label": "Heat " + v + " out of 100, " + t },
+      h("span", { class: "heat-track" }, h("span", { class: "heat-fill heat-" + t, style: "width:" + Math.max(4, v) + "%" })),
+      h("span", { class: "heat-num", text: v + " " + t }));
+  }
+  function checkDots(l) {
+    var c = checks(l), r = l.research || {};
+    return h("div", { class: "checks" },
+      c.map(function (x) { return h("span", { class: "ck" + (x.ok ? " ok" : ""), title: x.k + (x.ok ? ": yes" : ": not yet") }, h("i", { "aria-hidden": "true" }), x.k); }),
+      r.confidence ? h("span", { class: "chip conf", text: "Research " + r.confidence }) : null);
+  }
+  function hostLabel(u) {
+    try { var hst = new URL(u).hostname.replace(/^www\.|^m\./, ""); return hst.split(".").slice(-2, -1)[0] || hst; } catch (e) { return "link"; }
+  }
+  var DIRECTORY = /yelp|facebook|bringfido|google|tripadvisor|mapquest|nextdoor|giftly|downtownnewportrichey|nprmainstreet|comicshoplocator|grubhub|doordash|ubereats|slicelife|instagram|fresha|vagaro|booksy|groupon|wheree|closo|localcomic/i;
+  function linkRow(l) {
+    var q = function (s) { return encodeURIComponent(s); };
+    var town = (l.town || "New Port Richey") + " FL";
+    var addr = String(l.address || "").split(/[(;]/)[0].trim();
+    var srcs = ((l.research && l.research.sources) || []).concat(l.hookUrl ? [l.hookUrl] : []).map(safeUrl).filter(Boolean);
+    srcs = srcs.filter(function (u, i) { return srcs.indexOf(u) === i; });
+    var site = srcs.filter(function (u) { return !DIRECTORY.test(u); })[0];
+    var links = [
+      ["Google", "https://www.google.com/search?q=" + q(l.name + " " + town)],
+      ["Maps", "https://www.google.com/maps/search/?api=1&query=" + q(l.name + " " + (addr ? addr + " " : "") + town)],
+      ["Yelp", "https://www.yelp.com/search?find_desc=" + q(l.name) + "&find_loc=" + q((l.town || "New Port Richey") + ", FL")],
+      ["Facebook", "https://www.facebook.com/search/top?q=" + q(l.name + " " + (l.town || ""))]
+    ];
+    if (site) links.push(["Website", site]);
+    var pl = (l.pitch && l.pitch.links) || {};
+    var map = { google: "Google", maps: "Maps", yelp: "Yelp", facebook: "Facebook", website: "Website", instagram: "Instagram" };
+    Object.keys(map).forEach(function (k) {
+      var u = pl[k] && safeUrl(pl[k]); if (!u) return;
+      var hit = links.filter(function (x) { return x[0] === map[k]; })[0];
+      if (hit) hit[1] = u; else links.push([map[k], u]);
+    });
+    return h("div", { class: "links" },
+      h("div", { class: "linkrow" }, links.map(function (x) { return h("a", { class: "lk", href: x[1], target: "_blank", rel: "noopener noreferrer", text: x[0] }); })),
+      srcs.length ? h("p", { class: "small muted wrap" }, "Sources: ", srcs.filter(function (u) { return u !== site; }).map(function (u, i) {
+        return [i ? " · " : "", h("a", { href: u, target: "_blank", rel: "noopener noreferrer", text: hostLabel(u) })];
+      })) : null);
+  }
+  function pitchBox(l) {
+    var p = l.pitch;
+    var queued = l.researchAsk && l.researchAsk.at && (!p || !p.checkedAt || Date.parse(l.researchAsk.at) > Date.parse(p.checkedAt));
+    if (!p) return queued ? h("p", { class: "chip", text: "Deep research queued" }) : null;
+    var rating = [p.rating ? "★ " + p.rating : "", p.reviews || p.reviewCount ? (p.reviews || p.reviewCount) + " reviews" : "", p.reviewSource || ""].filter(Boolean).join(" · ");
+    var list = function (a) { return Array.isArray(a) ? a : []; };
+    return h("div", { class: "pitch" },
+      queued ? h("span", { class: "chip", text: "Deep research queued" }) : null,
+      p.angle ? h("p", { class: "pitch-angle", text: p.angle }) : null,
+      rating ? h("p", { class: "pitch-rating", text: rating }) : null,
+      list(p.presence).length ? h("div", { class: "tiles" }, list(p.presence).map(function (x) {
+        var u = x.url && safeUrl(x.url), st = /^(good|weak|none)$/.test(x.state) ? x.state : "weak";
+        var inner = [h("b", { text: x.ch || "" }), x.note ? h("span", { text: x.note }) : null];
+        return u ? h("a", { class: "tile tile-" + st, href: u, target: "_blank", rel: "noopener noreferrer" }, inner) : h("span", { class: "tile tile-" + st }, inner);
+      })) : null,
+      (list(p.love).length || list(p.complain).length) ? h("div", { class: "opts" },
+        list(p.love).map(function (x) { return h("span", { class: "pchip love", text: "♥ " + x }); }),
+        list(p.complain).map(function (x) { return h("span", { class: "pchip gripe", text: "✕ " + x }); })) : null,
+      list(p.talkingPoints).length ? h("div", {}, h("b", { class: "lbl", text: "Say this" }), h("ol", { class: "plain small" }, list(p.talkingPoints).map(function (x) { return h("li", { text: x }); }))) : null,
+      p.offer ? h("div", {}, h("b", { class: "lbl", text: "Offer · for you, not to say first" }), h("p", { class: "small", text: p.offer })) : null,
+      (p.ownerStory || list(p.competitors).length) ? h("details", {}, h("summary", { text: "Owner story and competitors" }),
+        p.ownerStory ? h("p", { class: "small", text: p.ownerStory }) : null,
+        list(p.competitors).map(function (c) { return h("p", { class: "small muted", text: (c.name || "") + (c.edge ? ": " + c.edge : "") }); })) : null);
+  }
+  function scriptBox(l) {
+    if (!l.opener && !l.objection && !l.motive) return null;
+    return h("div", { class: "scriptbox" },
+      l.opener ? h("div", {}, h("b", { text: "Say" }), h("p", { text: l.opener })) : null,
+      l.motive ? h("div", {}, h("b", { text: "Their world" }), h("p", { text: l.motive })) : null,
+      l.objection ? h("div", {}, h("b", { text: "If they say" }), h("p", { text: l.objection })) : null,
+      l.reply ? h("div", {}, h("b", { text: "You say" }), h("p", { text: l.reply })) : null);
+  }
+  function statusBar(leads) {
+    var order = ["booked", "callback", "wants_email", "vm_text", "messaged", "no_answer", "not_contacted", "not_interested", "handsoff"];
+    var counts = {}; leads.forEach(function (l) { var s = leadStatus(l); counts[s] = (counts[s] || 0) + 1; });
+    var total = leads.length || 1;
+    var parts = order.filter(function (s) { return counts[s]; });
+    return h("div", { class: "viz" },
+      h("p", { class: "viz-title", text: "Pipeline" }),
+      h("div", { class: "stackbar", role: "img", "aria-label": parts.map(function (s) { return counts[s] + " " + SLABEL[s]; }).join(", ") },
+        parts.map(function (s) { return h("span", { class: "seg-" + s, style: "flex:" + counts[s], title: SLABEL[s] + ": " + counts[s] }); })),
+      h("div", { class: "legend" }, parts.map(function (s) { return h("span", {}, h("i", { class: "seg-" + s, "aria-hidden": "true" }), SLABEL[s] + " " + counts[s]); })),
+      h("p", { class: "viz-title", style: "margin-top:10px", text: "Tiers" }),
+      h("div", { class: "tierbars" }, ["A", "B", "C"].map(function (t) {
+        var n = leads.filter(function (l) { return (l.tier || "C") === t; }).length;
+        return h("div", { class: "tb" }, tierBadge(t, false), h("span", { class: "tb-track" }, h("span", { class: "tb-fill tbf-" + t, style: "width:" + Math.round(n / total * 100) + "%" })), h("span", { class: "mono small", text: String(n) }));
+      })));
+  }
+
   function leadCard(l) {
     var link = l.hookUrl ? safeUrl(l.hookUrl) : null;
     var tel = telHref(l.phone);
-    return h("article", { class: "card" },
-      h("div", { class: "spread" }, h("h3", { text: l.name }), h("span", { class: "chip t-" + (l.tier || "C"), text: "Tier " + (l.tier || "?") })),
+    return h("article", { class: "card lead-" + (l.tier || "C") },
+      h("div", { class: "spread" }, h("h3", { text: l.name }), tierBadge(l.tier, false)),
       h("p", { class: "small muted", text: [l.type, l.town].filter(Boolean).join(" · ") }),
-      h("div", { class: "row" }, statusChip(l), isPending(l.id, "lead") ? h("span", { class: "pending", text: "not synced yet" }) : null),
+      h("div", { class: "row" }, statusChip(l), isPending(l.id, "lead") ? h("span", { class: "pending", text: "not synced yet" }) : null,
+        dueChip(l)),
+      heatBar(l),
+      checkDots(l),
       l.hook ? h("p", { text: l.hook }) : null,
+      pitchBox(l),
+      linkRow(l),
       l.nextStep ? h("p", { class: "small", text: "Next: " + l.nextStep }) : null,
       h("details", {},
-        h("summary", { text: "Details and update" }),
+        h("summary", { text: "Script, details and update" }),
         h("div", { class: "stack", style: "margin-top:8px" },
+          scriptBox(l),
           l.tierWhy ? h("p", { class: "small muted", text: "Why tier " + l.tier + ": " + l.tierWhy }) : null,
+          (l.research && l.research.notes) ? h("p", { class: "small muted", text: "Research note: " + l.research.notes }) : null,
           (l.needs && l.needs.length) ? h("div", {}, h("p", { class: "small", style: "font-weight:600", text: "Needs" }), h("ul", { class: "plain small" }, l.needs.map(function (x) { return h("li", { text: x }); }))) : null,
           (l.notNeeds && l.notNeeds.length) ? h("div", {}, h("p", { class: "small", style: "font-weight:600", text: "Don't pitch" }), h("ul", { class: "plain small" }, l.notNeeds.map(function (x) { return h("li", { text: x }); }))) : null,
           (l.flags || []).map(function (f) { return h("p", { class: "small", style: "color:var(--warn)", text: "⚑ " + f }); }),
