@@ -375,3 +375,56 @@ if(matchMedia('(prefers-reduced-motion: reduce)').matches){v.remove();return;}
 function go(){v.preload='auto';var p=v.play();if(p&&p.catch)p.catch(function(){});}
 if(document.readyState==='complete')setTimeout(go,400);else addEventListener('load',function(){setTimeout(go,400)});
 })();
+
+/* v2: Quick-check quiz. Three taps, one result. Nothing sent anywhere, nothing stored. */
+(function () {
+  var root = document.querySelector("[data-quiz]");
+  if (!root) return;
+  var steps = [].slice.call(root.querySelectorAll(".quiz-step"));
+  var result = root.querySelector("[data-result]");
+  var summaryEl = root.querySelector("[data-summary]");
+  var careEl = root.querySelector("[data-care]");
+  var fill = root.querySelector("[data-fill]");
+  var answers = [];
+  var noPage = false;
+  var showStep = function (i) {
+    steps.forEach(function (s, k) { s.hidden = k !== i; });
+    result.hidden = i < steps.length;
+    if (fill) fill.style.width = (Math.min(i, steps.length) / steps.length * 100) + "%";
+  };
+  var finish = function () {
+    var bad = answers.filter(function (a) { return a === "bad"; }).length;
+    var text;
+    if (bad === 0) text = "Your basics look solid. A free Missed-Call Test will still show you exactly what callers hear.";
+    else if (bad === 1) text = "One thing's likely costing you customers right now, without you knowing it.";
+    else text = "A few things are likely costing you customers right now, and you probably don't know it yet.";
+    summaryEl.textContent = text;
+    if (careEl) careEl.hidden = !noPage;
+    showStep(steps.length);
+  };
+  steps.forEach(function (step, i) {
+    step.querySelectorAll("button[data-v]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        answers[i] = btn.getAttribute("data-v");
+        if (btn.hasAttribute("data-nopage")) noPage = true;
+        if (i + 1 < steps.length) showStep(i + 1); else finish();
+      });
+    });
+  });
+  root.querySelectorAll("[data-quiz-reset]").forEach(function (btn) {
+    btn.addEventListener("click", function () { answers = []; noPage = false; showStep(0); });
+  });
+  showStep(0);
+})();
+
+/* v2: Card-back reveal on tap, for touch devices (hover/focus handles it elsewhere via CSS). */
+(function () {
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  document.querySelectorAll(".services-grid .card").forEach(function (c) {
+    if (!c.querySelector(".card-back")) return;
+    c.addEventListener("click", function (e) {
+      if (e.target.closest("a,button")) return;
+      c.classList.toggle("is-open");
+    });
+  });
+})();

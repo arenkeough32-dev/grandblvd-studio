@@ -435,6 +435,22 @@
       "@type": "Answer",
       "text": "Aren. Grand Blvd Studio is small on purpose, so you talk to the same person every time, from the first test to the monthly check-in."
      }
+    },
+    {
+     "@type": "Question",
+     "name": "How long does a page take?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Most one-page sites go live within a week once we have your photos, hours and prices. Three- and five-page sites usually take two to three weeks."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if I already have a site?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "We can usually wire the missed-call text-back and phone assistant onto your current site and number without rebuilding anything. A new site only happens if you want one."
+     }
     }
    ]
   }
@@ -535,6 +551,55 @@
     </div>
   </section>
 
+  <!-- QUICK CHECK -->
+  <section class="section quiz" id="quick-check" aria-labelledby="quiz-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">30-second check</p>
+        <h2 class="h2" id="quiz-title">What's working. <em>What isn't.</em></h2>
+        <p class="lede">Three quick taps. Nothing saved, nothing sent anywhere until you choose to text us.</p>
+      </div>
+      <div class="quiz-card reveal d1" data-quiz>
+        <div class="quiz-step" data-step="0">
+          <p class="quiz-q">When someone Googles your shop, what do they find?</p>
+          <div class="quiz-opts" role="group" aria-label="Question 1 of 3">
+            <button type="button" data-v="ok">The right info</button>
+            <button type="button" data-v="bad">Wrong or old hours</button>
+            <button type="button" data-v="bad">Wrong address</button>
+            <button type="button" data-v="bad">Not sure</button>
+          </div>
+        </div>
+        <div class="quiz-step" data-step="1" hidden>
+          <p class="quiz-q">When did your last new Google review land?</p>
+          <div class="quiz-opts" role="group" aria-label="Question 2 of 3">
+            <button type="button" data-v="ok">This week</button>
+            <button type="button" data-v="bad">This month</button>
+            <button type="button" data-v="bad">Can't remember</button>
+          </div>
+        </div>
+        <div class="quiz-step" data-step="2" hidden>
+          <p class="quiz-q">Do you have a page that's fully yours?</p>
+          <div class="quiz-opts" role="group" aria-label="Question 3 of 3">
+            <button type="button" data-v="ok">Yes</button>
+            <button type="button" data-v="bad">No</button>
+            <button type="button" data-v="bad" data-nopage="1">What's that?</button>
+          </div>
+        </div>
+        <div class="quiz-result" data-result hidden>
+          <p class="quiz-summary" data-summary></p>
+          <p class="quiz-care" data-care hidden>Most owners in your spot start with the $49/month care plan once they see the list.</p>
+          <div class="cta-row">
+            <!-- Calendly slot: once the scheduling link is ready, this becomes the Calendly embed/link instead of sms: -->
+            <a class="btn btn-primary mag" href="sms:+17273127758?&amp;body=Hi%20Grand%20Blvd%20Studio!%20I%27d%20like%20a%20free%20Missed-Call%20Test.%20My%20business%20is%3A%20"><svg aria-hidden="true"><use href="#i-chat"/></svg>Get my free Missed-Call Test</a>
+          </div>
+          <p class="fine">Or text (727) 312-7758 and tell us your shop's name.</p>
+          <button type="button" data-quiz-reset>Start over</button>
+        </div>
+        <div class="quiz-progress" aria-hidden="true"><i data-fill></i></div>
+      </div>
+    </div>
+  </section>
+
   <!-- MISSED CALL -->
   <section class="missed" aria-labelledby="missed-title">
     <div class="wrap missed-grid">
@@ -605,6 +670,8 @@
               <li>Tells callers it's your virtual assistant, always</li>
             </ul>
           </div>
+          <p class="card-back">The cost of silence: callers who won't leave a voicemail <b>just try the next shop.</b></p>
+          <span class="card-flip-hint">Tap for what's at risk</span>
         </article>
 
         <article class="card card-gbp reveal d1">
@@ -612,6 +679,8 @@
           <span class="num">02</span>
           <h3>More 5-star reviews</h3>
           <p>Every customer gets the same easy, one-tap review request after their visit, and every review gets a real, personal reply. Never just the happy ones: that's Google's rule and ours.</p>
+          <p class="card-back">The fix: reviews that <b>stopped piling up</b> start again, automatically, after every visit.</p>
+          <span class="card-flip-hint">Tap for the fix</span>
         </article>
 
         <article class="card card-social reveal d2">
@@ -619,6 +688,8 @@
           <span class="num">03</span>
           <h3>Found first on Google</h3>
           <p>Your Google profile set up properly and kept fresh with posts, photos and answers, so the people searching nearby see you before the shop down the road.</p>
+          <p class="card-back">The problem: <b>one wrong hour or address online</b>, and new customers go to the shop next door instead.</p>
+          <span class="card-flip-hint">Tap for what's at risk</span>
         </article>
 
         <article class="card card-video reveal d1">
@@ -626,6 +697,8 @@
           <span class="num">04</span>
           <h3>A website that books</h3>
           <p>Fast on every phone, with your real photos, prices and hours, and one tap to call, text or book. In English and Spanish when your customers need it.</p>
+          <p class="card-back">The problem: <b>no page of your own</b> means every lead goes through someone else's app, on someone else's terms.</p>
+          <span class="card-flip-hint">Tap for the fix</span>
         </article>
 
         <article class="card card-care reveal d2">
@@ -633,6 +706,8 @@
           <span class="num">05</span>
           <h3>Results you can see, live</h3>
           <p>Your own page showing calls answered, texts sent, bookings and new reviews, any time. No monthly PDF full of numbers that don't matter.</p>
+          <p class="card-back">The habit that costs you: <b>nobody's watching the numbers</b>, so nobody catches the slide until it's a real problem.</p>
+          <span class="card-flip-hint">Tap for what's at risk</span>
         </article>
       </div>
     </div>
@@ -722,6 +797,20 @@
             <figcaption><b>After</b>Opens with the work clients drive in for.</figcaption>
           </figure>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF TICKER -->
+  <section class="proof-ticker" aria-label="What we've found nearby, verified">
+    <div class="marquee marquee-quotes">
+      <div class="marquee-track">
+        <span>“Yelp sent their customers to the wrong street, for years.” <b>— grooming shop, Main Street</b></span>
+        <span>“Five other sites still said 3pm closing after evening hours began.” <b>— downtown restaurant</b></span>
+        <span>“Four reviews online after 29 years in business.” <b>— day spa, New Port Richey</b></span>
+        <span>“Yelp sent their customers to the wrong street, for years.” <b>— grooming shop, Main Street</b></span>
+        <span>“Five other sites still said 3pm closing after evening hours began.” <b>— downtown restaurant</b></span>
+        <span>“Four reviews online after 29 years in business.” <b>— day spa, New Port Richey</b></span>
       </div>
     </div>
   </section>
@@ -831,6 +920,8 @@
         <details><summary>Who owns everything?</summary><div class="answer"><p>You do. Your phone number, Google profile, ad account, website and customer list stay in your name from day one.</p></div></details>
         <details><summary>I already have a Facebook page. Do I need this?</summary><div class="answer"><p>Keep your Facebook page. This makes sure the people who find you on Google, or call you, actually get answered and booked. It all links together.</p></div></details>
         <details><summary>Who will I actually be working with?</summary><div class="answer"><p>Aren. Grand Blvd Studio is small on purpose, so you talk to the same person every time, from the first test to the monthly check-in.</p></div></details>
+        <details><summary>How long does a page take?</summary><div class="answer"><p>Most one-page sites go live within a week once we have your photos, hours and prices. Three- and five-page sites usually take two to three weeks.</p></div></details>
+        <details><summary>What if I already have a site?</summary><div class="answer"><p>We can usually wire the missed-call text-back and phone assistant onto your current site and number without rebuilding anything. A new site only happens if you want one.</p></div></details>
       </div>
     </div>
   </section>
@@ -902,6 +993,11 @@
   <a class="btn btn-ghost btn-call" href="tel:+17276063663" aria-label="Call Grand Blvd Studio"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
 </nav>
 
+<!-- Live chat (Tawk.to, free plan, no card): leave GBS_TAWK_ID blank to keep it off.
+     To turn it on, create a free account at tawk.to (about 2 minutes), then
+     Admin > Channels > Chat Widget > copy the Property ID in below. -->
+<script>window.GBS_TAWK_ID = "";</script>
+<script src="assets/tawk.js" defer></script>
 <script src="assets/site.js" defer></script>
 </body>
 </html>
