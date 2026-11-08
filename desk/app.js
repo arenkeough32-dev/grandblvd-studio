@@ -375,7 +375,7 @@
         h("div", { class: "spread" }, h("span", { text: "Cash in this month" }), h("b", { class: "mono", text: "$" + (m.cashIn || 0) })),
         m.cashNote ? h("p", { class: "small muted", text: m.cashNote }) : null,
         (m.subscriptions || []).map(function (s) { return h("div", { class: "spread small" }, h("span", { text: s.name + " · " + s.status }), h("span", { class: "mono", text: s.amount })); }),
-        m.higgsfield ? h("p", { class: "small muted", text: "Video credits left: " + m.higgsfield.credits }) : null));
+        m.credits ? h("p", { class: "small muted", text: "Video credits left: " + m.credits.credits }) : null));
     }
     out.appendChild(h("h2", { text: "Book a call" }));
     out.appendChild(h("div", { class: "card" },
