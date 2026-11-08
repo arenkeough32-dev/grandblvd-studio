@@ -941,3 +941,13 @@ h1 em,h2 em,.page-title em,.hero h1 em,.hero--film h1 em{font-weight:inherit;let
 ::selection{background:var(--orange);color:var(--ink)}
 :focus-visible{outline-color:var(--orange)}
 @media (prefers-reduced-motion:reduce){.price:hover,.note-list a:hover,.brand:hover svg.sign{transform:none}}
+
+/* specificity matches for older hero / prose rules */
+.hero h1,.hero--film h1{font-weight:800;font-stretch:80%;letter-spacing:-.015em;word-spacing:0}
+.hero h1 em,.hero--film h1 em{font-weight:800;letter-spacing:-.015em}
+.page-title,.prose h2{font-weight:800;font-stretch:82%}
+.prose h3{font-weight:760;font-stretch:90%}
+.pledge blockquote p{font-weight:800}
+.hero--film .btn-primary{background:var(--orange);color:var(--ink)}
+.hero--film .btn-primary:hover{background:var(--orange-hi);color:var(--ink)}
+.card:hover{border-color:var(--orange)}
