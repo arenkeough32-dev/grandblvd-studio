@@ -152,3 +152,4 @@ textarea{min-height:84px;resize:vertical}
 .lbl{display:block;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-family:var(--mono)}
 
 .bookbtn{border-color:var(--accent);color:var(--accent)}
+.chpick{align-items:center}

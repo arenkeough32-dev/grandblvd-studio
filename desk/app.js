@@ -291,9 +291,22 @@
     var s = leadStatus(l);
     return h("span", { class: "chip st st-" + s, text: SLABEL[s] || s });
   }
+  var CH_OPTS = [["call", "Call"], ["text", "Text"], ["walkin", "In person"]];
+  var chosenCh = {};
+  function chPicker(l) {
+    var cur = chosenCh[l.id] || "call";
+    return h("div", { class: "seg chpick", role: "group", "aria-label": "How you reached " + l.name },
+      h("span", { class: "small muted", text: "How:" }),
+      CH_OPTS.map(function (o) {
+        return h("button", { type: "button", "aria-pressed": cur === o[0] ? "true" : "false", onclick: function (e) {
+          chosenCh[l.id] = o[0];
+          Array.prototype.forEach.call(e.currentTarget.parentNode.querySelectorAll("button"), function (b) { b.setAttribute("aria-pressed", String(b === e.currentTarget)); });
+        }, text: o[1] });
+      }));
+  }
   function setLeadStatus(l, s, note) {
     local.leads[l.id] = { status: s, at: new Date().toISOString() }; saveLocal();
-    queueEvent({ t: "lead_status", lead: l.id, name: l.name, status: s, note: note || "" });
+    queueEvent({ t: "lead_status", lead: l.id, name: l.name, status: s, note: note || "", ch: chosenCh[l.id] || "call", who: "you" });
     toast(l.name + ": " + (SLABEL[s] || s));
     render();
   }
@@ -407,6 +420,7 @@
         pitchBox(l),
         scriptBox(l),
         linkRow(l),
+        chPicker(l),
         h("div", { class: "opts", role: "group", "aria-label": "Result for " + l.name }, CALL_OUTCOMES.map(function (k) {
           return h("button", { type: "button", "aria-pressed": s === k ? "true" : "false", onclick: function () { setLeadStatus(l, k); }, text: SLABEL[k] });
         })),
@@ -646,6 +660,7 @@
           l.address ? h("p", { class: "small wrap", text: l.address }) : null,
           h("div", { class: "row" }, tel ? h("a", { class: "btn", href: tel, text: "Call " + l.phone }) : null, bookBtn(), l.email ? h("span", { class: "small wrap", text: l.email }) : null),
           h("p", { class: "small", style: "font-weight:600", text: "Update status" }),
+          chPicker(l),
           h("div", { class: "opts", role: "group", "aria-label": "Status for " + l.name }, STATUSES.map(function (s) {
             return h("button", { type: "button", "aria-pressed": leadStatus(l) === s.k ? "true" : "false", onclick: function () { setLeadStatus(l, s.k); }, text: s.label });
           })))));
