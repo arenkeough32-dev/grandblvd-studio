@@ -880,11 +880,11 @@ h3{letter-spacing:-.02em}
 
 /* hero v3: a real site we built, on a phone, in place of the animated conversation */
 .hero-phone{width:min(290px,70vw)}
-.hero-phone .screen img{display:block;width:100%;height:auto}
+/* show only the lower part of the screenshot (headline, buttons, rating): no photo, no faces */
+.hero-phone .screen{aspect-ratio:9/11.6;overflow:hidden}
+.hero-phone .screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:bottom}
 .hero-phone + .live-cap{white-space:normal;text-align:center;max-width:min(320px,86vw)}
 @media (max-width:959px){
-  .hero--film .hero-phone{width:min(220px,58vw)}
-  .hero--film .hero-phone .screen{aspect-ratio:9/14.4;overflow:hidden}
-  .hero--film .hero-phone .screen img{height:100%;object-fit:cover;object-position:top}
+  .hero--film .hero-phone{width:min(230px,60vw)}
 }
 @media (max-width:520px){.hero--film .hero-phone{width:172px}}
