@@ -951,3 +951,31 @@ h1 em,h2 em,.page-title em,.hero h1 em,.hero--film h1 em{font-weight:inherit;let
 .hero--film .btn-primary{background:var(--orange);color:var(--ink)}
 .hero--film .btn-primary:hover{background:var(--orange-hi);color:var(--ink)}
 .card:hover{border-color:var(--orange)}
+
+/* town ticker (under the hero) */
+.ticker{background:var(--orange);color:var(--ink);overflow:hidden;white-space:nowrap;border-block:2px solid var(--ink)}
+.ticker-track{display:inline-flex;will-change:transform;animation:ticker 28s linear infinite}
+.ticker-track span{display:inline-block;padding:12px 0;font-weight:800;font-stretch:78%;font-size:clamp(1.05rem,.9rem + .8vw,1.45rem);letter-spacing:.04em;text-transform:uppercase}
+@keyframes ticker{to{transform:translateX(-50%)}}
+.motion-off .ticker-track{animation-play-state:paused}
+
+/* trust strip: sites we've built */
+.trust{background:var(--paper-2);border-bottom:1px solid var(--line)}
+.trust-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px 44px;padding-block:22px}
+.trust h2.trust-label{font-size:1rem;font-weight:700;font-stretch:100%;letter-spacing:.01em;line-height:1.3;color:var(--ink-2);margin:0}
+.trust-cs{display:inline-flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+.trust-cs img{width:40px;height:auto;flex:none}
+.trust-cs b{display:block;font-weight:800;font-size:1.06rem;line-height:1.25}
+.trust-cs:hover b{text-decoration:underline;text-decoration-color:var(--orange);text-underline-offset:4px}
+.trust-rating{display:block;font-size:.95rem;color:var(--ink-2)}
+.stars{color:#B4530B;letter-spacing:2px}
+.trust-stat b{display:block;font-weight:900;font-stretch:80%;font-size:2.3rem;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.trust-stat small{display:block;font-size:.82rem;color:var(--muted);margin-top:4px;max-width:15ch;line-height:1.3}
+@media (max-width:640px){.trust-row{gap:14px 28px;padding-block:18px}.trust h2.trust-label{flex-basis:100%}.trust-stat b{font-size:2rem}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+
+/* bolder numbers and questions */
+.price .amount,.price .amount span{font-weight:800;font-stretch:80%;letter-spacing:-.01em}
+.big-phone{font-weight:800;font-stretch:85%;letter-spacing:-.005em}
+.faq-list summary{font-weight:650}
+.case .built b,.ba h3{font-weight:800}

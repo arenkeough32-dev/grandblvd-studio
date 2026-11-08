@@ -428,3 +428,24 @@ if(document.readyState==='complete')setTimeout(go,400);else addEventListener('lo
     });
   });
 })();
+
+/* Trust numbers count up once when they scroll into view (skipped for reduced motion). */
+(function () {
+  var els = document.querySelectorAll("[data-count]");
+  if (!els.length || !("IntersectionObserver" in window)) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var el = e.target, end = +el.getAttribute("data-count"), t0 = performance.now();
+      if (!end) return;
+      (function step(t) {
+        var p = Math.min(1, (t - t0) / 900);
+        el.textContent = String(Math.round(end * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(step);
+      })(t0);
+    });
+  }, { threshold: 0.6 });
+  els.forEach(function (el) { io.observe(el); });
+})();
