@@ -150,3 +150,5 @@ textarea{min-height:84px;resize:vertical}
 .pchip.love{border-color:var(--good);color:var(--good)}
 .pchip.gripe{border-color:var(--bad);color:var(--bad)}
 .lbl{display:block;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-family:var(--mono)}
+
+.bookbtn{border-color:var(--accent);color:var(--accent)}

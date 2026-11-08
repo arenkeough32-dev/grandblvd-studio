@@ -64,6 +64,14 @@
     if (Array.isArray(c)) { c.forEach(function (x) { add(el, x); }); return; }
     el.appendChild(typeof c === "object" ? c : document.createTextNode(String(c)));
   }
+  var BOOK_URL = "https://grandblvdstudio.com/book";
+  function bookBtn(label) {
+    return h("button", { type: "button", class: "bookbtn", onclick: function (e) {
+      var b = e.currentTarget, txt = "Or pick a time that suits you: grandblvdstudio.com/book";
+      (navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(txt) : Promise.reject())
+        .then(function () { toast("Booking link copied. Paste it in your text."); }, function () { window.prompt("Copy this:", txt); });
+    }, text: label || "Copy booking link" });
+  }
   function setKids(el, c) { el.replaceChildren(); add(el, c); }
   function toast(msg) {
     var t = h("div", { class: "toast", role: "status", text: msg });
@@ -356,6 +364,10 @@
         (m.subscriptions || []).map(function (s) { return h("div", { class: "spread small" }, h("span", { text: s.name + " · " + s.status }), h("span", { class: "mono", text: s.amount })); }),
         m.higgsfield ? h("p", { class: "small muted", text: "Video credits left: " + m.higgsfield.credits }) : null));
     }
+    out.appendChild(h("h2", { text: "Book a call" }));
+    out.appendChild(h("div", { class: "card" },
+      h("p", { class: "small", text: "Shops can book a free 15-minute call any time. Add the link to every text and email." }),
+      h("div", { class: "row" }, h("a", { class: "btn", href: BOOK_URL, target: "_blank", rel: "noopener noreferrer", text: "Open booking page" }), bookBtn())));
     out.appendChild(h("h2", { text: "Note to HQ" }));
     var ta = h("textarea", { "aria-label": "Note to HQ", placeholder: "Anything: a reply you got, a decision, a reminder. It lands in the HQ inbox." });
     out.appendChild(h("div", { class: "card" }, ta,
@@ -384,7 +396,8 @@
       return h("article", { class: "card" },
         h("div", { class: "spread" }, h("h3", { text: (l.callSheet || ("#" + (i + 1))) + "  " + l.name }), statusChip(l)),
         h("div", { class: "row" }, tel ? h("a", { class: "btn primary call", href: tel, text: l.phone }) : h("span", { class: "call", text: l.phone || "No phone" }),
-          l.phoneAlt ? h("a", { class: "btn", href: telHref(l.phoneAlt), text: "2nd: " + l.phoneAlt }) : null),
+          l.phoneAlt ? h("a", { class: "btn", href: telHref(l.phoneAlt), text: "2nd: " + l.phoneAlt }) : null,
+          bookBtn()),
         l.bestTime ? h("p", { class: "small muted", text: l.bestTime }) : null,
         l.contact ? h("p", { class: "small", text: "Ask for " + l.contact }) : null,
         h("div", { class: "row" }, tierBadge(l.tier, true)),
@@ -631,7 +644,7 @@
           l.hookSource ? h("p", { class: "small muted wrap" }, "Source: " + l.hookSource + " ", link ? h("a", { href: link, target: "_blank", rel: "noopener noreferrer", text: "open" }) : null) : null,
           l.bestTime ? h("p", { class: "small", text: "Best time: " + l.bestTime }) : null,
           l.address ? h("p", { class: "small wrap", text: l.address }) : null,
-          h("div", { class: "row" }, tel ? h("a", { class: "btn", href: tel, text: "Call " + l.phone }) : null, l.email ? h("span", { class: "small wrap", text: l.email }) : null),
+          h("div", { class: "row" }, tel ? h("a", { class: "btn", href: tel, text: "Call " + l.phone }) : null, bookBtn(), l.email ? h("span", { class: "small wrap", text: l.email }) : null),
           h("p", { class: "small", style: "font-weight:600", text: "Update status" }),
           h("div", { class: "opts", role: "group", "aria-label": "Status for " + l.name }, STATUSES.map(function (s) {
             return h("button", { type: "button", "aria-pressed": leadStatus(l) === s.k ? "true" : "false", onclick: function () { setLeadStatus(l, s.k); }, text: s.label });
