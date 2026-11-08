@@ -332,7 +332,7 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
   });
 })();
 
-/* Live text-back moment in the hero: a short loop in a phone made of HTML and CSS.
+/* Hero phone loop (runs only if the page has a [data-live] element): a short loop in a phone made of HTML and CSS.
    Plays only while on screen, stops with the pause button, and shows the finished
    conversation (no motion) for reduced-motion visitors. */
 (function () {
@@ -395,7 +395,7 @@ if(document.readyState==='complete')setTimeout(go,400);else addEventListener('lo
   var finish = function () {
     var bad = answers.filter(function (a) { return a === "bad"; }).length;
     var text;
-    if (bad === 0) text = "Your basics look solid. A free Missed-Call Test will still show you exactly what callers hear.";
+    if (bad === 0) text = "Your basics look solid. A free homepage preview will still show you what a new customer could see.";
     else if (bad === 1) text = "One thing's likely costing you customers right now, without you knowing it.";
     else text = "A few things are likely costing you customers right now, and you probably don't know it yet.";
     summaryEl.textContent = text;

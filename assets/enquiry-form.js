@@ -1,12 +1,8 @@
 const SMS_NUMBER = "+17273127758";
 
+export const DEFAULT_OFFER = "homepage-preview";
+
 export const OFFERS = Object.freeze({
-  "missed-call-test": Object.freeze({
-    label: "Free Missed-Call Test",
-    request: "Free Missed-Call Test",
-    detailLabel: "Most common service and price (optional)",
-    detailPlaceholder: "Example: Men’s cut, $25"
-  }),
   "homepage-preview": Object.freeze({
     label: "Free homepage preview",
     request: "Free homepage preview",
@@ -20,7 +16,8 @@ const MAX_SOURCE_LENGTH = 20;
 
 export function normalizeOffer(value) {
   const offer = String(value || "").trim().toLowerCase();
-  return Object.prototype.hasOwnProperty.call(OFFERS, offer) ? offer : "missed-call-test";
+  // Old links (flyers, cards) may name an offer we no longer run; they fall back to the preview.
+  return Object.prototype.hasOwnProperty.call(OFFERS, offer) ? offer : DEFAULT_OFFER;
 }
 
 export function normalizeSource(value) {
@@ -29,14 +26,14 @@ export function normalizeSource(value) {
 }
 
 export function readInitialState(search, storage) {
-  let offer = "missed-call-test";
+  let offer = DEFAULT_OFFER;
   let source = "";
   try {
     const params = new URLSearchParams(search || "");
     offer = normalizeOffer(params.get("offer"));
     source = normalizeSource(params.get("src"));
   } catch (error) {
-    offer = "missed-call-test";
+    offer = DEFAULT_OFFER;
     source = "";
   }
   if (!source && storage) {

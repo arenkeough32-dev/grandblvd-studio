@@ -599,7 +599,7 @@ html.mx:not(.motion-off) .px-contact>.film{transform:scale(calc(1.18 - var(--p,1
 .nav ul{gap:clamp(16px,1.9vw,30px)}
 .refer-wrap{padding-top:clamp(24px,3vw,40px)}
 
-/* ================= hero v2: cinematic street + live text-back moment ================= */
+/* ================= hero v2: cinematic street + phone figure ================= */
 .hero--film .hero-stage{--fade:clamp(72px,9vw,132px);min-height:min(100svh,880px);display:flex;align-items:center;padding-top:clamp(36px,5vw,72px);padding-bottom:var(--fade)}
 .hero--film .hero-stage>.wrap{width:100%}
 .hero--film .hero-grid{gap:clamp(36px,4vw,64px)}
@@ -699,7 +699,7 @@ html.mx:not(.motion-off) .px-contact>.film{transform:scale(calc(1.18 - var(--p,1
 html.mx:not(.motion-off) .px-hero .live{transform:perspective(1300px) translate3d(0,calc(var(--x,0)*-90px),0) rotateX(calc(var(--x,0)*9deg)) rotateY(calc(var(--x,0)*-7deg)) scale(calc(1 - var(--x,0)*.04));transform-origin:50% 60%;will-change:transform}
 @media (min-width:960px){.hero--film .live{justify-self:center}}
 
-/* section after the hero: why a missed call costs a booking */
+/* section after the hero: copy beside the desk-phone film */
 .missed{background:var(--paper-2);padding-block:clamp(72px,9vw,128px);overflow:hidden}
 .missed-grid{display:grid;gap:clamp(40px,6vw,88px);align-items:center}
 @media (min-width:960px){.missed-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}}
@@ -877,3 +877,14 @@ h3{letter-spacing:-.02em}
 .marquee-quotes .marquee-track span::after{background:var(--clay)}
 
 /* v2: FAQ-list growth and quiz/ticker reveal hookup use existing .reveal/.section rules above; no overrides needed. */
+
+/* hero v3: a real site we built, on a phone, in place of the animated conversation */
+.hero-phone{width:min(290px,70vw)}
+.hero-phone .screen img{display:block;width:100%;height:auto}
+.hero-phone + .live-cap{white-space:normal;text-align:center;max-width:min(320px,86vw)}
+@media (max-width:959px){
+  .hero--film .hero-phone{width:min(220px,58vw)}
+  .hero--film .hero-phone .screen{aspect-ratio:9/14.4;overflow:hidden}
+  .hero--film .hero-phone .screen img{height:100%;object-fit:cover;object-position:top}
+}
+@media (max-width:520px){.hero--film .hero-phone{width:172px}}

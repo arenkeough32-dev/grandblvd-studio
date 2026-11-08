@@ -15,8 +15,16 @@ import {
 
 test("normalizes known and unknown offers", () => {
   assert.equal(normalizeOffer("homepage-preview"), "homepage-preview");
-  assert.equal(normalizeOffer("MISSED-CALL-TEST"), "missed-call-test");
-  assert.equal(normalizeOffer("unknown"), "missed-call-test");
+  assert.equal(normalizeOffer("HOMEPAGE-PREVIEW"), "homepage-preview");
+  assert.equal(normalizeOffer("unknown"), "homepage-preview");
+});
+
+test("old missed-call-test links fall back to the homepage preview", () => {
+  assert.equal(normalizeOffer("missed-call-test"), "homepage-preview");
+  assert.deepEqual(readInitialState("?offer=missed-call-test&src=flyer", null), {
+    offer: "homepage-preview",
+    source: "flyer"
+  });
 });
 
 test("accepts only the existing safe source-token shape", () => {
@@ -33,22 +41,22 @@ test("reads offer and source from the query string", () => {
 });
 
 test("requires a shop name and rejects overlong or control-character input", () => {
-  const missing = validateStartForm({ offer: "missed-call-test", shopName: "  " });
+  const missing = validateStartForm({ offer: "homepage-preview", shopName: "  " });
   assert.equal(missing.ok, false);
   assert.equal(missing.errors.shopName, "Shop name is required.");
 
-  const overlong = validateStartForm({ offer: "missed-call-test", shopName: "x".repeat(81) });
+  const overlong = validateStartForm({ offer: "homepage-preview", shopName: "x".repeat(81) });
   assert.equal(overlong.ok, false);
   assert.match(overlong.errors.shopName, /80 characters/);
 
-  const control = validateStartForm({ offer: "missed-call-test", shopName: "Bad\u0007Name" });
+  const control = validateStartForm({ offer: "homepage-preview", shopName: "Bad\u0007Name" });
   assert.equal(control.ok, false);
   assert.match(control.errors.shopName, /control characters/);
 });
 
-test("builds a structured missed-call-test SMS body", () => {
+test("builds a structured SMS body with name, detail and source", () => {
   const result = validateStartForm({
-    offer: "missed-call-test",
+    offer: "homepage-preview",
     shopName: "Classic Styles Salon & Day Spa",
     contactName: "Tammy",
     detail: "Color correction, $120",
@@ -57,7 +65,7 @@ test("builds a structured missed-call-test SMS body", () => {
   assert.equal(result.ok, true);
   assert.equal(
     buildMessage(result.values),
-    "Hi Grand Blvd Studio! I'd like a Free Missed-Call Test.\n" +
+    "Hi Grand Blvd Studio! I'd like a Free homepage preview.\n" +
       "Shop: Classic Styles Salon & Day Spa\n" +
       "Name: Tammy\n" +
       "Detail: Color correction, $120\n" +
@@ -101,15 +109,15 @@ test("blocked storage cannot break initial state or leak details", () => {
     source: ""
   });
   assert.deepEqual(readInitialState("", blockedStorage), {
-    offer: "missed-call-test",
+    offer: "homepage-preview",
     source: ""
   });
 });
 
 test("session storage is used only as a fallback when no src parameter exists", () => {
   const storage = { getItem: (key) => (key === "gbs-src" ? "Deck-9" : null) };
-  assert.deepEqual(readInitialState("", storage), { offer: "missed-call-test", source: "deck-9" });
-  assert.deepEqual(readInitialState("?src=flyer", storage), { offer: "missed-call-test", source: "flyer" });
+  assert.deepEqual(readInitialState("", storage), { offer: "homepage-preview", source: "deck-9" });
+  assert.deepEqual(readInitialState("?src=flyer", storage), { offer: "homepage-preview", source: "flyer" });
 });
 
 test("start page markup keeps entered details out of the URL in every fallback path", () => {
@@ -126,9 +134,9 @@ test("start page markup keeps entered details out of the URL in every fallback p
 });
 
 test("empty optional fields are omitted from the message", () => {
-  const values = validateStartForm({ offer: "missed-call-test", shopName: "Zone Barber Shop" }).values;
+  const values = validateStartForm({ offer: "homepage-preview", shopName: "Zone Barber Shop" }).values;
   assert.equal(
     buildMessage(values),
-    "Hi Grand Blvd Studio! I'd like a Free Missed-Call Test.\nShop: Zone Barber Shop"
+    "Hi Grand Blvd Studio! I'd like a Free homepage preview.\nShop: Zone Barber Shop"
   );
 });
