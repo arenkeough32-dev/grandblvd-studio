@@ -1,0 +1,4 @@
+Archivo (assets/fonts/archivo.woff2)
+Copyright 2020 The Archivo Project Authors (https://github.com/Omnibus-Type/Archivo)
+Licensed under the SIL Open Font License, Version 1.1: https://openfontlicense.org
+Subset to Latin, weights 400-900, widths 62-100, converted to WOFF2.
