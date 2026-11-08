@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<title>Bluewater Hair Co. — Sample design | Grand Blvd Studio</title>
+<meta name="description" content="Sample homepage design for a fictional color-focused hair salon in New Port Richey, FL, by Grand Blvd Studio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gulf:#0A5FB4;
+  --gulf-2:#0E72D4;
+  --deep:#06305E;
+  --ink:#071E3D;
+  --ice:#EEF5FC;
+  --line:#CFE0F2;
+  --hot:#FF3D7F;
+  --hot-2:#FF6A9C;
+  --white:#FFFFFF;
+  --f:"Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gut:clamp(1rem, 4vw, 3.5rem);
+  --max:1240px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--white);color:var(--ink);font:400 1.0625rem/1.55 var(--f);font-stretch:100%;overflow-x:clip}
+svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{text-wrap:balance;margin:0;font-weight:850;font-stretch:125%;line-height:.92;letter-spacing:-.025em}
+p{margin:0 0 1em}
+:focus-visible{outline:3px solid var(--hot);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* sample banner */
+.sample{position:sticky;top:0;z-index:50;background:var(--ink);color:#DDE9F7;font-size:.8125rem;line-height:1.35}
+.sample .wrap{display:flex;gap:.75rem;justify-content:space-between;align-items:center;padding-top:.5rem;padding-bottom:.5rem}
+.sample a{color:var(--hot-2);font-weight:700;text-decoration:none;white-space:nowrap}
+.sample a:hover{text-decoration:underline}
+
+/* header */
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:1.1rem;padding-bottom:1.1rem}
+.logo{display:flex;align-items:center;gap:.55rem;text-decoration:none;color:var(--gulf)}
+.logo svg{width:38px;height:24px;flex:none}
+.logo b{font-weight:900;font-stretch:125%;font-size:1.2rem;letter-spacing:-.02em;line-height:1}
+.logo b span{color:var(--ink);font-weight:500;font-stretch:100%}
+.nav{display:none;gap:1.6rem;font-weight:600;font-size:.95rem}
+.nav a{text-decoration:none}
+.nav a:hover{color:var(--gulf);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:.85rem 1.5rem;border-radius:12px;font:750 1rem/1 var(--f);text-decoration:none;transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+.btn-hot{background:var(--hot);color:var(--ink)}
+.btn-blue{background:var(--gulf);color:var(--white)}
+.btn-ghost{background:var(--white);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn-ghost:hover{box-shadow:inset 0 0 0 2px var(--ink),4px 4px 0 var(--ink)}
+.btn-white{background:var(--white);color:var(--deep)}
+.top .btn{min-height:44px;padding:.6rem 1rem;font-size:.92rem;display:none}
+
+/* hero */
+.hero{padding:1.5rem 0 0}
+.hero > .wrap{position:relative}
+.hero-grid{display:grid;gap:1.75rem}
+.hero h1{font-size:clamp(3.4rem,15.5vw,8.6rem);color:var(--gulf);text-transform:none}
+.hero h1 .l2{display:block;color:var(--ink)}
+@media (max-width:999px){.hero h1 .a{display:block}}
+.hero .lede{font-size:1.15rem;max-width:36ch;margin:0}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:.75rem}
+.hero-side{display:grid;gap:1.5rem;align-content:start}
+.stamp{position:absolute;right:var(--gut);top:-.25rem;width:112px;height:112px;transform:rotate(12deg);z-index:2}
+.stamp svg{width:100%;height:100%}
+
+/* swatch ring */
+.ring{margin-top:2.5rem;position:relative}
+.rod{height:12px;border-radius:6px;background:linear-gradient(180deg,#D7DDE4,#9AA6B3 60%,#C9D1DA);box-shadow:0 2px 0 rgba(7,30,61,.15)}
+.swatches{list-style:none;margin:0;padding:0 2%;display:grid;grid-template-columns:repeat(10,1fr) .6fr repeat(3,1fr);gap:3px}
+.swatches li{position:relative;transform-origin:50% -6px;animation:swing 1.6s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--i) * 60ms)}
+.swatches li.gap{animation:none}
+.sw{height:clamp(150px,30vw,300px);border-radius:3px 3px 40% 40% / 3px 3px 12% 12%;background:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.10) 0 1px,transparent 1px 3px,rgba(0,0,0,.08) 3px 4px),
+  linear-gradient(180deg,rgba(255,255,255,.18),transparent 30%,rgba(0,0,0,.12)),var(--c);
+  position:relative}
+.sw::before{content:"";position:absolute;left:50%;top:-10px;width:12px;height:16px;margin-left:-6px;border:3px solid #9AA6B3;border-radius:8px;background:transparent}
+.swatches small{display:block;text-align:center;font-weight:700;font-stretch:75%;font-size:.8rem;margin-top:.35rem;color:#45607F}
+@keyframes swing{0%{transform:rotate(9deg)}100%{transform:rotate(0)}}
+.ring-cap{display:flex;justify-content:space-between;gap:1rem;font-size:.85rem;color:#45607F;margin-top:.6rem;padding:0 2%}
+
+/* ticker band */
+.band{background:var(--gulf);color:var(--white);margin-top:3rem}
+.band .wrap{display:flex;flex-wrap:wrap;gap:.4rem 1.5rem;padding-top:1rem;padding-bottom:1rem;font-weight:800;font-stretch:112%;font-size:clamp(1rem,2.6vw,1.35rem)}
+.band span{display:inline-flex;align-items:center;gap:1.5rem}
+.band span:not(:last-child)::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--hot)}
+
+/* services */
+section{scroll-margin-top:3rem}
+.services{padding:5rem 0}
+.head{display:grid;gap:1rem;margin-bottom:2.5rem}
+.head h2{font-size:clamp(2.6rem,9vw,5.2rem)}
+.head p{max-width:46ch;margin:0;color:#2C4566}
+.svc-grid{display:grid;gap:2.5rem}
+.svc h3{font-size:1.6rem;font-stretch:112%;color:var(--gulf);padding-bottom:.75rem;border-bottom:3px solid var(--ink)}
+.svc dl{margin:0}
+.svc .item{display:grid;grid-template-columns:1fr auto;gap:.15rem 1rem;padding:.9rem 0;border-bottom:1px solid var(--line)}
+.svc dt{font-weight:700}
+.svc dd{margin:0;font-weight:800;font-stretch:75%;font-size:1.2rem;white-space:nowrap;text-align:right}
+.svc .item small{grid-column:1/-1;color:#4A6587;font-size:.92rem}
+.svc-note{margin-top:2rem;font-size:.92rem;color:#4A6587;max-width:64ch}
+
+/* consult */
+.consult{background:var(--deep);color:var(--white);position:relative;overflow:hidden}
+.consult .wrap{padding-top:5rem;padding-bottom:5rem;display:grid;gap:2rem;position:relative;z-index:1}
+.consult h2{font-size:clamp(2.3rem,10.4vw,8rem);line-height:.88}
+.consult .wrap > *{min-width:0}
+.consult h2 span{display:block;color:var(--hot)}
+.consult p{max-width:44ch;font-size:1.15rem;color:#D5E4F5;margin:0}
+.consult ul{list-style:none;padding:0;margin:0;display:grid;gap:.6rem;font-weight:600}
+.consult li{display:flex;gap:.6rem;align-items:start}
+.consult li svg{flex:none;width:22px;height:22px;margin-top:.1rem}
+.waves{position:absolute;inset:auto 0 0 0;height:60%;opacity:.5;pointer-events:none}
+.waves svg{width:100%;height:100%}
+
+/* team */
+.team{padding:5rem 0}
+.cards{display:grid;gap:1rem}
+.card{border:2px solid var(--ink);border-radius:18px;overflow:hidden;display:grid;grid-template-columns:120px 1fr;background:var(--white)}
+.mono{display:grid;place-items:center;font-weight:900;font-stretch:62%;font-size:5.2rem;line-height:1;letter-spacing:-.04em;position:relative;overflow:hidden}
+.mono span{position:relative;z-index:1}
+.m1{background:var(--gulf);color:var(--white)}
+.m2{background:var(--hot);color:var(--ink)}
+.m3{background:var(--ice);color:var(--gulf)}
+.m4{background:var(--ink);color:var(--hot-2)}
+.m1::before,.m3::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.12) 0 6px,transparent 6px 14px)}
+.m3::before{background:repeating-linear-gradient(135deg,rgba(10,95,180,.10) 0 6px,transparent 6px 14px)}
+.m2::before,.m4::before{content:"";position:absolute;width:140%;aspect-ratio:1;border-radius:50%;border:14px solid rgba(255,255,255,.18);left:-20%;top:40%}
+.card-body{padding:1.1rem 1.15rem}
+.card h3{font-size:1.65rem;font-stretch:112%}
+.card .role{color:var(--gulf);font-weight:700;margin:.35rem 0 .5rem;font-size:.95rem}
+.card p{margin:0;font-size:.95rem;color:#2C4566}
+.tag{display:inline-block;margin-top:.7rem;font-size:.8rem;font-weight:700;background:#FFE3EC;color:#8E0F3E;border-radius:999px;padding:.25rem .6rem}
+
+/* reviews */
+.reviews{padding:0 0 5rem}
+.rv{border:2px dashed #7FA6D0;border-radius:22px;background:var(--ice);padding:2.5rem 1.5rem;display:grid;gap:1rem;justify-items:start}
+.rv svg{width:56px;height:56px}
+.rv h2{font-size:clamp(1.9rem,6vw,3.2rem);font-stretch:112%;color:var(--deep)}
+.rv p{margin:0;max-width:52ch;color:#2C4566}
+
+/* gallery */
+.gallery{padding:0 0 5rem}
+.gallery .head h2{font-size:clamp(2.4rem,8vw,4.4rem)}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
+.tile{min-height:180px;border-radius:14px;display:flex;align-items:end;padding:.85rem;position:relative;overflow:hidden}
+.tile span{position:relative;z-index:1;background:var(--white);color:var(--ink);font-weight:700;font-size:.82rem;border-radius:8px;padding:.35rem .6rem;white-space:nowrap}
+.g1{background:linear-gradient(180deg,#3B2A20 0 20%,#8C6440 50%,#EEDDB8 100%);grid-row:span 2;min-height:372px}
+.g2{background:linear-gradient(135deg,var(--hot) 0 40%,#E58AA6 40% 70%,#FFD3E1 70%)}
+.g3{background:radial-gradient(circle at 80% 20%,var(--gulf-2) 0 25%,transparent 26%),var(--deep)}
+.g4{background:linear-gradient(90deg,#C4612B,#E89A5C)}
+.g5{background:repeating-linear-gradient(90deg,#DCC08F 0 6px,#C49F6A 6px 9px,#EEDDB8 9px 14px)}
+.g6{background:linear-gradient(160deg,var(--ice),#A9C9EC);grid-column:span 2;min-height:140px}
+
+/* visit */
+.visit{background:var(--ice);padding:5rem 0}
+.visit-grid{display:grid;gap:3rem}
+.visit h2{font-size:clamp(2.4rem,8vw,4rem);margin-bottom:1.5rem}
+.hours{width:100%;border-collapse:collapse}
+.hours th,.hours td{text-align:left;padding:.8rem 0;border-bottom:1px solid var(--line);font-weight:500}
+.hours td{text-align:right;font-weight:800;font-stretch:87.5%}
+.hours .closed td{color:#6B819C;font-weight:500}
+.hours .late th::after{content:"Late night";margin-left:.6rem;font-size:.75rem;font-weight:700;background:var(--hot);color:var(--ink);padding:.15rem .45rem;border-radius:999px;vertical-align:middle}
+.map{border:2px solid var(--ink);border-radius:18px;overflow:hidden;background:#DDEBF8}
+.map svg{width:100%;height:auto}
+.find p{margin:1.25rem 0 0}
+.find .ctas{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}
+
+/* faq */
+.faq{padding:5rem 0}
+.faq h2{font-size:clamp(2.4rem,8vw,4rem);margin-bottom:1.5rem}
+details{border-top:2px solid var(--ink)}
+details:last-of-type{border-bottom:2px solid var(--ink)}
+summary{cursor:pointer;list-style:none;padding:1.25rem 3rem 1.25rem 0;font-weight:800;font-stretch:112%;font-size:clamp(1.15rem,3.4vw,1.45rem);position:relative;line-height:1.2}
+summary::-webkit-details-marker{display:none}
+summary::before,summary::after{content:"";position:absolute;right:.4rem;top:50%;width:18px;height:3px;background:var(--hot);border-radius:2px;transition:transform .2s ease}
+summary::after{transform:rotate(90deg)}
+details[open] summary::after{transform:rotate(0)}
+details p{max-width:64ch;margin:0;padding-bottom:1.3rem;color:#2C4566}
+
+footer{background:var(--ink);color:#BFD3EA;padding:3.5rem 0 7rem;font-size:.95rem}
+.foot{display:grid;gap:2rem}
+footer .logo{color:var(--white)}
+footer .logo b span{color:#BFD3EA}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+footer a{text-decoration:none}
+footer a:hover{text-decoration:underline}
+.credit{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(191,211,234,.2);font-size:.85rem}
+.credit a{color:var(--hot-2)}
+
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:1fr 1.4fr;gap:.5rem;padding:.6rem var(--gut) calc(.6rem + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:2px solid var(--ink)}
+.bar .btn{min-height:48px}
+
+@media (min-width:700px){
+  .cards{grid-template-columns:1fr 1fr}
+  .tiles{grid-template-columns:repeat(4,1fr)}
+  .g1{grid-row:span 2}
+  .g6{grid-column:span 2;min-height:180px}
+  .foot{grid-template-columns:2fr 1fr 1fr}
+  .stamp{width:140px;height:140px}
+}
+@media (min-width:1000px){
+  .nav{display:flex}
+  .top .btn{display:inline-flex}
+  .hero{padding-top:3rem}
+  .hero-grid{grid-template-columns:1fr 330px;align-items:end;gap:3rem}
+  .stamp{top:0;right:calc(var(--gut) + 60px);width:170px;height:170px}
+  .svc-grid{grid-template-columns:1fr 1fr;column-gap:4rem;row-gap:3.5rem}
+  .head{grid-template-columns:1fr auto;align-items:end}
+  .consult-body{display:grid;grid-template-columns:1fr auto;column-gap:4rem;align-items:end}
+  .consult-body ul{margin-bottom:0!important}
+  .cards{grid-template-columns:repeat(4,1fr)}
+  .card{grid-template-columns:1fr;grid-template-rows:200px auto}
+  .mono{font-size:8rem}
+  .visit-grid{grid-template-columns:1fr 1.2fr;align-items:start}
+  .rv{grid-template-columns:auto 1fr;align-items:center;column-gap:2rem;padding:2.5rem 3rem}
+  .rv svg{grid-row:span 2}
+  .bar{display:none}
+  footer{padding-bottom:3.5rem}
+}
+@media (max-width:440px){
+  .sample .wrap{font-size:.75rem}
+  .swatches small{font-size:.7rem}
+  .swatches{gap:2px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sample" role="note" aria-label="About this page">
+  <div class="wrap">
+    <span>Sample design · fictional business · by Grand Blvd Studio</span>
+    <a href="/designs/">See all samples →</a>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Bluewater Hair Co. home">
+      <svg viewBox="0 0 38 24" role="img" aria-label="Bluewater logo: two waves">
+        <path d="M2 9c4-5 8-5 12 0s8 5 12 0 8-5 10-2" fill="none" stroke="#0A5FB4" stroke-width="3.4" stroke-linecap="round"/>
+        <path d="M2 18c4-5 8-5 12 0s8 5 12 0 8-5 10-2" fill="none" stroke="#FF3D7F" stroke-width="3.4" stroke-linecap="round"/>
+      </svg>
+      <b>Bluewater <span>Hair Co.</span></b>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#team">Stylists</a>
+      <a href="#visit">Hours &amp; location</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-hot" href="#">Book now</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="stamp">
+      <svg viewBox="0 0 140 140" role="img" aria-label="Badge: Hablamos español, we speak Spanish">
+        <defs><path id="circ" d="M70 70m-52 0a52 52 0 1 1 104 0a52 52 0 1 1-104 0"/></defs>
+        <circle cx="70" cy="70" r="68" fill="#FF3D7F"/>
+        <circle cx="70" cy="70" r="40" fill="#071E3D"/>
+        <text font-family="Archivo, sans-serif" font-weight="800" font-size="12.5" fill="#071E3D"><textPath href="#circ" textLength="320" lengthAdjust="spacing">HABLAMOS ESPAÑOL • HABLAMOS ESPAÑOL •</textPath></text>
+        <text x="70" y="66" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-size="17" fill="#FFFFFF">¡Hola!</text>
+        <text x="70" y="84" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="600" font-size="10.5" fill="#FF8DB3">en español</text>
+      </svg>
+    </div>
+    <div class="hero-grid">
+      <h1 id="hero-title"><span class="a">Big</span> <span class="a">color.</span><span class="l2">Healthy hair.</span></h1>
+      <div class="hero-side">
+        <p class="lede">A color-first salon in New Port Richey for balayage, color correction, extensions and bridal. Every new client starts with a free consultation.</p>
+        <div class="ctas">
+          <a class="btn btn-hot" href="#">Book now</a>
+          <a class="btn btn-ghost" href="#">Call (727) 555-0148</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="ring" role="img" aria-label="Hair color swatch ring showing levels 1, darkest, to 10, lightest blonde, plus copper, rose and blue fashion tones">
+      <div class="rod"></div>
+      <ul class="swatches" aria-hidden="true">
+        <li style="--i:0"><div class="sw" style="--c:#1A1414"></div><small>1</small></li>
+        <li style="--i:1"><div class="sw" style="--c:#2B1E19"></div><small>2</small></li>
+        <li style="--i:2"><div class="sw" style="--c:#3B2A20"></div><small>3</small></li>
+        <li style="--i:3"><div class="sw" style="--c:#55392A"></div><small>4</small></li>
+        <li style="--i:4"><div class="sw" style="--c:#6E4B33"></div><small>5</small></li>
+        <li style="--i:5"><div class="sw" style="--c:#8C6440"></div><small>6</small></li>
+        <li style="--i:6"><div class="sw" style="--c:#A9814F"></div><small>7</small></li>
+        <li style="--i:7"><div class="sw" style="--c:#C49F6A"></div><small>8</small></li>
+        <li style="--i:8"><div class="sw" style="--c:#DCC08F"></div><small>9</small></li>
+        <li style="--i:9"><div class="sw" style="--c:#EEDDB8"></div><small>10</small></li>
+        <li class="gap"></li>
+        <li style="--i:10"><div class="sw" style="--c:#C4612B"></div><small>Cu</small></li>
+        <li style="--i:11"><div class="sw" style="--c:#E58AA6"></div><small>Ro</small></li>
+        <li style="--i:12"><div class="sw" style="--c:#2F7FD0"></div><small>Bl</small></li>
+      </ul>
+      <div class="ring-cap" aria-hidden="true"><span>Natural levels, darkest to lightest</span><span>Fashion tones</span></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="wrap" aria-label="Specialties">
+      <span>Balayage</span><span>Color correction</span><span>Extensions</span><span>Bridal</span><span>Vivids</span>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services" aria-labelledby="svc-title">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="svc-title">Services &amp; prices</h2>
+      <p>Prices start at the low number and depend on hair length, thickness and time. You’ll get an exact quote at your consultation, before anything starts.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc">
+        <h3>Color</h3>
+        <dl>
+          <div class="item"><dt>Balayage</dt><dd>$180–300</dd><small>Hand-painted, soft grow-out. Toner included.</small></div>
+          <div class="item"><dt>Full highlights</dt><dd>$150–220</dd><small>Foils from root to ends, with toner</small></div>
+          <div class="item"><dt>Single-process color</dt><dd>$85–120</dd><small>All-over color or root touch-up</small></div>
+          <div class="item"><dt>Gloss or toner refresh</dt><dd>$45–65</dd><small>Brings back shine and tone between visits</small></div>
+          <div class="item"><dt>Vivid and fashion color</dt><dd>$150+</dd><small>Pinks, blues, coppers. Lightening priced separately.</small></div>
+        </dl>
+      </div>
+      <div class="svc">
+        <h3>Color correction</h3>
+        <dl>
+          <div class="item"><dt>Correction session</dt><dd>$110/hr</dd><small>Box dye removal, banding, brassiness. Consultation required first.</small></div>
+          <div class="item"><dt>Strand test</dt><dd>Free</dd><small>Done during your consultation so there are no surprises</small></div>
+        </dl>
+        <h3 style="margin-top:2.5rem">Cuts &amp; styling</h3>
+        <dl>
+          <div class="item"><dt>Cut and style</dt><dd>$55–75</dd><small>Includes wash and blowout</small></div>
+          <div class="item"><dt>Short cut or men’s cut</dt><dd>$30–40</dd><small>Clipper or scissor work</small></div>
+          <div class="item"><dt>Blowout</dt><dd>$40–55</dd><small>Smooth, bouncy or beachy</small></div>
+        </dl>
+      </div>
+      <div class="svc">
+        <h3>Extensions</h3>
+        <dl>
+          <div class="item"><dt>Tape-in, full head</dt><dd>$450–700</dd><small>Hair included. Move-ups every 6 to 8 weeks.</small></div>
+          <div class="item"><dt>Hand-tied wefts</dt><dd>$800+</dd><small>Seamless volume and length, hair included</small></div>
+          <div class="item"><dt>Move-up appointment</dt><dd>$150–250</dd><small>Re-tape or re-tie, plus a blowout</small></div>
+        </dl>
+      </div>
+      <div class="svc">
+        <h3>Bridal</h3>
+        <dl>
+          <div class="item"><dt>Bridal hair</dt><dd>$150–200</dd><small>Day-of styling, in salon or on location</small></div>
+          <div class="item"><dt>Bridal trial</dt><dd>$85</dd><small>Try the look a few weeks before the date</small></div>
+          <div class="item"><dt>Bridesmaids and family</dt><dd>$85–110</dd><small>Per person, updos or soft waves</small></div>
+        </dl>
+      </div>
+    </div>
+    <p class="svc-note">On-location bridal has a travel fee outside Pasco County. A card holds your appointment; we ask for 48 hours’ notice to reschedule.</p>
+  </div>
+</section>
+
+<section class="consult" aria-labelledby="consult-title">
+  <div class="waves" aria-hidden="true">
+    <svg viewBox="0 0 1200 300" preserveAspectRatio="none">
+      <path d="M0 120 C150 60 300 180 450 120 S750 60 900 120 S1100 180 1200 120 V300 H0Z" fill="#0A5FB4" opacity=".55"/>
+      <path d="M0 190 C150 130 300 250 450 190 S750 130 900 190 S1100 250 1200 190 V300 H0Z" fill="#0A5FB4"/>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div>
+      <h2 id="consult-title">Free<span>consultation</span></h2>
+    </div>
+    <div class="consult-body">
+      <div>
+      <p>Fifteen minutes with your stylist, in the chair or over video. Bring photos of hair you love and hair you don’t.</p>
+      <ul style="margin:1.5rem 0 2rem">
+        <li><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="11" fill="#FF3D7F"/><path d="M6 11.5l3.2 3L16 8" stroke="#071E3D" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>An exact price before we start</li>
+        <li><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="11" fill="#FF3D7F"/><path d="M6 11.5l3.2 3L16 8" stroke="#071E3D" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>A strand test for big changes</li>
+        <li><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="11" fill="#FF3D7F"/><path d="M6 11.5l3.2 3L16 8" stroke="#071E3D" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>No pressure to book on the spot</li>
+      </ul>
+      </div>
+      <a class="btn btn-hot" href="#">Book a free consultation</a>
+    </div>
+  </div>
+</section>
+
+<section class="team" id="team" aria-labelledby="team-title">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="team-title">Meet the stylists</h2>
+      <p>Pick someone by specialty, or tell us what you want and we’ll match you.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <div class="mono m1" aria-hidden="true"><span>M</span></div>
+        <div class="card-body">
+          <h3>Marisol</h3>
+          <p class="role">Balayage and color correction</p>
+          <p>Takes on the box-dye rescues and the brassy-to-beige jobs.</p>
+          <span class="tag">Habla español</span>
+        </div>
+      </article>
+      <article class="card">
+        <div class="mono m2" aria-hidden="true"><span>D</span></div>
+        <div class="card-body">
+          <h3>Dani</h3>
+          <p class="role">Vivids and fashion color</p>
+          <p>Copper, pink, Gulf blue, and how to keep them from fading.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="mono m3" aria-hidden="true"><span>K</span></div>
+        <div class="card-body">
+          <h3>Kendra</h3>
+          <p class="role">Extensions</p>
+          <p>Tape-ins and hand-tied wefts, blended to match your color.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="mono m4" aria-hidden="true"><span>L</span></div>
+        <div class="card-body">
+          <h3>Luz</h3>
+          <p class="role">Bridal and special occasion</p>
+          <p>Trials, updos and soft waves that last through the reception.</p>
+          <span class="tag">Habla español</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" aria-labelledby="rv-title">
+  <div class="wrap">
+    <div class="rv">
+      <svg viewBox="0 0 56 56" role="img" aria-label="Speech bubble placeholder"><path d="M8 10h40a4 4 0 0 1 4 4v22a4 4 0 0 1-4 4H24l-10 9v-9H8a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4Z" fill="#0A5FB4"/><circle cx="18" cy="25" r="3" fill="#FF3D7F"/><circle cx="28" cy="25" r="3" fill="#FF3D7F"/><circle cx="38" cy="25" r="3" fill="#FF3D7F"/></svg>
+      <h2 id="rv-title">Your best Google reviews appear here</h2>
+      <p>On a live site, this space shows real reviews from the salon’s Google Business Profile, updated automatically.</p>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" aria-labelledby="gal-title">
+  <div class="wrap">
+    <div class="head">
+      <h2 id="gal-title">Recent color</h2>
+      <p>Before-and-afters from the chair, posted weekly.</p>
+    </div>
+    <div class="tiles">
+      <div class="tile g1"><span>Your work photos here</span></div>
+      <div class="tile g2"><span>Your work photos here</span></div>
+      <div class="tile g3"><span>Your work photos here</span></div>
+      <div class="tile g4"><span>Your work photos here</span></div>
+      <div class="tile g5"><span>Your work photos here</span></div>
+      <div class="tile g6"><span>Your work photos here</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="visit" aria-label="Hours and location">
+  <div class="wrap visit-grid">
+    <div>
+      <h2>Hours</h2>
+      <table class="hours">
+        <caption class="sr">Opening hours</caption>
+        <tbody>
+          <tr class="closed"><th scope="row">Sunday</th><td>Closed</td></tr>
+          <tr class="closed"><th scope="row">Monday</th><td>Closed</td></tr>
+          <tr><th scope="row">Tuesday</th><td>9am – 6pm</td></tr>
+          <tr class="late"><th scope="row">Wednesday</th><td>10am – 8pm</td></tr>
+          <tr class="late"><th scope="row">Thursday</th><td>10am – 8pm</td></tr>
+          <tr><th scope="row">Friday</th><td>9am – 6pm</td></tr>
+          <tr><th scope="row">Saturday</th><td>8am – 4pm</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="find">
+      <h2>How to find us</h2>
+      <div class="map">
+        <svg viewBox="0 0 600 340" role="img" aria-label="Map placeholder showing the salon's pin in New Port Richey near the river and the Gulf">
+          <rect width="600" height="340" fill="#DDEBF8"/>
+          <path d="M0 0 H90 C70 70 110 120 80 190 C60 240 95 290 70 340 H0Z" fill="#9EC3EA"/>
+          <path d="M80 190 C160 170 210 230 290 210 S420 150 600 175" fill="none" stroke="#9EC3EA" stroke-width="18" stroke-linecap="round"/>
+          <g stroke="#FFFFFF" stroke-width="12" stroke-linecap="round">
+            <path d="M120 70 H600"/><path d="M120 290 H600"/><path d="M250 0 V340"/><path d="M430 0 V340"/>
+          </g>
+          <g stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity=".9">
+            <path d="M330 0 V160"/><path d="M330 240 V340"/><path d="M500 110 H600"/><path d="M130 130 H240"/>
+          </g>
+          <circle cx="345" cy="110" r="30" fill="#FF3D7F" opacity=".2"/>
+          <path d="M345 76c-13 0-23 10-23 22 0 16 23 40 23 40s23-24 23-40c0-12-10-22-23-22Z" fill="#FF3D7F" stroke="#071E3D" stroke-width="2.5"/>
+          <circle cx="345" cy="98" r="7" fill="#071E3D"/>
+          <text x="16" y="322" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="#06305E">Gulf</text>
+          <text x="470" y="322" font-family="Archivo, sans-serif" font-size="14" font-weight="600" fill="#06305E">Map placeholder</text>
+        </svg>
+      </div>
+      <p>New Port Richey, FL. Free parking in the lot out front. Running late? Text us and we’ll let you know if we can still fit you in.</p>
+      <div class="ctas">
+        <a class="btn btn-blue" href="#">Get directions</a>
+        <a class="btn btn-ghost" href="#">Call (727) 555-0148</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <h2 id="faq-title">Good questions</h2>
+    <details>
+      <summary>I colored my hair at home and it went wrong. Can you fix it?</summary>
+      <p>Usually, yes. Book a free consultation first. We’ll look at your hair in person, do a strand test and give you a plan and a price. Big corrections are sometimes done over two visits to keep your hair healthy.</p>
+    </details>
+    <details>
+      <summary>How long does a balayage appointment take?</summary>
+      <p>Plan on three to four hours, including toner, a cut if you want one, and a blowout. Longer or thicker hair can take a bit more.</p>
+    </details>
+    <details>
+      <summary>¿Puedo hacer mi cita en español?</summary>
+      <p>¡Sí! Marisol y Luz hablan español. Llámanos o menciona “español” cuando reserves en línea y te asignamos con una de ellas. Yes, two of our stylists speak Spanish, so just ask when you book.</p>
+    </details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a class="logo" href="#" aria-label="Bluewater Hair Co. home">
+          <svg viewBox="0 0 38 24" aria-hidden="true"><path d="M2 9c4-5 8-5 12 0s8 5 12 0 8-5 10-2" fill="none" stroke="#2F7FD0" stroke-width="3.4" stroke-linecap="round"/><path d="M2 18c4-5 8-5 12 0s8 5 12 0 8-5 10-2" fill="none" stroke="#FF3D7F" stroke-width="3.4" stroke-linecap="round"/></svg>
+          <b>Bluewater <span>Hair Co.</span></b>
+        </a>
+        <p style="margin-top:1rem;max-width:36ch">Color, cuts, extensions and bridal in New Port Richey, FL. Hablamos español.</p>
+      </div>
+      <ul aria-label="Contact">
+        <li><a href="#">(727) 555-0148</a></li>
+        <li><a href="#">Book online</a></li>
+        <li><a href="#">Free consultation</a></li>
+      </ul>
+      <ul aria-label="Social">
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">Google</a></li>
+      </ul>
+    </div>
+    <p class="credit">Bluewater Hair Co. is a fictional business. This is a sample design by <a href="/designs/">Grand Blvd Studio</a>.</p>
+  </div>
+</footer>
+
+<nav class="bar" aria-label="Quick actions">
+  <a class="btn btn-ghost" href="#">Call</a>
+  <a class="btn btn-hot" href="#">Book now</a>
+</nav>
+</body>
+</html>
