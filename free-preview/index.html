@@ -108,6 +108,24 @@
  ]
 }
 </script>
+<style>
+.fp-form,.fp-done{margin:1.5rem 0;padding:1.25rem;border:1px solid var(--line,#d8cfc0);border-radius:var(--radius,14px);background:var(--paper-2,#fff8ee);display:grid;gap:.85rem;max-width:36rem}
+.fp-h{font-family:var(--serif,Georgia,serif);font-size:1.35rem;margin:0}
+.fp-form label{display:grid;gap:.3rem;font-weight:600;font-size:.95rem}
+.fp-form input,.fp-form textarea{font:inherit;font-weight:400;padding:.7rem .8rem;border:1px solid var(--line,#cfc4b3);border-radius:10px;background:#fff;color:var(--ink,#1d1a16);width:100%;box-sizing:border-box}
+.fp-form input:focus,.fp-form textarea:focus{outline:2px solid var(--clay,#b5562f);outline-offset:1px}
+.fp-two{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.fp-form fieldset{border:0;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:.4rem .8rem}
+.fp-form legend{font-weight:600;font-size:.95rem;margin-bottom:.4rem;padding:0}
+.fp-form .fp-chk{display:flex;align-items:center;gap:.5rem;font-weight:400}
+.fp-form .fp-chk input{width:1.15rem;height:1.15rem;accent-color:var(--clay,#b5562f)}
+.fp-opt{font-weight:400;color:var(--muted,#6b6257)}
+.fp-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+.fp-small{font-size:.85rem;color:var(--muted,#6b6257);margin:0}
+.fp-err{color:#a3261b;margin:0;font-weight:600}
+.fp-or{margin:.5rem 0 .25rem;font-weight:600}
+@media (max-width:520px){.fp-two,.fp-form fieldset{grid-template-columns:1fr}}
+</style>
 </head>
 <body class="subpage">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -146,7 +164,33 @@
     <div class="wrap prose">
       <p class="eyebrow">Free homepage preview</p>
 <h1 class="page-title">See your shop’s homepage on your phone before you spend a cent.</h1>
-<p class="lede">Text us your shop’s name. We’ll make a free homepage preview for your shop, so you can see it on your phone before you spend a cent. No obligation.</p>
+<p class="lede">Tell us your shop’s name. We’ll make a free homepage preview for your shop, so you can see it on your phone before you spend a cent. No obligation.</p>
+<form class="fp-form" id="preview-form" novalidate>
+  <p class="fp-h">Get your free preview</p>
+  <label>Shop name<input name="shop" required maxlength="80" autocomplete="organization" placeholder="Your shop's name"></label>
+  <div class="fp-two">
+    <label>Your first name <span class="fp-opt">(optional)</span><input name="name" maxlength="40" autocomplete="given-name"></label>
+    <label>Mobile number<input name="phone" required inputmode="tel" autocomplete="tel" maxlength="20" placeholder="(727) 555-0123"></label>
+  </div>
+  <label>Town <span class="fp-opt">(optional)</span><input name="town" maxlength="40" placeholder="New Port Richey"></label>
+  <fieldset><legend>What would help most?</legend>
+    <label class="fp-chk"><input type="checkbox" name="wants" value="A new website"> A new website</label>
+    <label class="fp-chk"><input type="checkbox" name="wants" value="Fix my Google listing"> Fix my Google listing</label>
+    <label class="fp-chk"><input type="checkbox" name="wants" value="Online booking"> Online booking</label>
+    <label class="fp-chk"><input type="checkbox" name="wants" value="Not sure yet"> Not sure yet</label>
+  </fieldset>
+  <label>Anything else? <span class="fp-opt">(optional)</span><textarea name="note" rows="2" maxlength="400"></textarea></label>
+  <label class="fp-hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label>
+  <button class="btn btn-primary" type="submit">Send me my free preview</button>
+  <p class="fp-small">We only use your number to text you about your preview. No spam, no obligation. <a href="/privacy/">Privacy</a></p>
+  <p class="fp-err" role="alert" hidden></p>
+</form>
+<div class="fp-done" id="preview-done" role="status" tabindex="-1" hidden>
+  <p class="fp-h">Got it, thank you!</p>
+  <p>Aren will text you today from (727) 312-7758 to get started on your preview.</p>
+  <p class="fp-book" hidden><a class="btn btn-ghost" href="#" target="_blank" rel="noopener">Pick a time for a 15-minute call</a></p>
+</div>
+<p class="fp-or">Prefer to text, email or call?</p>
 <div class="cta-row">
   <a class="btn btn-primary" href="sms:+17273127758?&amp;body=Hi!%20I%27d%20like%20a%20free%20homepage%20preview%20for%20my%20shop%3A%20"><svg aria-hidden="true"><use href="#i-chat"/></svg>Text us your shop’s name</a>
   <a class="btn btn-ghost" data-email href="mailto:hello@grandblvdstudio.com?subject=Free%20homepage%20preview&amp;body=Hi!%20I%27d%20like%20a%20free%20homepage%20preview%20for%20my%20shop%3A%20"><svg aria-hidden="true"><use href="#i-mail"/></svg>Email us</a>
@@ -230,5 +274,42 @@
 </nav>
 
 <script src="/assets/site.js" defer></script>
+<script>
+(function(){
+  var CFG={"inbox":"gbs-in-f7ddc586ecd10030a544c06e","ping":"gbs-ping-4bcdee6102db7c5235230ed0","publicJwk":{"kty":"RSA","n":"xzkmjStoy6k9wK8XkBTwYjgZ4yPclWniibGJgmPVB95VSDuTrA9krOecWpvWSgCDdLxt6uZawZExd07c5_Fmk3gBBxRuOldt6dRDAp0r_MiA6s3hdv6mI8lrpyGmEfouFsycUX9ClsRm6YimrbaTe3hDRAg4bO6nJ6zjae7cnRL-awN1YqPbv5-Yb9pewJKck7z8XtUpd7TdirUD9jddoMv_XDMmqzp79i9XyF2IdA-LkrCXohrOyVY2c8wPrqFUjKRGjaKZG70_ehbTDMh3LyvcbgP1HfLdPiCoeSvWmPEmz5SCLzV-Bjv3kWuDjCa_XTlF5JIq7XpDPJOHYWGaPPlnj7m261JdnqkCrJnyml-aZky7z_kYmzL3Z21U9zMYqe83Y-46o__Z1rXUQb7yxzlLMZDYZ_lzn8fDmR3au3zfZLf8dbnbALZZANeb6eqhoi7XkaN12cJNjEbJmgKpzInLuMhg7pHlfHxLiYWYw3KRduUDLa7kN47DlLgDliFr","e":"AQAB"}};
+  var BOOK_URL="";
+  var f=document.getElementById("preview-form"),done=document.getElementById("preview-done");
+  if(!f||!window.crypto||!crypto.subtle||!window.fetch){if(f){f.hidden=true;}return;}
+  var t0=Date.now(),err=f.querySelector(".fp-err"),btn=f.querySelector("button[type=submit]");
+  function b64(buf){var s="",a=new Uint8Array(buf);for(var i=0;i<a.length;i++)s+=String.fromCharCode(a[i]);return btoa(s);}
+  function fail(msg){err.textContent=msg;err.hidden=false;btn.disabled=false;btn.textContent="Send me my free preview";}
+  function recent(){try{var d=JSON.parse(localStorage.getItem("gbs.fp")||"[]"),now=Date.now();return d.filter(function(x){return now-x<864e5;});}catch(e){return [];}}
+  function showDone(){f.hidden=true;done.hidden=false;if(BOOK_URL){var bk=done.querySelector(".fp-book");bk.hidden=false;bk.querySelector("a").href=BOOK_URL;}try{done.focus();}catch(e){}}
+  f.addEventListener("submit",async function(ev){
+    ev.preventDefault();err.hidden=true;
+    var shop=f.shop.value.trim(),phone=f.phone.value.trim(),digits=phone.replace(/\D/g,"");
+    if(!shop){fail("Please add your shop's name.");f.shop.focus();return;}
+    if(!(digits.length===10||(digits.length===11&&digits[0]==="1"))){fail("Please add a 10-digit mobile number so Aren can text you.");f.phone.focus();return;}
+    var data={shop:shop,name:f.name.value.trim(),phone:phone,town:f.town.value.trim(),wants:[].slice.call(f.querySelectorAll("input[name=wants]:checked")).map(function(x){return x.value;}),note:f.note.value.trim(),hp:f.website.value?1:0,page:location.pathname,secs:Math.round((Date.now()-t0)/1000)};
+    if(data.hp||data.secs<3){showDone();return;}
+    if(recent().length>=3){showDone();return;}
+    btn.disabled=true;btn.textContent="Sending...";
+    try{
+      var pub=await crypto.subtle.importKey("jwk",{kty:CFG.publicJwk.kty,n:CFG.publicJwk.n,e:CFG.publicJwk.e,alg:"RSA-OAEP-256",ext:true},{name:"RSA-OAEP",hash:"SHA-256"},false,["encrypt"]);
+      var aes=await crypto.subtle.generateKey({name:"AES-GCM",length:256},true,["encrypt"]);
+      var iv=crypto.getRandomValues(new Uint8Array(12));
+      var ct=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},aes,new TextEncoder().encode(JSON.stringify(data)));
+      var k=await crypto.subtle.encrypt({name:"RSA-OAEP"},pub,await crypto.subtle.exportKey("raw",aes));
+      var env=JSON.stringify({v:1,k:b64(k),iv:b64(iv),ct:b64(ct)});
+      var r=await fetch("https://ntfy.sh/",{method:"POST",body:JSON.stringify({topic:CFG.inbox,message:env})});
+      if(!r.ok){throw new Error("send "+r.status);}
+      fetch("https://ntfy.sh/",{method:"POST",body:JSON.stringify({topic:CFG.ping,title:"New free-preview request",message:"A shop just asked for a free preview. Text them today.",priority:4,tags:["star"]})}).catch(function(){});
+      try{var d=recent();d.push(Date.now());localStorage.setItem("gbs.fp",JSON.stringify(d));}catch(e){}
+      showDone();
+    }catch(e){fail("Sorry, that didn't go through. Please text your shop's name to (727) 312-7758 instead.");}
+  });
+})();
+</script>
+
 </body>
 </html>
