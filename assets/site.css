@@ -438,7 +438,8 @@ h1 em,h2 em{font-weight:400;color:var(--clay)}
 .price-addon{display:grid;grid-template-columns:1fr;gap:6px}
 .price-addon .amount small{font-family:var(--sans);font-size:.95rem;color:var(--muted);margin-left:6px;letter-spacing:0}
 .price-addon .pitch{margin-bottom:14px}
-.price-addon .btn{justify-self:start}
+.price-addon .btn{justify-self:start;max-width:100%;white-space:normal;text-align:center;line-height:1.25;padding-block:10px}
+.addons>*{min-width:0}
 /* readable small text (12px minimum) */
 .proof small,.ba-pair figcaption b,.badge{font-size:.78rem}
 /* ghost button keeps contrast over the moving film */
