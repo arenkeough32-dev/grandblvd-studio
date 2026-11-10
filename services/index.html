@@ -292,6 +292,61 @@
 .dz-card p{margin:0;color:var(--ink-2,#1F5A5F);font-size:.95rem}
 .dz-tag{display:inline-block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#2F5B5E);margin-bottom:6px}
 @media (prefers-reduced-motion:reduce){.dz-card{transition:none}.dz-card:hover{transform:none}}
+/* How we run it: six parts */
+.sx{margin:40px 0 0;padding:34px 20px 30px;border-radius:calc(var(--radius,14px) + 8px);background:var(--ink,#08343A);color:#F5FBF8}
+@media (min-width:720px){.sx{padding:48px 40px 40px}}
+.sx .eyebrow{color:var(--orange-hi,#FF8A57)}
+.sx h2{color:#F5FBF8;font-weight:800;font-size:clamp(1.9rem,5.4vw,2.9rem);max-width:22ch}
+.sx h2 em{color:var(--orange-hi,#FF8A57);font-style:normal;font-weight:800}
+.sx-lede{color:#BFDCD3;max-width:44rem;margin:14px 0 0;font-size:1.05rem;line-height:1.55}
+.sx-grid{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px;grid-template-columns:1fr;counter-reset:none}
+@media (min-width:720px){.sx-grid{grid-template-columns:1fr 1fr}}
+@media (min-width:1080px){.sx-grid{grid-template-columns:1fr 1fr 1fr}}
+.sx-card{display:flex;flex-direction:column;gap:10px;padding:22px 20px 20px;border:1px solid rgba(191,220,211,.22);border-radius:var(--radius,14px);background:rgba(255,255,255,.04)}
+.sx-top{display:flex;align-items:baseline;gap:12px}
+.sx-n{font-family:var(--serif);font-weight:800;font-size:1.05rem;color:var(--orange,#FF6A2B);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.sx-card h3{font-family:var(--serif);font-weight:800;font-size:1.35rem;color:#F5FBF8;margin:0}
+.sx-big{margin:0;font-weight:600;color:#F5FBF8;line-height:1.4}
+.sx-card ul{margin:0;padding-left:18px;display:grid;gap:6px;color:#BFDCD3;font-size:.96rem;line-height:1.45}
+.sx-who{margin:auto 0 0!important;padding-top:12px;border-top:1px solid rgba(191,220,211,.18);font-size:.86rem;color:#9CC8BB}
+.sx-close{margin:26px 0 0;color:#BFDCD3;max-width:46rem;line-height:1.55}
+.sx-close strong{color:#F5FBF8}
+.sx .cta-row{margin-top:20px}
+/* phones: the six parts swipe sideways instead of stacking */
+@media (max-width:719px){
+  .sx-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-20px;padding:0 20px 10px;scroll-padding-inline:20px;-webkit-overflow-scrolling:touch}
+  .sx-card{flex:0 0 84%;scroll-snap-align:start}
+  .sx-swipe{display:block}
+}
+.sx-swipe{display:none;margin:10px 0 0;font-size:.86rem;color:#9CC8BB}
+/* header photo */
+.sv-hero-img{margin:28px 0 0}
+.sv-hero-img img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:calc(var(--radius,14px) + 6px);box-shadow:0 30px 60px -30px rgba(8,52,58,.45)}
+@media (max-width:719px){.sv-hero-img img{aspect-ratio:4/3}}
+@media (min-width:720px){.sv-hero-img img{aspect-ratio:21/9;object-position:center 62%}}
+/* catalogue groups fold away */
+.sv-fold{border:1px solid var(--line,#B9DCCB);border-radius:calc(var(--radius,14px) + 4px);background:var(--paper-2,#EEF8F3);overflow:hidden}
+.sv-fold>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr;gap:0}
+.sv-fold>summary::-webkit-details-marker{display:none}
+.sv-fold>summary img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.sv-sum{display:grid;gap:6px;padding:18px 20px 20px;position:relative}
+.sv-sum h2{margin:0;font-weight:800;font-size:clamp(1.45rem,4.6vw,1.9rem);padding-right:48px}
+.sv-sum .sv-lede{margin:0;color:var(--ink-2,#1F5A5F);line-height:1.5}
+.sv-count{font-size:.86rem;font-weight:600;color:var(--clay,#A8390A);letter-spacing:.02em}
+.sv-sum::after{content:"";position:absolute;top:22px;right:20px;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink,#08343A);background:
+  linear-gradient(var(--ink,#08343A),var(--ink,#08343A)) center/12px 1.5px no-repeat,
+  linear-gradient(var(--ink,#08343A),var(--ink,#08343A)) center/1.5px 12px no-repeat;transition:transform .2s ease}
+.sv-fold[open] .sv-sum::after{transform:rotate(45deg)}
+.sv-fold>summary:hover .sv-sum h2{color:var(--clay,#A8390A)}
+.sv-fold .sv-grid{padding:0 20px 22px}
+@media (min-width:900px){
+  .sv-fold>summary{grid-template-columns:minmax(0,380px) 1fr;align-items:center}
+  .sv-fold>summary img{aspect-ratio:3/2;height:100%}
+  .sv-sum{padding:24px 28px}
+}
+.sv-group{margin:18px 0 0}
+.sv-group:first-of-type{margin-top:40px}
+@media (prefers-reduced-motion:reduce){.sv-sum::after{transition:none}}
 </style>
 </head>
 <body class="subpage">
@@ -333,11 +388,29 @@
   <a class="btn btn-primary" href="/free-preview/"><svg aria-hidden="true"><use href="#i-arrow"/></svg>Start with a free homepage preview</a>
   <a class="btn btn-ghost" href="/designs/">See sample designs</a>
 </div>
-<ul class="sv-jump" aria-label="Jump to a group"><li><a href="#websites">Websites</a></li><li><a href="#google">Get found on Google</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#booking">Bookings and smart tools</a></li><li><a href="#content">Content and video</a></li></ul>
+<figure class="sv-hero-img"><img src="/media/gbs-svc-hero-900.webp" srcset="/media/gbs-svc-hero-480.webp 480w, /media/gbs-svc-hero-900.webp 900w, /media/gbs-svc-hero-1200.webp 1200w, /media/gbs-svc-hero-1600.webp 1600w" sizes="(min-width:1240px) 1100px, 92vw" width="1600" height="1066" alt="A salon front desk with a laptop, a phone and a plant in afternoon light" fetchpriority="high"></figure>
+<ul class="sv-jump" aria-label="Jump to a group"><li><a href="#how-we-run-it">How we run it</a></li><li><a href="#websites">Websites</a></li><li><a href="#google">Get found on Google</a></li><li><a href="#reviews">Reviews</a></li><li><a href="#booking">Bookings and smart tools</a></li><li><a href="#content">Content and video</a></li></ul>
+
+<section class="sx" id="how-we-run-it" aria-labelledby="sx-h">
+<p class="eyebrow">How we run it: six parts</p>
+<h2 id="sx-h">A website is step one. <em>We run the rest.</em></h2>
+<p class="sx-lede">We set your shop up to be found, booked and remembered, then keep it working every month. You run the shop, and you approve every word.</p>
+<ol class="sx-grid">
+<li class="sx-card"><div class="sx-top"><span class="sx-n">01</span><h3>Plan</h3></div><p class="sx-big">We start with your reviews.</p><ul><li>A free preview of your homepage, on your own phone, before you pay anything</li><li>A review check: what your clients praise most, and what the top shops near you get reviewed for</li><li>An honest pick: the one or two things that would help your shop most</li></ul><p class="sx-who">Free preview for every shop. The review check comes with every monthly plan.</p></li>
+<li class="sx-card"><div class="sx-top"><span class="sx-n">02</span><h3>Be found</h3></div><p class="sx-big">When someone nearby looks you up, your profile looks open, busy and looked after.</p><ul><li>Your Google profile cleaned up: right categories, every service, real photos, correct hours and holiday hours</li><li>A fast website with your real prices as text Google can read, not a photo of a flyer</li><li>4 Google posts a month, fresh photos and updated hours and services</li></ul><p class="sx-who">Growth and Pro (one-page website included). Websites on their own from $249; posts and updates on the $49 care plan.</p></li>
+<li class="sx-card"><div class="sx-top"><span class="sx-n">03</span><h3>Booked</h3></div><p class="sx-big">Every way to reach you works, even when your hands are full.</p><ul><li>A phone assistant that answers in your shop’s name, day or night, in English and Spanish</li><li>Call, Text and Book buttons that stay on screen the whole way down</li><li>Online booking connected to the app you already use, and a “Book now” button on your Google profile</li></ul><p class="sx-who">Phone assistant: Growth and Pro. Online booking: the $649 five-page website.</p></li>
+<li class="sx-card"><div class="sx-top"><span class="sx-n">04</span><h3>Reviews</h3></div><p class="sx-big">More five-star reviews, and every one answered.</p><ul><li>A friendly review request after every visit, to every client, never only the happy ones</li><li>A personal reply to every review, in your voice</li><li>Tough reviews: we draft a calm reply and check it with you first</li></ul><p class="sx-who">Every plan, from Starter at $149 a month.</p></li>
+<li class="sx-card"><div class="sx-top"><span class="sx-n">05</span><h3>Videos and ads</h3></div><p class="sx-big">Ads that look like the place people will walk into.</p><ul><li>A shot list made for your shop: about 20 minutes of filming on your phone</li><li>3 short videos to start, then 2 new ones every month, with captions and music cleared to use</li><li>Local ads in your own ad account, checked and adjusted every week</li></ul><p class="sx-who">Pro. Your ad budget is yours, paid to the ad platform. Want posts without ads? Try the $149 social starter pack.</p></li>
+<li class="sx-card"><div class="sx-top"><span class="sx-n">06</span><h3>Your numbers</h3></div><p class="sx-big">Real numbers every month, in plain words.</p><ul><li>Your live results page, open any time</li><li>What happened: new reviews, your rating, a summary of every call, and how many people tapped to call, book or get directions</li><li>A check-in every month, with the same person every time</li></ul><p class="sx-who">Every plan includes the results page and the monthly check-in. Call summaries come with Growth; ad results with Pro.</p></li>
+</ol>
+<p class="sx-swipe" aria-hidden="true">Swipe sideways for all six →</p>
+<p class="sx-close"><strong>You run the shop. We run the rest.</strong> Month to month, no long contract, and your website, Google profile, number and ad account stay in your name.</p>
+<div class="cta-row"><a class="btn btn-primary" href="/free-preview/"><svg aria-hidden="true"><use href="#i-arrow"/></svg>Start with a free homepage preview</a></div>
+</section>
 
 <section class="sv-group" id="websites" aria-labelledby="websites-h">
-<h2 id="websites-h">Websites</h2>
-<p class="sv-lede">Fast on a phone, easy to book from, and yours to keep.</p>
+<details class="sv-fold">
+<summary><img src="/media/gbs-svc-websites-900.webp" srcset="/media/gbs-svc-websites-480.webp 480w, /media/gbs-svc-websites-900.webp 900w, /media/gbs-svc-websites-1200.webp 1200w" sizes="(min-width:900px) 380px, 92vw" width="1200" height="796" alt="A laptop and a phone on a salon front desk" loading="lazy"><span class="sv-sum"><h2 id="websites-h">Websites</h2><span class="sv-lede">Fast on a phone, easy to book from, and yours to keep.</span><span class="sv-count">6 services · from $249, paid once</span></span></summary>
 <div class="sv-grid">
 <article class="sv-card"><h3>One-page website</h3><p>Your services, prices, hours, photos, map and a one-tap call or book button, on one fast page.</p><p class="sv-price">$249 <small>one time</small></p></article>
 <article class="sv-card"><h3>Three-page website</h3><p>Room for a full service menu, a gallery of your work and an about page.</p><p class="sv-price">$449 <small>one time</small></p></article>
@@ -346,49 +419,67 @@
 <article class="sv-card"><h3>Spanish version</h3><p>A full Spanish version of your site, so more of your neighbors can read and book in their own language.</p><p class="sv-price">Ask for a quote <small></small></p></article>
 <article class="sv-card"><h3>Your menu or price list online</h3><p>As real text that Google can read and customers can scroll, not a blurry photo of a flyer.</p><p class="sv-price">Included <small>with every website</small></p></article>
 </div>
+</details>
 </section>
 
 <section class="sv-group" id="google" aria-labelledby="google-h">
-<h2 id="google-h">Get found on Google</h2>
-<p class="sv-lede">When someone nearby searches for what you do, these put you on the map.</p>
+<details class="sv-fold">
+<summary><img src="/media/gbs-svc-found-900.webp" srcset="/media/gbs-svc-found-480.webp 480w, /media/gbs-svc-found-900.webp 900w, /media/gbs-svc-found-1200.webp 1200w" sizes="(min-width:900px) 380px, 92vw" width="1200" height="796" alt="Someone checking a map on their phone on a sunny shopping street" loading="lazy"><span class="sv-sum"><h2 id="google-h">Get found on Google</h2><span class="sv-lede">When someone nearby searches for what you do, these put you on the map.</span><span class="sv-count">4 services · posts and photos from $49 a month</span></span></summary>
 <div class="sv-grid">
 <article class="sv-card"><h3>Google Business Profile setup and cleanup</h3><p>Right categories, every service, real photos, correct hours and holiday hours, and a description that sounds like you.</p><p class="sv-price">Ask for a quote <small></small></p></article>
 <article class="sv-card"><h3>Listings cleanup</h3><p>Your name, address and phone made the same on Google, Facebook, Yelp, Bing, Apple Maps and Nextdoor, so Google trusts them.</p><p class="sv-price">Ask for a quote <small></small></p></article>
 <article class="sv-card"><h3>Pages for the towns around you</h3><p>A page for each nearby town you serve, so people searching from Holiday, Trinity or Hudson can find you too.</p><p class="sv-price">Ask for a quote <small></small></p></article>
 <article class="sv-card"><h3>Monthly Google posts and fresh photos</h3><p>New posts and photos every month, so your profile looks open, busy and looked after.</p><p class="sv-price">$49 <small>/month care plan</small></p></article>
 </div>
+</details>
 </section>
 
 <section class="sv-group" id="reviews" aria-labelledby="reviews-h">
-<h2 id="reviews-h">Reviews</h2>
-<p class="sv-lede">More five-star reviews, and every review answered.</p>
+<details class="sv-fold">
+<summary><img src="/media/gbs-svc-reviews-900.webp" srcset="/media/gbs-svc-reviews-480.webp 480w, /media/gbs-svc-reviews-900.webp 900w, /media/gbs-svc-reviews-1200.webp 1200w" sizes="(min-width:900px) 380px, 92vw" width="1200" height="796" alt="A review card with a scan code on a spa counter" loading="lazy"><span class="sv-sum"><h2 id="reviews-h">Reviews</h2><span class="sv-lede">More five-star reviews, and every review answered.</span><span class="sv-count">2 services · Starter plan, $149 a month</span></span></summary>
 <div class="sv-grid">
 <article class="sv-card"><h3>Review request kit</h3><p>A QR sign for your counter and a friendly text after each visit that asks happy clients for a review.</p><p class="sv-price">$149 <small>/month Starter plan</small></p></article>
 <article class="sv-card"><h3>Review replies in your voice</h3><p>Short, personal replies to every review, the good ones and the tough ones.</p><p class="sv-price">$149 <small>/month Starter plan</small></p></article>
 </div>
+</details>
 </section>
 
 <section class="sv-group" id="booking" aria-labelledby="booking-h">
-<h2 id="booking-h">Bookings and smart tools</h2>
-<p class="sv-lede">Make it easy to book you, even when you’re busy with a client.</p>
+<details class="sv-fold">
+<summary><img src="/media/gbs-svc-booking-900.webp" srcset="/media/gbs-svc-booking-480.webp 480w, /media/gbs-svc-booking-900.webp 900w, /media/gbs-svc-booking-1200.webp 1200w" sizes="(min-width:900px) 380px, 92vw" width="1200" height="796" alt="A phone showing a booking calendar beside nail polish bottles" loading="lazy"><span class="sv-sum"><h2 id="booking-h">Bookings and smart tools</h2><span class="sv-lede">Make it easy to book you, even when you’re busy with a client.</span><span class="sv-count">4 services · phone assistant on the Growth plan</span></span></summary>
 <div class="sv-grid">
 <article class="sv-card"><h3>Online booking button</h3><p>A “Book now” button on your site and Google profile, connected to Square, Vagaro, GlossGenius, Booksy, Fresha or the app you use.</p><p class="sv-price">Included <small>with the five-page site</small></p></article>
 <article class="sv-card"><h3>Phone assistant</h3><p>Answers your calls in your shop’s name, day or night, and books the appointment.</p><p class="sv-price">$297 <small>/month Growth plan</small></p></article>
 <article class="sv-card"><h3>Website question helper</h3><p>Answers the usual questions on your site (hours, prices, parking, booking) at any hour, and hands anything tricky to you.</p><p class="sv-price">Ask for a quote <small></small></p></article>
 <article class="sv-card"><h3>Email sign-up page and monthly email</h3><p>Collect your clients’ emails at the counter, then send one friendly email a month with specials and openings.</p><p class="sv-price">$49 <small>/month care plan</small></p></article>
 </div>
+</details>
 </section>
 
 <section class="sv-group" id="content" aria-labelledby="content-h">
-<h2 id="content-h">Content and video</h2>
-<p class="sv-lede">Ready-to-post content made from your real shop.</p>
+<details class="sv-fold">
+<summary><img src="/media/pack-pro-900.webp" srcset="/media/pack-pro-480.webp 480w, /media/pack-pro-900.webp 900w, /media/pack-pro-1280.webp 1280w" sizes="(min-width:900px) 380px, 92vw" alt="Short videos for a local shop, ready to post" loading="lazy"><span class="sv-sum"><h2 id="content-h">Content and video</h2><span class="sv-lede">Ready-to-post content made from your real shop.</span><span class="sv-count">4 services · social starter pack $149</span></span></summary>
 <div class="sv-grid">
 <article class="sv-card"><h3>Social starter pack</h3><p>A month of posts, done: 12 images and 12 captions from your shop’s real photos, a 30-day posting calendar, Google posts, Story highlight covers, a bio rewrite, an email sign-up page and a QR counter sign.</p><p class="sv-price">$149 <small>one time</small></p></article>
 <article class="sv-card"><h3>Short videos for Reels and TikTok</h3><p>Your phone clips edited into short, punchy videos with captions and music that’s cleared to use.</p><p class="sv-price">Ask for a quote <small></small></p></article>
 <article class="sv-card"><h3>Voiceover for ads and videos</h3><p>A clear, friendly American voice for your ads, videos and phone greeting.</p><p class="sv-price">Ask for a quote <small></small></p></article>
 <article class="sv-card"><h3>Local ads with short videos</h3><p>Ads shown to people nearby, run in your own ad account so you always own it. The ad budget is yours.</p><p class="sv-price">$497 <small>/month Pro plan</small></p></article>
 </div>
+</details>
 </section>
+
+<script>
+(function(){
+  function openFromHash(){
+    var id = location.hash.slice(1); if(!id) return;
+    var el = document.getElementById(id); if(!el) return;
+    var d = el.matches('details') ? el : el.querySelector('details.sv-fold');
+    if(d && !d.open){ d.open = true; }
+  }
+  window.addEventListener('hashchange', openFromHash);
+  openFromHash();
+})();
+</script>
 
 <section class="sv-group" aria-labelledby="how-h">
 <h2 id="how-h">How every job starts</h2>

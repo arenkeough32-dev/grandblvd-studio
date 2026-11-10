@@ -45,6 +45,75 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
     onScroll();
   }
 
+  // Phone menu: one list for every page, added here so every page that loads this file gets it.
+  // The button shows below 980 px; from there the desktop .nav takes over (site.css).
+  var row = document.querySelector(".site-header .header-row");
+  if (row && header && !document.getElementById("m-nav")) {
+    var docEl = document.documentElement;
+    var links = [
+      ["/services/", "Services"],
+      ["/designs/", "Samples"],
+      ["/work/classic-styles/", "Our work"],
+      ["/pricing/", "Pricing"],
+      ["/free-preview/", "Free preview"],
+      ["/book/", "Book a call"]
+    ];
+    var here = location.pathname.replace(/index\.html?$/, "");
+    if (here.slice(-1) !== "/") here += "/";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "menu-btn";
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-controls", "m-nav");
+    btn.innerHTML = '<span class="menu-icon" aria-hidden="true"><i></i><i></i><i></i></span>Menu';
+    var panel = document.createElement("nav");
+    panel.id = "m-nav";
+    panel.className = "m-nav";
+    panel.setAttribute("aria-label", "Main");
+    panel.hidden = true;
+    var inner = document.createElement("div");
+    inner.className = "m-nav-in";
+    var ul = document.createElement("ul");
+    links.forEach(function (l) {
+      var li = document.createElement("li"), a = document.createElement("a");
+      a.href = l[0];
+      a.textContent = l[1];
+      if (here === l[0]) a.setAttribute("aria-current", "page");
+      else if (here.indexOf(l[0]) === 0) a.setAttribute("aria-current", "true");
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    var cta = document.createElement("a");
+    cta.className = "btn btn-primary m-nav-cta";
+    cta.href = "/free-preview/";
+    cta.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M9 7h8v8"/></svg>Get my free preview';
+    inner.appendChild(ul);
+    inner.appendChild(cta);
+    panel.appendChild(inner);
+    row.appendChild(btn);
+    header.appendChild(panel);
+    var setOpen = function (open, focusBtn) {
+      if (open === !panel.hidden) return;
+      panel.hidden = !open;
+      btn.setAttribute("aria-expanded", String(open));
+      docEl.classList.toggle("menu-open", open);
+      if (!open && focusBtn) btn.focus();
+    };
+    btn.addEventListener("click", function () { setOpen(panel.hidden, false); });
+    panel.addEventListener("click", function (e) { if (e.target.closest && e.target.closest("a")) setOpen(false, false); });
+    document.addEventListener("click", function (e) {
+      if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) setOpen(false, false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if ((e.key === "Escape" || e.key === "Esc") && !panel.hidden) {
+        setOpen(false, panel.contains(document.activeElement) || document.activeElement === btn);
+      }
+    });
+    var wide = window.matchMedia("(min-width: 980px)");
+    var onWide = function () { if (wide.matches) setOpen(false, false); };
+    if (wide.addEventListener) wide.addEventListener("change", onWide); else if (wide.addListener) wide.addListener(onWide);
+  }
+
   // Pause slow animations while they are off screen (saves battery)
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -263,27 +332,7 @@ var STUDIO_EMAIL = "hello@grandblvdstudio.com";
   var rm = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (rm.addEventListener) rm.addEventListener("change", function () { root.classList.toggle("mx", !rm.matches); refresh(); });
 
-  // 3. Count-ups on prices and scores
-  var nums = [].slice.call(document.querySelectorAll(".amount span, .proof strong"));
-  var count = function (el) {
-    var txt = el.textContent, m = txt.match(/^([\d,]+)(.*)$/);
-    if (!m || off()) return;
-    var end = parseInt(m[1].replace(/,/g, ""), 10), rest = m[2], t0 = null, dur = 1300;
-    var fmt = function (n) { return m[1].indexOf(",") > -1 ? n.toLocaleString("en-US") : String(n); };
-    var step = function (ts) {
-      if (!t0) t0 = ts;
-      var k = clamp((ts - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-      el.textContent = fmt(Math.round(end * e)) + rest;
-      if (k < 1) requestAnimationFrame(step); else el.textContent = txt;
-    };
-    requestAnimationFrame(step);
-  };
-  if ("IntersectionObserver" in window) {
-    var cio = new IntersectionObserver(function (es) {
-      es.forEach(function (e) { if (e.isIntersecting) { count(e.target); cio.unobserve(e.target); } });
-    }, { threshold: 0.6 });
-    nums.forEach(function (n) { cio.observe(n); });
-  }
+  // 3. (Prices and scores no longer count up from 0: the real number shows from the first frame, even on a slow phone.)
 
   // 4. Cards lean toward the pointer; primary buttons pull gently (mouse only)
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
@@ -417,35 +466,3 @@ if(document.readyState==='complete')setTimeout(go,400);else addEventListener('lo
   showStep(0);
 })();
 
-/* v2: Card-back reveal on tap, for touch devices (hover/focus handles it elsewhere via CSS). */
-(function () {
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-  document.querySelectorAll(".services-grid .card").forEach(function (c) {
-    if (!c.querySelector(".card-back")) return;
-    c.addEventListener("click", function (e) {
-      if (e.target.closest("a,button")) return;
-      c.classList.toggle("is-open");
-    });
-  });
-})();
-
-/* Trust numbers count up once when they scroll into view (skipped for reduced motion). */
-(function () {
-  var els = document.querySelectorAll("[data-count]");
-  if (!els.length || !("IntersectionObserver" in window)) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      io.unobserve(e.target);
-      var el = e.target, end = +el.getAttribute("data-count"), t0 = performance.now();
-      if (!end) return;
-      (function step(t) {
-        var p = Math.min(1, (t - t0) / 900);
-        el.textContent = String(Math.round(end * (1 - Math.pow(1 - p, 3))));
-        if (p < 1) requestAnimationFrame(step);
-      })(t0);
-    });
-  }, { threshold: 0.6 });
-  els.forEach(function (el) { io.observe(el); });
-})();

@@ -125,6 +125,18 @@
 .fp-err{color:#a3261b;margin:0;font-weight:600}
 .fp-or{margin:.5rem 0 .25rem;font-weight:600}
 .fp-call{margin-top:14px}
+.fp-sample{margin:1.75rem 0 .5rem;max-width:36rem}
+.fp-browser{display:block;border-radius:12px;overflow:hidden;background:#08343A;padding:0 8px 8px;text-decoration:none;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 24px 44px -24px rgba(8,52,58,.55),0 6px 14px -8px rgba(8,52,58,.3);transition:transform .3s ease}
+.fp-browser:hover{transform:translateY(-2px)}
+.fp-browser:focus-visible{outline:3px solid var(--orange,#FF6A2B);outline-offset:3px}
+.fp-bar{display:flex;align-items:center;gap:5px;height:28px;padding:0 3px}
+.fp-bar i{flex:none;width:8px;height:8px;border-radius:50%;background:rgba(245,251,248,.28)}
+.fp-bar i:first-child{background:#FF6A2B}
+.fp-bar span{margin-inline:auto;min-width:0;font-size:.72rem;line-height:1.5;color:rgba(245,251,248,.82);background:rgba(245,251,248,.1);padding:1px 12px;border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fp-browser img{display:block;width:100%;height:auto;border-radius:5px;background:#fff}
+.fp-sample figcaption{font-size:.9rem;color:var(--muted,#2F5B5E);margin-top:12px;line-height:1.45}
+@media (min-width:700px){.fp-sample{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:22px;align-items:end;max-width:none}.fp-sample figcaption{margin:0 0 6px}}
+@media (prefers-reduced-motion:reduce){.fp-browser{transition:none}.fp-browser:hover{transform:none}}
 @media (max-width:520px){.fp-two,.fp-form fieldset{grid-template-columns:1fr}}
 </style>
 </head>
@@ -163,6 +175,13 @@
       <p class="eyebrow">Free homepage preview</p>
 <h1 class="page-title">See your shop’s homepage on your phone before you spend a cent.</h1>
 <p class="lede">Tell us your shop’s name. We’ll make a free homepage preview for your shop, so you can see it on your phone before you spend a cent. No obligation.</p>
+<figure class="fp-sample">
+  <a class="fp-browser" href="/designs/bluewater-hair-co/">
+    <span class="fp-bar" aria-hidden="true"><i></i><i></i><i></i><span>Sample · Bluewater Hair Co.</span></span>
+    <img src="/designs/bluewater-hair-co/thumb.webp" width="900" height="593" decoding="async" alt="Sample homepage for Bluewater Hair Co., a made-up hair salon: the headline Big color. Healthy hair., a Book now button and a row of hair color swatches.">
+  </a>
+  <figcaption>What a preview looks like (a made-up sample shop). <a class="text-link" href="/designs/bluewater-hair-co/">Open the full sample</a></figcaption>
+</figure>
 <form class="fp-form" id="preview-form" novalidate>
   <p class="fp-h">Get your free preview</p>
   <label>Shop name<input name="shop" required maxlength="80" autocomplete="organization" placeholder="Your shop's name"></label>
