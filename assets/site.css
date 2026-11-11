@@ -591,7 +591,7 @@ html.mx:not(.motion-off) .px-contact>.film{transform:scale(calc(1.18 - var(--p,1
 .note-list b{display:block;font-family:var(--serif);font-weight:400;font-size:1.3rem;line-height:1.2;margin-bottom:6px}
 .note-list span{color:var(--ink-2);font-size:1rem}
 /* buttons inside article-style pages keep their own colors */
-.prose .btn-primary{color:var(--paper)}
+.prose .btn-primary{color:var(--ink)}
 .prose .btn-ghost{color:var(--ink)}
 .prose .cta-row{margin:28px 0 0}
 .nav a{white-space:nowrap}
