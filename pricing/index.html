@@ -80,9 +80,9 @@
      "priceSpecification": {"@type": "UnitPriceSpecification", "price": "496.88", "priceCurrency": "USD", "unitCode": "MON", "billingDuration": 1, "billingIncrement": 1},
      "seller": {"@id": "https://grandblvdstudio.com/#studio"}
     },
-    {"@type": "Offer", "name": "One-page website", "description": "One fast page with services, real prices, hours, photos, map, reviews and one-tap call, text and book buttons. Paid once.", "price": "248.88", "priceCurrency": "USD", "seller": {"@id": "https://grandblvdstudio.com/#studio"}},
-    {"@type": "Offer", "name": "Three-page website", "description": "A homepage, a full services and prices page, and a gallery of real work with the shop’s story. Paid once.", "price": "448.88", "priceCurrency": "USD", "seller": {"@id": "https://grandblvdstudio.com/#studio"}},
-    {"@type": "Offer", "name": "Five-page website with online booking", "description": "Everything in the three-page site, two more pages of the owner’s choice, and online booking connected to the app the shop already uses. Paid once.", "price": "648.88", "priceCurrency": "USD", "seller": {"@id": "https://grandblvdstudio.com/#studio"}},
+    {"@type": "Offer", "name": "One-page website", "description": "One fast page with services, real prices, hours, photos, map, reviews and one-tap call, text and book buttons. Paid once. Founding price for the first 5 shops.", "price": "248.88", "priceCurrency": "USD", "seller": {"@id": "https://grandblvdstudio.com/#studio"}},
+    {"@type": "Offer", "name": "Three-page website", "description": "A homepage, a full services and prices page, and a gallery of real work with the shop’s story. Paid once. Founding price for the first 5 shops.", "price": "448.88", "priceCurrency": "USD", "seller": {"@id": "https://grandblvdstudio.com/#studio"}},
+    {"@type": "Offer", "name": "Five-page website with online booking", "description": "Everything in the three-page site, two more pages of the owner’s choice, and online booking connected to the app the shop already uses. Paid once. Founding price for the first 5 shops.", "price": "648.88", "priceCurrency": "USD", "seller": {"@id": "https://grandblvdstudio.com/#studio"}},
     {"@type": "Offer", "name": "Social starter pack", "description": "12 ready-to-post images and 12 captions made from the shop’s real photos, a 30-day posting calendar, 4 Google profile posts, 5 Story highlight covers, a bio rewrite, an email sign-up page, a QR counter sign and a 10-shot filming list. Paid once.", "price": "148.88", "priceCurrency": "USD", "seller": {"@id": "https://grandblvdstudio.com/#studio"}},
     {
      "@type": "Offer",
@@ -100,6 +100,9 @@
 <style>
 .pp-wide{max-width:1180px}
 .pp-from{margin:14px 0 0;font-weight:700;font-size:1.08rem;color:var(--ink)}
+.pp-founding{margin:10px 0 0;font-weight:600;font-size:.97rem;line-height:1.45;color:var(--ink)}
+.pp-founding::before{content:"";display:inline-block;width:.6em;height:.6em;border-radius:50%;background:var(--orange,#FF6A2B);margin-right:.5em;vertical-align:.05em}
+.pp-card-founding{margin:2px 0 8px;font-size:.88rem;font-weight:700;color:var(--ink-2,#2F5A5F)}
 #different{border-top:1px solid var(--line)}
 .pp-chips{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0;padding:0;list-style:none}
 .pp-chips a{display:inline-flex;align-items:center;min-height:40px;padding:0 15px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:inherit;font-size:.92rem;background:var(--paper-2)}
@@ -250,6 +253,7 @@
       <h1 class="page-title">Flagship-quality work, <em>priced for a neighborhood shop.</em></h1>
       <p class="lede">Every plan, website and pack on this page is made for one shop at a time. We read your reviews before we write a word, we test every button before launch, and everything stays in your name. You see a free preview of your homepage before you pay anything.</p>
       <p class="pp-from">Monthly plans from $148.88. Websites from $248.88, paid once.</p>
+      <p class="pp-founding">Founding prices for our first 5 shops. Your website price is locked in, and a monthly plan keeps today’s price for 12 months.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/free-preview/"><svg aria-hidden="true"><use href="#i-arrow"/></svg>Start with a free homepage preview</a>
         <a class="btn btn-ghost" href="/work/classic-styles/">See the Classic Styles site</a>
@@ -450,11 +454,13 @@
         <h2 class="h2" id="websites-h">A website that sells <em>your best work.</em></h2>
         <p class="lede">Just need a website today? Pick the size and pay once for the build. Each one is written from your reviews, built for phones first and checked on every screen size before launch. Each size up adds $200.</p>
         <p class="pp-from">Your site stays online and up to date with the $48.88 care plan, month to month. Add Growth or Pro within 90 days and $248.88 comes off the setup. Your site carries over, so nothing gets rebuilt.</p>
+        <p class="pp-founding">These are founding prices for our first 5 shops. After that, websites will be $398.88, $698.88 and $998.88.</p>
       </div>
       <div class="pp-cards">
         <article class="price pp-card">
           <h3>One page</h3>
           <p class="amount"><sup>$</sup><span>248</span><sup class="cents">.88</sup><small>one time</small></p>
+          <p class="pp-card-founding">Founding price · $398.88 after our first 5 shops</p>
           <p class="per">live in about a week once we have your photos, hours and prices</p>
           <p class="pp-best"><b>Best for:</b> shops that live on Instagram, Facebook or a booking app and need a home of their own.</p>
           <ul class="ticks">
@@ -468,6 +474,7 @@
         <article class="price pp-card">
           <h3>Three pages</h3>
           <p class="amount"><sup>$</sup><span>448</span><sup class="cents">.88</sup><small>one time</small></p>
+          <p class="pp-card-founding">Founding price · $698.88 after our first 5 shops</p>
           <p class="per">usually live in two to three weeks</p>
           <p class="pp-best"><b>Best for:</b> shops with a full menu and work worth showing off.</p>
           <ul class="ticks">
@@ -482,6 +489,7 @@
           <span class="badge">Most complete</span>
           <h3>Five pages with online booking</h3>
           <p class="amount"><sup>$</sup><span>648</span><sup class="cents">.88</sup><small>one time</small></p>
+          <p class="pp-card-founding">Founding price · $998.88 after our first 5 shops</p>
           <p class="per">usually live in two to three weeks</p>
           <p class="pp-best"><b>Best for:</b> shops that want clients to book themselves, day or night.</p>
           <ul class="ticks">
@@ -581,7 +589,8 @@
         <details><summary>Can I start with just a website?</summary><div class="answer"><p>Yes. Pick the size and pay once for the build. Keeping it online and up to date is the $48.88 care plan, month to month, and your web address renews once a year in your name. Add Growth or Pro within 90 days and $248.88 comes off the setup. Your site carries over, so nothing gets rebuilt.</p></div></details>
         <details><summary>Is there a contract?</summary><div class="answer"><p>No long contract. Every plan is month-to-month, and you can cancel any time.</p></div></details>
         <details><summary>What happens if I cancel?</summary><div class="answer"><p>Your website, Google profile, phone number and ad account stay in your name. The monthly services stop, so the phone assistant stops answering and your calls ring the way they did before.</p></div></details>
-        <details><summary>Why are your prices lower than a big agency’s?</summary><div class="answer"><p>We’re a small, new studio with no office to pay for, and we’d rather earn our first shops’ trust than charge agency rates. The work is held to the same standard as the Classic Styles site.</p></div></details>
+        <details><summary>Why are your prices lower than a big agency’s?</summary><div class="answer"><p>We’re a small, new studio with no office to pay for, and we’d rather earn our first shops’ trust than charge agency rates. So our first 5 shops get founding prices. The work is held to the same standard as the Classic Styles site.</p></div></details>
+        <details><summary>How long do founding prices last?</summary><div class="answer"><p>Until our first 5 shops sign up. After that, websites will be $398.88, $698.88 and $998.88. If you’re one of the first 5, your website price stays as it is, and a monthly plan keeps its price for 12 months from the day you start.</p></div></details>
         <details><summary>Do I have to change my phone number?</summary><div class="answer"><p>No. The phone assistant goes live on your existing number, and your number stays in your name.</p></div></details>
         <details><summary>Who will I be working with?</summary><div class="answer"><p>Aren. Grand Blvd Studio is small on purpose, so you deal with the same person from the first preview to the monthly check-in.</p></div></details>
       </div>
